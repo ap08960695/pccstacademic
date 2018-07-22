@@ -21,7 +21,7 @@
 		if(mysql_num_rows($result)>0){
 			header('Location: forgetpass.php?act=error_same');
 		}else{
-			$sql = "select * from school where code='$code'";
+			$sql = "select * from school where code='$code' and code is not null";
 			$result = mysql_query($sql ,$conn);
 			if(mysql_num_rows($result)==1){
 				$sql = "UPDATE `school` SET user='".md5($usern)."',pass='".md5($passwd)."',display='$name',email='$email',amper='$amper',changwat='$provide',addrcode='$zip' WHERE code='$code'";
