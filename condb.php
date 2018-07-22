@@ -4,6 +4,7 @@ $username = "root";
 $password = "12345678";
 $dbname = "pccstaca_pccst";
 
+
 // Create connection
 //$conn = new mysqli($servername, $username, $password, $dbname);
 $conn = mysql_connect($servername, $username, $password);

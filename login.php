@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +33,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row">
 			<center>
@@ -55,7 +54,19 @@
                                 echo"    Username หรือ Password ของท่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
                                 echo"</div>";
                             }
-                        }
+                        }else if($_GET['act']=="success_register")
+                            {
+                                echo"<div class=\"alert alert-success alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"การสมัครเสร็จสิ้น";
+                                echo"</div>";
+                        }else if($_GET['act']=="success_reset")
+                            {
+                                echo"<div class=\"alert alert-success alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"การแก้ไขข้อมูลเสร็จสิ้น";
+                                echo"</div>";
+                            }  
                     ?>
                     <div class="panel-body">
                         <form role="form" action="chklogin.php" method="post">
@@ -67,7 +78,13 @@
                                     <input class="form-control" placeholder="Password" id="pass" name="pass" type="password" value="">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Login!">
+								<div class="form-group">
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Login!">
+                                </div>
+                                <div class="form-group">
+									<input type="button" onclick="window.location='register.php'" class="btn btn-lg btn-warning btn-block" value="Register">
+								</div>
+                                <a href="forgetpass.php" style="color:red">ลืมรหัสผ่าน?</a>
                             </fieldset>
                         </form>
                     </div>
