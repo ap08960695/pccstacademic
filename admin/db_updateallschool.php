@@ -9,10 +9,11 @@
 	  }
 	$sql = "SELECT * FROM school WHERE status=0;";
     $result = mysql_query($sql ,$conn);
+	$group = $_GET['group'];
 	while($row = mysql_fetch_array($result)){
 		$user = $row['user'];
 		$code = Code(8);
-		$sql = "UPDATE school SET status=1,code='$code' WHERE user='$user';";
+		$sql = "UPDATE school SET status=1,code='$code',group_contest='$group' WHERE user='$user';";
 		if(!mysql_query($sql ,$conn)){
 			header("location:school.php?act=error_approved");
 			exit();

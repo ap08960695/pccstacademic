@@ -41,42 +41,10 @@
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">[จ.ภ.วิชาการ] <small>Admin</small></a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="school.php"><i class="fa fa-dashboard fa-fw"></i> โรงเรียนที่เข้าร่วมแข่งขัน</a>
-                        </li>
-                        <li>
-                            <a href="index_pccst.php"><i class="fa fa-edit fa-fw"></i> ลงทะเบียนแข่งขัน</a>
-                        </li>
-                        <li>
-                            <a href="report_school.php"><i class="fa fa-dashboard fa-fw"></i> สรุปการแข่งรายโรงเรียน</a>
-                        </li>
-							<li>
-                            <a href="report_subject.php"><i class="fa fa-dashboard fa-fw"></i> สรุปรายชื่อต่อรายการแข่ง</a>
-                        </li>
-                        <li>
-                            <a href="logout.php"><i class="fa fa-dashboard fa-fw"></i> ออกจากระบบ</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+        <?php
+			include_once("nav_admin.html");
+		?>
+        
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -94,7 +62,7 @@
 							รายชื่อโรงเรียนทั้งหมด
 							<button type="button" class="btn btn-info btn-xs" onclick="window.location='school.php'">โรงเรียนทั้งหมด</button>
 							<button type="button" class="btn btn-success btn-xs" onclick="window.location='school.php?view=success'">ยืนยันแล้ว</button>
-							<button type="button" class="btn btn-danger btn-xs" onclick="window.location='school.php?view=danger'">ยังไม่ยืนยัน</button>
+							<button type="button" class="btn btn-warning btn-xs" onclick="window.location='school.php?view=danger'">ยังไม่ยืนยัน</button>
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
@@ -121,7 +89,12 @@
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"ลบข้อมูลสำเร็จ";
 									echo"</div>";
-							}else if($_GET['act']=="error_approved"){
+							}else if($_GET['act']=="success_update"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ปรับปรุงข้อมูลสำเร็จ";
+									echo"</div>";
+							}if($_GET['act']=="error_approved"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"ไม่สามารถยืนยันได้";
@@ -136,14 +109,35 @@
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"ลบข้อมูลไม่สำเร็จ";
 									echo"</div>";
+							}else if($_GET['act']=="error_update"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ปรับปรุงข้อมูลไม่สำเร็จ";
+									echo"</div>";
 							}
 						?>
                           <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
                                       <th>code</th>
-                                      <th>ชื่อโรงเรียน<button type="button" class="btn btn-danger btn-xs" style='margin-left: 10px;' onclick="window.location='db_updateallschool.php'">ยืนยันทั้งหมด</button></th>
-                                      <th>E-mail</th>
+                                      <th>ชื่อโรงเรียน
+									  <?php
+										$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
+											$result_group = mysql_query($sql ,$conn);
+											if ($result_group && mysql_num_rows($result) > 0) {
+												while($row_group = mysql_fetch_array($result_group)) {
+													echo '<button type="button" class="btn btn-warning btn-xs" style="margin-left: 10px;" onclick="window.location=\'db_updateallschool.php?group='.$row_group['group_name'].'\'">ยืนยันทั้งหมด กลุ่ม'.$row_group['group_name'].' </button>';
+												}
+											}
+									  ?>
+									  
+									  </th>
+                                      <th>
+										กลุ่มรายการแข่งขัน
+									  </th>
+									  <th>E-mail
+									  
+									  </th>
 										  <th>ลบ</th>
                                   </tr>
                               </thead>
@@ -162,11 +156,23 @@
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".$row['code']."</td>";
 												echo "    <td>";
-												if($row['status']==0){
+												$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
+												$result_group = mysql_query($sql ,$conn);
+												if ($result_group && mysql_num_rows($result) > 0) {
 													echo $row['display']."<label style='margin-left: 10px;'></label>";
-													echo "<button type='button' style='margin-right: 4px;' class='btn btn-danger btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."\"' >ยืนยัน</button>";
-												}else echo $row['display'];
+													while($row_group = mysql_fetch_array($result_group)) {
+														if($row['status']==0){
+															echo "<button type='button' style='margin-right: 4px;' class='btn btn-warning btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >ยืนยัน กลุ่ม".$row_group['group_name']." </button>";
+														}else if($row['group_contest']!=$row_group['group_name'])echo "<button type='button' style='margin-right: 4px;' class='btn btn-success btn-xs' onclick='window.location=\"db_change_school_group_contest.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >เปลี่ยนกลุ่ม".$row_group['group_name']." </button>";
+													}
+												}else{
+													if($row['status']==0){
+														echo $row['display']."<label style='margin-left: 10px;'></label>";
+														echo "<button type='button' style='margin-right: 4px;' class='btn btn-warning btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."\"' >ยืนยัน </button>";
+													}else echo $row['display'];
+												}
 												echo "</td>";
+												echo "    <td>".$row['group_contest']."</td>";
 												echo "    <td>".$row['email']."</td>";
 												echo "    <td><form role=\"form\" action=\"db_del_school.php\" onsubmit=\"return confirm('คูณต้องการจะลบ ".$row['display']." ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"code\" value=\"".$row['code']."\"><input type=\"hidden\" name=\"user\" value=\"".$row['user']."\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
 												echo "</tr>";

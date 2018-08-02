@@ -23,7 +23,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>ระบบลงทะเบียนแข่งขัน</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -62,26 +62,7 @@
                 <a class="navbar-brand" href="index.html">[จ.ภ.วิชาการ] <small><?php echo $schoolname; ?></small></a>
             </div>
             <!-- /.navbar-header -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> ข้อมูลโรงเรียน</a>
-                        </li>
-                        <li>
-                            <a href="tables.html"><i class="fa fa-edit fa-fw"></i> ลงทะเบียนแข่งขัน</a>
-                        </li>
-                        <li>
-                            <a href="forms.html"><i class="fa fa-dashboard fa-fw"></i> ผลการแข่งขัน</a>
-                        </li>
-                        <li>
-                            <a href="logout.php"><i class="fa fa-dashboard fa-fw"></i> ออกจากระบบ</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
+			<?php include_once("nav.html");?>
             <!-- /.navbar-static-side -->
         </nav>
 

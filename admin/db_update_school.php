@@ -9,8 +9,9 @@
 	  }
 
 	$user = $_GET['user'];
+	$group = $_GET['group'];
     $code = Code(8);
-    $sql = "UPDATE school SET status=1,code='$code' WHERE user='$user';";
+    $sql = "UPDATE school SET status=1,code='$code',group_contest='$group' WHERE user='$user';";
     $result = mysql_query($sql ,$conn);
 	if(mysql_query($sql ,$conn)){
 		header("location:school.php?act=success_approved");
