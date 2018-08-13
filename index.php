@@ -1,13 +1,13 @@
 <?php
     session_start();
     include_once('condb.php');
-    if(!isset($_SESSION["user"]))
-    {
-        header("location:login.php");
-    } elseif($_SESSION['user'] == "acf001") {
-		header("Location:index_pccst.php");
+	date_default_timezone_set('Asia/Bangkok');
+	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
+    $result = mysql_query($sql);
+	if(mysql_num_rows($result)!=1){
+		header("Location: login.php");
+		exit();
 	}
-
     $school_code = $_SESSION["code"];
     $schoolname = $_SESSION["display"];
 ?>
@@ -91,68 +91,46 @@
                                       <th>รายการแข่งขัน</th>
                                       <th>ระดับชั้น</th>
                                       <th>ชื่อผู้เข้าแข่งขัน (คำนำหน้า ชื่อ-นามสกุล)</th>
-                                      <th>ชื่อครูผู้ควบคุม (รายการละ 1 คนเท่านั้น)</th>
+                                      <th>ชื่อครูผู้ควบคุม (คำนำหน้า ชื่อ-นามสกุล)</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php
-                                        $stdcode = "";
-                                        $teachcode = "";
-                                        //$sql = "SELECT id,code,name,level,type,person,platform,status FROM subject WHERE status = 1 ORDER BY level DESC;";
-                                        $sql = "SELECT s.id,s.code,s.name AS 'subjectname',s.level,s.type,s.person,GROUP_CONCAT(r.name) AS 'name',GROUP_CONCAT(r.no) AS 'no',s.platform,s.status
-                                        FROM subject s LEFT JOIN (SELECT * FROM register WHERE school_id = '$school_code' AND status = 1) r ON s.code = r.subject_id
-                                        WHERE s.status = 1 GROUP BY s.code ORDER BY s.level DESC,s.code ASC;";
-                                        $result = mysql_query($sql ,$conn);
+                                        $sql = "SELECT contest.code,contest.contest_name,contest.person,contest.teacher_person,contest.education FROM school LEFT JOIN contest_group ON school.group_contest=contest_group.group_name INNER JOIN contest ON contest.code=contest_group.contest_code WHERE school.code='".$school_code."' ORDER BY contest.code DESC";
+										$result = mysql_query($sql ,$conn);
                                         if (mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
                                                 echo"<tr class=\"odd gradeX\">";
                                                 echo"    <td>".$row['code']."</td>";
-                                                echo"    <td>".$row['subjectname']." (".$row['person']." คน)"."</td>";
-                                                echo"    <td>".$row['level']."</td>";
+                                                echo"    <td>".$row['contest_name']." (".$row['person']." คน)"."</td>";
+                                                echo"    <td>".$row['education']."</td>";
                                                 echo"    <td class=\"center\">";
-                                                $arrname = explode(",",$row['name']);
-                                                $arrno = explode(",",$row['no']);
-                                                if($row['person'] == 2) {
-                                                    if($arrno[0] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[0]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-
-                                                    if(@$arrno[1] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[1]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-                                                    //$stdcode .= $row['code'].",";
-                                                    //$stdcode .= $row['code'].",";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-                                                } else {
-                                                    if($arrno[0] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[0]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-                                                    //$stdcode .= $row['code'].",";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-                                                }
-                                                echo"    </td>";
-
-                                                $key = array_search ('0', $arrno);
-                                                if($arrno[$key] == '0') {
-                                                    echo"    <td class=\"center\"><input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[$key]."\"></td>";
-                                                } else {
-                                                    echo"    <td class=\"center\"><input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\"></td>";
-                                                }
-
-                                                //$teachcode .= $row['code'].",";
-												echo "<input type=\"hidden\" name=\"teachcode[]\" value=\"".$row['code']."\">\n";
+                                                
+												$sql = "SELECT name FROM register WHERE school_id='".$school_id."' AND subject_id='".$row['code']."'";
+												$result_register = mysql_query($sql ,$conn);
+												for($i=0;$i<$row['person'];$i++) {
+													if($row_register = mysql_fetch_array($result_register)){
+														echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+													}else{
+														echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+													}
+												}
+												echo"    </td>";
+                                                echo"    <td class=\"center\">";
+                                                
+												$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_id."' AND subject_id='".$row['code']."'";
+												$result_register = mysql_query($sql ,$conn);
+												for($i=0;$i<$row['teacher_person'];$i++) {
+													if($row_register = mysql_fetch_array($result_register)){
+														echo"        <input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+													}else{
+														echo"        <input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+													}
+												}
+												echo"    </td>";
                                                 echo"</tr>";
                                             }
                                         }
-										//echo "<input type=\"hidden\" name=\"stdcode\" value=\"".$stdcode."\">\n";
-                                        //echo "<input type=\"hidden\" name=\"teachcode\" value=\"".$teachcode."\">\n";
                                   ?>
                               </tbody>
                           </table>

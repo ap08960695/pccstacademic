@@ -49,6 +49,9 @@
         <!-- Navigation -->
         <?php
 			include_once("nav_admin.html");
+			$sql = "SELECT contest.contest_name,contest.education,contest.type,contest.person,contest.teacher_person,contest.platform,contest.date_start,contest.date_end FROM contest WHERE contest.code='".$_POST['contest_code']."'";
+			$result = mysql_query($sql ,$conn);
+			$row_contest = mysql_fetch_array($result);					
 		?>
         
 
@@ -65,70 +68,63 @@
               <div class="col-lg-12">
                   <div class="panel panel-default">
 						<div class="panel-heading">
-							เพิ่มรายการแข่งขัน
+							แก้ไขรายการแข่งขัน
 						</div>
                       <!-- /.panel-heading -->
 						<div class="panel-body">
 						<?php 
-							if($_GET['act']=="success_add"){
-									echo"<div class=\"alert alert-success alert-dismissable\">";
-									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"เพิ่มรายการสำเร็จ ";
-									echo"</div>";
-							}else if($_GET['act']=="error_add"){
+							if($_GET['act']=="error_edit"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"ไม่สามารถเพิ่มรายการได้";
+									echo"ไม่สามารถแก้ไขรายการได้";
 									echo"</div>";
 							}else if($_GET['act']=="error_empty"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"กรุณากรอกข้อมูลให้ครบถ้วน";
 									echo"</div>";
-							}else if($_GET['act']=="error_add_same"){
+							}else if($_GET['act']=="error_edit_room"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"ไม่สามารถเพิ่มรายการได้ รหัสถูกใช้แล้ว";
+									echo"ไม่สามารถแก้ไขรายการได้ สถานทีเข้าร่วมเกิดความผิดพลาด";
 									echo"</div>";
-							}else if($_GET['act']=="success_edit"){
-									echo"<div class=\"alert alert-success alert-dismissable\">";
-									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"แก้ไขรายการสำเร็จ ";
-									echo"</div>";
-							}
+							} 
 						?>
-						<form role="form" action="db_add_contest.php" method="post" onsubmit="return confirm('คุณต้องการเพิ่มรายการแข่งขันนี้ ใช่หรือไม่?');">
+						<form role="form" action="db_edit_contest.php" method="post" onsubmit="return confirm('คุณต้องการแก้ไขรายการแข่งขันนี้ ใช่หรือไม่?');">
 							<div class="row">
-								<div class="col-md-4 col-lg-2">
-									รหัสการแข่งขัน  <input type="text" name="contest_code" class="form-control" value="<?php echo $_SESSION['contest_code']?>"><br>
-								</div>
+								<input type="hidden" name="contest_code" class="form-control" value="<?php echo $_POST['contest_code']?>">
 								<div class="col-md-8 col-lg-5">
-									ชื่อรายการแข่งขัน  <input type="text" name="contest_name" class="form-control" value="<?php echo $_SESSION['contest_name']?>"><br>
+									ชื่อรายการแข่งขัน  <input type="text" name="contest_name" class="form-control" value="<?php echo $row_contest['contest_name']?>"><br>
 								</div>
 								<div class="col-md-6 col-lg-3">
-									ระดับการศึกษา  <input type="text" name="contest_education" class="form-control" value="<?php echo $_SESSION['contest_education']?>"><br>
+									ระดับการศึกษา  <input type="text" name="contest_education" class="form-control" value="<?php echo $row_contest['education']?>"><br>
 								</div>
 								<div class="col-md-6 col-lg-2">
-									ประเภทการแข่งขัน  <input type="text" name="contest_type" class="form-control" value="<?php echo $_SESSION['contest_type']?>"><br>
+									ประเภทการแข่งขัน  <input type="text" name="contest_type" class="form-control" value="<?php echo $row_contest['type']?>"><br>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-3 col-lg-3">
-									จำนวนการเข้าร่วมต่อโรงเรียน  <input type="text" name="contest_person" class="form-control" value="<?php echo $_SESSION['contest_person']?>"><br>
+									จำนวนการเข้าร่วมต่อโรงเรียน  <input type="text" name="contest_person" class="form-control" value="<?php echo $row_contest['person']?>"><br>
 								</div>
 								<div class="col-md-3 col-lg-3">
-									จำนวนอาจารย์ควบคุมของโรงเรียน  <input type="text" name="contest_person_teacher" class="form-control" value="<?php echo $_SESSION['contest_person_teacher']?>"><br>
+									จำนวนอาจารย์ควบคุมของโรงเรียน  <input type="text" name="contest_person_teacher" class="form-control" value="<?php echo $row_contest['teacher_person']?>"><br>
 								</div>
-								
 								<div class="col-md-6 col-lg-6">
-									รูปแบบการแข่งขัน <input type="text" name="contest_platform" class="form-control" value="<?php echo $_SESSION['contest_platform']?>"><br>
+									รูปแบบการแข่งขัน <input type="text" name="contest_platform" class="form-control" value="<?php echo $row_contest['platform']?>"><br>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									วันเวลาแข่งขัน : เริ่มแข่งขัน 
 									<div class='input-group date datepicker'>
-										<input type='text' name='date_start' class='form-control' value="<?php echo $_SESSION['date_start']?>"/>
+									<?php 
+										$data = explode(" ",$row_contest['date_start']);
+										$date = explode("-",$data[0]);
+										$time = explode(":",$data[1]);
+										$date_all = $date[2]."/".$date[1]."/".$date[0]." ".$time[0].":".$time[1];
+									?> 
+										<input type='text' name='date_start' class='form-control' value="<?php echo $date_all?>"/>
 										<span class='input-group-addon'>
 										<span class='glyphicon glyphicon-calendar'></span>
 										</span>
@@ -137,7 +133,13 @@
 								<div class="col-md-6 col-lg-6">
 									วันเวลาแข่งขัน : สิ้นสุดแข่งขัน
 									<div class='input-group date datepicker'>
-										<input type='text' name='date_end' class='form-control' value="<?php echo $_SESSION['date_end']?>"/>
+									<?php 
+										$data = explode(" ",$row_contest['date_end']);
+										$date = explode("-",$data[0]);
+										$time = explode(":",$data[1]);
+										$date_all = $date[2]."/".$date[1]."/".$date[0]." ".$time[0].":".$time[1];
+									?>
+										<input type='text' name='date_end' class='form-control' value="<?php echo $date_all?>"/>
 										<span class='input-group-addon'>
 										<span class='glyphicon glyphicon-calendar'></span>
 										</span>
@@ -152,7 +154,7 @@
 							</div>
 							<br>
 							<div class="form-group">
-                                <input type="submit" class="btn btn-lg btn-success btn-block" value="เพิ่มรายการ">
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="แก้ไข">
                             </div>
 							</form>
 						</div>

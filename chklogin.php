@@ -12,7 +12,7 @@
       $result = mysql_query($sql);
       if (mysql_num_rows($result) > 0) {
           while($row = mysql_fetch_array($result)) {
-				$_SESSION['user'] = md5($row['user']);
+				$_SESSION['user'] = $row['user'];
 				$_SESSION['code'] = $row['code'];
 				$_SESSION['display'] = $row['display'];
 				header("Location: index.php");  

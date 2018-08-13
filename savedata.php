@@ -17,7 +17,7 @@
     $arrstdcode = $_POST['code']; //explode(",", $stdcode);
     $arrteachcode = $teachcode; //explode(",", $teachcode);
     //$sql = "";
-
+	print_r($_POST);
     if(!empty($arrstudent)) {
         $sql = "UPDATE `register` SET `status`= 0 WHERE school_id = '$school_code';";
         mysql_query($sql);
@@ -38,6 +38,6 @@
 
     //echo $sql;
 
-    header("location:index.php");
+    //header("location:index.php");
     $conn->close();
 ?>
