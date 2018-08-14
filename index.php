@@ -86,7 +86,7 @@
                       <div class="panel-body">
                           <?php 
 							if($_GET['error']=="update_student"){
-									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"ไม่สามารถเพิ่มนักเรียนได้";
 									echo"</div>";
