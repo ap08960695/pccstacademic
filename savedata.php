@@ -17,7 +17,6 @@
 	$sql = "UPDATE register SET status=0 WHERE school_id='$school_code'";
 	mysql_query($sql);
 	$sql_string = "";
-	$list_name = [];
 	$len_name = 0;
 	foreach($arrstudent as $key => $value){
 		foreach($value as $sub_value){
@@ -32,11 +31,9 @@
 	if($len_name!=count($list_name)){
 		$sql = "UPDATE register SET status=1 WHERE school_id='$school_code'";
 		mysql_query($sql);
-		$sql_string="";
 		header("location:index.php?error=update_student");
 		exit();
-	}
-	if($sql_string!=""){
+	}else if($sql_string!=""){
 		$sql_string = substr($sql_string, 0, -1);
 		$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `name`) VALUES $sql_string;";
 		$result = mysql_query($sql ,$conn);
