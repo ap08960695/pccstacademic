@@ -9,35 +9,74 @@
     $school_code = $_SESSION["code"];
     $schoolname = $_SESSION["display"];
 
-    $stdcode = $_POST['stdcode'];
-    $teachcode = $_POST['teachcode'];
     $arrstudent = $_POST['student'];
     $arrteacher = $_POST['teacher'];
     $user = $_SESSION["usr"];
-    $arrstdcode = $_POST['code']; //explode(",", $stdcode);
-    $arrteachcode = $teachcode; //explode(",", $teachcode);
-    //$sql = "";
-	print_r($_POST);
-    if(!empty($arrstudent)) {
-        $sql = "UPDATE `register` SET `status`= 0 WHERE school_id = '$school_code';";
-        mysql_query($sql);
-        for($i = 0; $i < count($arrstudent); $i++) {
-            if($arrstudent[$i] != ""){
-                $sql = "INSERT INTO `register` (`school_id`, `subject_id`, `no`, `name`, `u_date`, `status`) VALUES ('$school_code', '$arrstdcode[$i]', 1, '$arrstudent[$i]', NOW(), 1);";
-                $result = mysql_query($sql ,$conn);
-            }
-        }
-
-        for($i = 0; $i < count($arrteacher); $i++) {
-            if($arrteacher[$i] != ""){
-                $sql = "INSERT INTO `register` (`school_id`, `subject_id`, `no`, `name`, `u_date`, `status`) VALUES ('$school_code', '$arrteachcode[$i]', 0, '$arrteacher[$i]', NOW(), 1);";
-                $result = mysql_query($sql ,$conn);
-            }
-        }
-    }
-
-    //echo $sql;
-
-    //header("location:index.php");
-    $conn->close();
+    
+	
+	$sql = "UPDATE register SET status=0 WHERE school_id='$school_code'";
+	mysql_query($sql);
+	$sql_string = "";
+	$list_name = [];
+	$len_name = 0;
+	foreach($arrstudent as $key => $value){
+		foreach($value as $sub_value){
+			if($sub_value!=""){
+				$sql_string .= "('$school_code', $key,'$sub_value'),";
+				$list_name[$sub_value] = 1;
+				$len_name++;
+			}
+		}
+		
+	}
+	if($len_name!=count($list_name)){
+		$sql = "UPDATE register SET status=1 WHERE school_id='$school_code'";
+		mysql_query($sql);
+		$sql_string="";
+		header("location:index.php?error=update_student");
+		exit();
+	}
+	if($sql_string!=""){
+		$sql_string = substr($sql_string, 0, -1);
+		$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `name`) VALUES $sql_string;";
+		$result = mysql_query($sql ,$conn);
+		if(!$result){
+			$sql = "UPDATE register SET status=1 WHERE school_id='$school_code'";
+			mysql_query($sql);
+			header("location:index.php?error=update_student");
+			exit();
+		}else{
+			$sql = "DELETE FROM register WHERE school_id='$school_code' AND status=0";
+			mysql_query($sql);
+		}
+	}
+	
+	$sql = "UPDATE register_teacher SET status=0 WHERE school_id='$school_code'";
+	mysql_query($sql);
+	$sql_string = "";
+	foreach($arrteacher as $key => $value){
+		foreach($value as $sub_value){
+			if($sub_value!=""){
+				$sql_string .= "('$school_code', $key,'$sub_value'),";
+			}
+		}
+		
+	}
+	if($sql_string!=""){
+		$sql_string = substr($sql_string, 0, -1);
+		$sql = "INSERT INTO `register_teacher` (`school_id`, `subject_id`, `name`) VALUES $sql_string;";
+		$result = mysql_query($sql ,$conn);
+		if(!$result){
+			$sql = "UPDATE register_teacher SET status=1 WHERE school_id='$school_code'";
+			mysql_query($sql);
+			header("location:index.php?error=update_teacher");
+			exit();
+		}else{
+			$sql = "DELETE FROM register_teacher WHERE school_id='$school_code' AND status=0";
+			mysql_query($sql);
+		}
+	}
+	
+    mysql_close($conn);
+    header("location:index.php?success=true");
 ?>

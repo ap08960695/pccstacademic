@@ -84,7 +84,25 @@
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
-                          <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                          <?php 
+							if($_GET['error']=="update_student"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ไม่สามารถเพิ่มนักเรียนได้";
+									echo"</div>";
+							}else if($_GET['act']=="update_teacher"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ไม่สามารถเพิ่มอาจารย์ได้";
+									echo"</div>";
+							}else if($_GET['success']=="true"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"เพิ่มสำเร็จ";
+									echo"</div>";
+							} 
+						?>
+						  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
                                       <th>รหัสการแข่งขัน</th>
@@ -106,25 +124,25 @@
                                                 echo"    <td>".$row['education']."</td>";
                                                 echo"    <td class=\"center\">";
                                                 
-												$sql = "SELECT name FROM register WHERE school_id='".$school_id."' AND subject_id='".$row['code']."'";
+												$sql = "SELECT name FROM register WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
 												$result_register = mysql_query($sql ,$conn);
 												for($i=0;$i<$row['person'];$i++) {
 													if($row_register = mysql_fetch_array($result_register)){
-														echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+														echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
 													}else{
-														echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+														echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
 													}
 												}
 												echo"    </td>";
                                                 echo"    <td class=\"center\">";
                                                 
-												$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_id."' AND subject_id='".$row['code']."'";
+												$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
 												$result_register = mysql_query($sql ,$conn);
 												for($i=0;$i<$row['teacher_person'];$i++) {
 													if($row_register = mysql_fetch_array($result_register)){
-														echo"        <input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+														echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
 													}else{
-														echo"        <input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+														echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
 													}
 												}
 												echo"    </td>";
