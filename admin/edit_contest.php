@@ -2,12 +2,8 @@
     session_start();
     include_once('../condb.php');
     date_default_timezone_set('Asia/Bangkok');
-	$sql = "SELECT meta FROM config WHERE meta='userAdmin' AND value='".md5($_SESSION['user'])."'";
-    $result = mysql_query($sql);
-	  if(mysql_num_rows($result)!=1){
-		header("Location: ../login.php");
-		exit();
-	  }
+	include_once('admin_check.php');
+    
 ?>
 
 <!DOCTYPE html>
@@ -190,6 +186,8 @@
 										<th>ระดับการศึกษา</th>
 										<th>ประเภทการแข่งขัน</th>
 										<th>จำนวนการเข้าร่วมต่อโรงเรียน</th>
+										<th>จำนวนครูควบคุมต่อโรงเรียน</th>
+										
 										<th>รูปแบบการแข่งขัน</th>
 										<th>วันเวลาแข่งขัน</th>
 										<th>สถานทีแข่งขัน</th>
@@ -199,7 +197,7 @@
                               </thead>
                               <tbody>
                                   <?php
-										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.person,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
+										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
                                         $result = mysql_query($sql ,$conn);
 										if ($result && mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
@@ -208,7 +206,10 @@
 												echo "    <td>".$row['contest_name']."</td>";
 												echo "    <td>".$row['education']."</td>";
 												echo "    <td>".$row['type']."</td>";
+												
 												echo "    <td>".$row['person']."</td>";
+												echo "    <td>".$row['teacher_person']."</td>";
+												
 												echo "    <td>".$row['platform']."</td>";
 												if($row['date_start']=="0000-00-00 00:00:00"){
 													$start_date = "-";

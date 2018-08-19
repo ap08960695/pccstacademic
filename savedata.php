@@ -24,6 +24,8 @@
 				$sql_string .= "('$school_code', $key,'$sub_value'),";
 				$list_name[$sub_value] = 1;
 				$len_name++;
+			}else if($_POST['role']=="edit"){
+				$sql_string .= "('$school_code', $key,'$sub_value'),";
 			}
 		}
 		

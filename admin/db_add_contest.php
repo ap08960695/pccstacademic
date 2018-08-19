@@ -2,13 +2,7 @@
     session_start();
 	date_default_timezone_set('Asia/Bangkok');
     include_once('../condb.php');
-    $sql = "SELECT meta FROM config WHERE meta='userAdmin' AND value='".md5($_SESSION['user'])."'";
-    $result = mysql_query($sql);
-	if(mysql_num_rows($result)!=1){
-		mysql_close($conn);
-		header("Location: ../login.php");
-		exit();
-	}
+	include_once('admin_check.php');
 	$check_empty = 0;
 	foreach($_POST as $key => $value){
 		$_SESSION[$key] = $_POST[$key];

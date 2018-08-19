@@ -5,6 +5,7 @@
       $result = mysql_query($sql);
 	  if(mysql_num_rows($result)==2){
 		$_SESSION['user'] = $_POST['user'];
+		$_SESSION['pass'] = $_POST['pass'];
 		header("Location: admin/");
 		exit();
 	  }

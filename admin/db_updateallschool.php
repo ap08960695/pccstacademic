@@ -1,12 +1,8 @@
 <?php
     session_start();
     include_once('../condb.php');
-    $sql = "SELECT meta FROM config WHERE meta='userAdmin' AND value='".md5($_SESSION['user'])."'";
-    $result = mysql_query($sql);
-	  if(mysql_num_rows($result)!=1){
-		header("Location: ../login.php");
-		exit();
-	  }
+    include_once('admin_check.php');
+    
 	$sql = "SELECT * FROM school WHERE status=0;";
     $result = mysql_query($sql ,$conn);
 	$group = $_GET['group'];

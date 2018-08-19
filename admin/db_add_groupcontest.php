@@ -1,17 +1,10 @@
 <?php
     session_start();
 	include_once('../condb.php');
-    $sql = "SELECT meta FROM config WHERE meta='userAdmin' AND value='".md5($_SESSION['user'])."'";
-    $result = mysql_query($sql);
-	if(mysql_num_rows($result)!=1){
-		mysql_close($conn);
-		header("Location: ../login.php");
-		exit();
-	}
+    include_once('admin_check.php');
 	
 	$check_empty = 0;
 	foreach($_POST as $key => $value){
-		echo $key." ".$_POST[$key]."<br>";
 		$_SESSION[$key] = $_POST[$key];
 		if($_POST[$key]=="")
 			$check_empty = 1;
@@ -22,7 +15,7 @@
 		exit();
 	}
 	
-	$sql = "SELECT COUNT(*) FROM contest_group WHERE group_name='".$_POST['place_name']."'";
+	$sql = "SELECT * FROM contest_group WHERE group_name='".$_POST['place_name']."'";
 	$result = mysql_query($sql ,$conn);
 	if(mysql_num_rows($result)>0){
 		header("location:add_group_contest.php?act=error_add_same");

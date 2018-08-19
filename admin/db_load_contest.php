@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    /*session_start();
     include_once('../condb.php');
     
 	$sql = "SELECT * FROM subject";
@@ -27,5 +27,5 @@
 			}
 		}
 	}
-    mysql_close($conn);
+    mysql_close($conn);*/
 ?>
