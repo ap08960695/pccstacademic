@@ -23,7 +23,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบลงทะเบียนแข่งขัน</title>
+    <title>The Registration System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">[จ.ภ.วิชาการ] <small><?php echo $schoolname; ?></small></a>
+                <a class="navbar-brand" href="index.html">PCCST Academic festival and sience fair 2018 - <small><?php echo $schoolname; ?></small></a>
             </div>
             <!-- /.navbar-header -->
 			<?php include_once("nav.html");?>
@@ -65,7 +65,7 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">รายการแข่งขัน <small>(โปรดกดปุ่ม Save เมื่อต้องการบันทึกข้อมูลที่กรอก)</small></h1>
+                  <h1 class="page-header">The Contest List <small> (Please press save button after fill information)</small></h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -76,7 +76,7 @@
                     <form role="form" action="savedata.php" method="post">
 						
                       <div class="panel-heading">
-                          ลงทะเบียนรายการแข่งขันงาน จ.ภ.วิชาการ
+						  Regist to Chulabhorn's Academic Contest 
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
@@ -102,11 +102,11 @@
 						  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
-                                      <th>รหัสการแข่งขัน</th>
-                                      <th>รายการแข่งขัน</th>
-                                      <th>ระดับชั้น</th>
-                                      <th>ชื่อผู้เข้าแข่งขัน (คำนำหน้า ชื่อ-นามสกุล)</th>
-                                      <th>ชื่อครูผู้ควบคุม (คำนำหน้า ชื่อ-นามสกุล)</th>
+                                      <th>Contest code</th>
+                                      <th>Contest List</th>
+                                      <th>Level</th>
+                                      <th>Contestant (Title First name-Last name)</th>
+                                      <th>Adviser (Title First name-Last name)</th>
                                   </tr>
                               </thead>
                               <tbody>

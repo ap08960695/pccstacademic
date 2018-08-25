@@ -36,13 +36,13 @@
     <div class="container">
         <div class="row">
 			<center>
-				<h2><small>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </small><br>จ.ภ.วิชาการ’60</h2>
+				<h2><small>The Registration System </small><br>PCCST Academic festival and sience fair 2018</h2>
 				<img src="logopccst.png"></img>
 			</center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">กรุณาเข้าสู่ระบบ</h3>
+                        <h3 class="panel-title">Please Login </h3>
                     </div>
                     <?php
                         if(isset($_GET['err']))
@@ -51,20 +51,20 @@
                             {
                                 echo"<div class=\"alert alert-danger alert-dismissable\">";
                                 echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"    Username หรือ Password ของท่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
+                                echo"    Username or Password is incorrect. Please try again ";
                                 echo"</div>";
                             }
                         }else if($_GET['act']=="success_register")
                             {
                                 echo"<div class=\"alert alert-success alert-dismissable\">";
                                 echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"การสมัครเสร็จสิ้น";
+                                echo"Registration is succesful";
                                 echo"</div>";
                         }else if($_GET['act']=="success_reset")
                             {
                                 echo"<div class=\"alert alert-success alert-dismissable\">";
                                 echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"การแก้ไขข้อมูลเสร็จสิ้น";
+                                echo"Editing is successful";
                                 echo"</div>";
                             }  
                     ?>
@@ -84,7 +84,7 @@
                                 <div class="form-group">
 									<input type="button" onclick="window.location='register.php'" class="btn btn-lg btn-warning btn-block" value="Register">
 								</div>
-                                <a href="forgetpass.php" style="color:red">ลืมรหัสผ่าน?</a>
+                                <a href="forgetpass.php" style="color:red">forget password?</a>
                             </fieldset>
                         </form>
                     </div>
