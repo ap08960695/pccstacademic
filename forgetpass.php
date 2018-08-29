@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </title>
+    <title>The Registration System </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -37,27 +37,27 @@
     <div class="container">
         <div class="row">
 			<center>
-				<h2><small>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </small><br>จ.ภ.วิชาการ’60</h2>
+				<h2><small>The Academic Registration System  </small><br>จ.ภ.PCCST Academic festival and sience fair 2018</h2>
 				<img src="logopccst.png"></img>
 			</center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary" style="    margin-top: 15%;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">แก้ไขข้อมูลการลงทะเบียน</h3>
+                        <h3 class="panel-title">Edit information of registration</h3>
                     </div>
                     <?php
 						if(isset($_GET['act'])){
 							echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
 							if($_GET['act']=='error_empty')
-								echo 'กรุณาข้อมูลให้ครบถ้วน';
+								echo 'Please fill any fields';
 							else if($_GET['act']=='error_pass')
-								echo 'กรุณากรอกรหัสผ่านให้ตรงกัน';
+								echo 'Password does not match';
 							else if($_GET['act']=='error_same')
-								echo 'ชื่อผู้ใช้งานหรือชื่อโรงเรียนถูกใช้แล้ว';
+								echo 'Username or school name already used';
 							else if($_GET['act']=='error_code')
-								echo 'ไม่มี code ในระบบ';
+								echo 'Have no code';
 							else if($_GET['act']=='error_query')
-								echo 'ไม่สามารถแก้ไขข้อมูลได้ กรุณาติดต่อเจ้าหน้าที';
+								echo 'Cannot edit. Please contact our staff';
 							echo '</div>';
 						}
 					?>
@@ -69,10 +69,10 @@
 								Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
 								E-mail : <input type="text" name="mail" class="form-control" value=""><br>
 								
-								ชื่อโรงเรียน : <input type="text" name="name" class="form-control" value=""><br>
-								อำเภอ: <input type="text" name="amper" class="form-control" value=""><br>
-								จังหวัด: <input type="text" name="provide" class="form-control" value=""><br>
-								รหัสไปรษณีย์: <input type="text" name="zip" class="form-control" value=""><br>
+								School Name : <input type="text" name="name" class="form-control" value=""><br>
+								District: <input type="text" name="amper" class="form-control" value=""><br>
+								Province: <input type="text" name="provide" class="form-control" value=""><br>
+								Zipcode: <input type="text" name="zip" class="form-control" value=""><br>
 								
 								<div class="form-group">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
@@ -82,8 +82,8 @@
 								</div>
 								<div class="form-group">
 									<lable style="color:red">
-									***กรุณาข้อมูลให้ครบถ้วน
-									<br>***หากลืม Code กรุราติดต่อเจ้าหน้าที่
+									*** Please fill any fields
+									<br>***If forgot your Code. Please contact our staff
 									</lable>
 								</div>
 							</form>
