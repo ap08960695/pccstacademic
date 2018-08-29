@@ -85,7 +85,7 @@
 							if($_GET['error']=="update_student"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"Cannot add constentant";
+									echo"Cannot add constestant";
 									echo"</div>";
 							}else if($_GET['act']=="update_teacher"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
