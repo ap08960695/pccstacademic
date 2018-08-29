@@ -85,17 +85,17 @@
 							if($_GET['error']=="update_student"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"ไม่สามารถเพิ่มนักเรียนได้";
+									echo"Cannot add constentant";
 									echo"</div>";
 							}else if($_GET['act']=="update_teacher"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"ไม่สามารถเพิ่มอาจารย์ได้";
+									echo"Cannot add adviser";
 									echo"</div>";
 							}else if($_GET['success']=="true"){
 									echo"<div class=\"alert alert-success alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-									echo"เพิ่มสำเร็จ";
+									echo"Successfully added";
 									echo"</div>";
 							} 
 						?>
@@ -201,7 +201,7 @@
 							<center>
 								<?php
 									if($row_role['value']=="all" || $row_role['value']=="edit")
-										echo '<input type="submit" class="btn btn-lg btn-success" value="Save บันทึกข้อมูล !">';
+										echo '<input type="submit" class="btn btn-lg btn-success" value="Save">';
 								?>
 							</center></form>
                       </div>
