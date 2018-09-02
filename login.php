@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </title>
+    <title>The Registration System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

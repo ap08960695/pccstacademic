@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </title>
+    <title>The Registration System</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -37,13 +37,13 @@
     <div class="container">
         <div class="row">
 			<center>
-				<h2><small>ระบบลงทะเบียนเข้าร่วมการแข่งขันทักษะทางวิชาการ </small><br>จ.ภ.วิชาการ’60</h2>
+				<h2><small>The Academic Registration System </small><br>PCCST Academic festival and sience fair 2018 </h2>
 				<img src="logopccst.png"></img>
 			</center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary" style="    margin-top: 15%;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">สมัครเข้าร่วมแข่งขัน</h3>
+                        <h3 class="panel-title">Regist to contest</h3>
                     </div>
                     <?php
 						if(isset($_GET['act'])){
@@ -66,10 +66,10 @@
 								Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
 								E-mail : <input type="text" name="mail" class="form-control" value=""><br>
 						
-								ชื่อโรงเรียน : <input type="text" name="name" class="form-control" value=""><br>
-								อำเภอ: <input type="text" name="amper" class="form-control" value=""><br>
-								จังหวัด: <input type="text" name="provide" class="form-control" value=""><br>
-								รหัสไปรษณีย์: <input type="text" name="zip" class="form-control" value=""><br>
+								School name : <input type="text" name="name" class="form-control" value=""><br>
+								District : <input type="text" name="amper" class="form-control" value=""><br>
+								Province : <input type="text" name="provide" class="form-control" value=""><br>
+								Zipcode : <input type="text" name="zip" class="form-control" value=""><br>
 								
 								<div class="form-group">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
@@ -79,8 +79,8 @@
 								</div>
 								<div class="form-group">
 									<lable style="color:red">
-									***กรุณาข้อมูลให้ครบถ้วน
-									<br>***เมื่อยืนยันข้อมูลแล้วระบบจะทำการอนุมัติและเปิดให้กรอกรายชื่อผู้เข้าแข่งขันในภายหลัง
+									***Please fill every field.
+									<br>***After submit , System will approve and open to update data
 									</lable>
 								</div>
 							</form>

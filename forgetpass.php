@@ -70,9 +70,9 @@
 								E-mail : <input type="text" name="mail" class="form-control" value=""><br>
 								
 								School Name : <input type="text" name="name" class="form-control" value=""><br>
-								District: <input type="text" name="amper" class="form-control" value=""><br>
-								Province: <input type="text" name="provide" class="form-control" value=""><br>
-								Zipcode: <input type="text" name="zip" class="form-control" value=""><br>
+								District : <input type="text" name="amper" class="form-control" value=""><br>
+								Province : <input type="text" name="provide" class="form-control" value=""><br>
+								Zipcode : <input type="text" name="zip" class="form-control" value=""><br>
 								
 								<div class="form-group">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
