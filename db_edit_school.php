@@ -10,10 +10,11 @@
     $amper = $_POST["amper"];
 	$provide = $_POST["provide"];
 	$zip = $_POST["zip"];
+	$country = $_POST["country"];
 	
 	if($passwd!=$cpasswd){
 		header('Location: forgetpass.php?act=error_pass');
-	}else if($usern=="" || $passwd=="" || $cpasswd=="" || $name=="" || $amper=="" || $provide=="" || $zip==""){
+	}else if($usern=="" || $passwd=="" || $cpasswd=="" || $name=="" || $amper=="" || $provide=="" || $zip=="" || $country==""){
 		header('Location: forgetpass.php?act=error_empty');
 	}else{	
 		$sql = "select * from school where (user='".md5($usern)."' or display='$name') AND code<>'$code'";
@@ -25,7 +26,7 @@
 			$sql = "select * from school where code='$code' and code is not null";
 			$result = mysql_query($sql ,$conn);
 			if(mysql_num_rows($result)==1){
-				$sql = "UPDATE `school` SET user='".md5($usern)."',pass='".md5($passwd)."',display='$name',email='$email',amper='$amper',changwat='$provide',addrcode='$zip' WHERE code='$code'";
+				$sql = "UPDATE `school` SET user='".md5($usern)."',pass='".md5($passwd)."',display='$name',email='$email',amper='$amper',changwat='$provide',addrcode='$zip',country='$country' WHERE code='$code'";
 				if($result = mysql_query($sql ,$conn)){
 					mysql_close($conn);
 					header("location:login.php?act=success_reset");

@@ -28,7 +28,7 @@
 		$end_date = date_format(date_create_from_format("d/m/Y H:i",$_POST['date_end']), 'Y-m-d H:i:s');
 	}
 	
-	$sql = "UPDATE contest SET contest_name='".$_POST['contest_name']."',education='".$_POST['contest_education']."',type='".$_POST['contest_type']."',person=".$_POST['contest_person'].",teacher_person=".$_POST['contest_person_teacher'].",platform='".$_POST['contest_platform']."',date_start='".$start_date."',date_end='".$end_date."' WHERE code='".$_POST['contest_code']."'";
+	$sql = "UPDATE contest SET contest_name='".$_POST['contest_name']."',education='".$_POST['contest_education']."',type='".$_POST['contest_type']."',person=".$_POST['contest_person'].",person_inter=".$_POST['contest_person_inter'].",person_host=".$_POST['contest_person_host'].",teacher_person=".$_POST['contest_person_teacher'].",platform='".$_POST['contest_platform']."',date_start='".$start_date."',date_end='".$end_date."' WHERE code='".$_POST['contest_code']."'";
 	$result = mysql_query($sql ,$conn);
 	if(!$result){
 		mysql_close($conn);

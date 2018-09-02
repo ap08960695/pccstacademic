@@ -104,6 +104,7 @@
                                   <tr>
                                       <th>Contest code</th>
                                       <th>Contest List</th>
+									  <th>Type</th>
                                       <th>Level</th>
                                       <th>Contestant (Title First name-Last name)</th>
                                       <th>Adviser (Title First name-Last name)</th>
@@ -117,7 +118,7 @@
 										$row_role = mysql_fetch_array($result);
 									}
 									echo "<input type='hidden' name='role' value='".$row_role['value']."'>";
-									$sql = "SELECT contest.code,contest.contest_name,contest.person,contest.teacher_person,contest.education FROM school LEFT JOIN contest_group ON school.group_contest=contest_group.group_name INNER JOIN contest ON contest.code=contest_group.contest_code WHERE school.code='".$school_code."' ORDER BY contest.code DESC";
+									$sql = "SELECT contest.code,contest.contest_name,contest.type,IF(school.country='thailand',contest.person,IF(school.country='inter',contest.person_inter,IF(school.country='pccst',contest.person_host,0))) AS person,contest.teacher_person,contest.education FROM school LEFT JOIN contest_group ON school.group_contest=contest_group.group_name INNER JOIN contest ON contest.code=contest_group.contest_code WHERE school.code='".$school_code."' ORDER BY contest.code ASC";
 									$result = mysql_query($sql ,$conn);
 									if(mysql_num_rows($result) > 0) {
 										while($row = mysql_fetch_array($result)) {
@@ -127,6 +128,7 @@
 												echo"<tr class=\"odd gradeX\">";
 												echo"    <td>".$row['code']."</td>";
 												echo"    <td>".$row['contest_name']." (".$row['person']." คน)"."</td>";
+												echo"    <td>".$row['type']."</td>";
 												echo"    <td>".$row['education']."</td>";
 												echo"    <td class=\"center\">";
 													
@@ -140,13 +142,15 @@
 													echo"    </td>";
 													echo"    <td class=\"center\">";
 													
-													$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
-													$result_register = mysql_query($sql ,$conn);
-													for($i=0;$i<$row['teacher_person'];$i++) {
-														if($row_register = mysql_fetch_array($result_register)){
-															echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
-														}else{
-															echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+													if($row['person']>0){
+														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
+														$result_register = mysql_query($sql ,$conn);
+														for($i=0;$i<$row['teacher_person'];$i++) {
+															if($row_register = mysql_fetch_array($result_register)){
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+															}else{
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+															}
 														}
 													}
 													echo"    </td>";
@@ -173,18 +177,15 @@
 													echo"    </td>";
 													echo"    <td class=\"center\">";
 														
-													$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
-													$result_register = mysql_query($sql ,$conn);
-													for($i=0;$i<$row['teacher_person'];$i++) {
-														if($row_register = mysql_fetch_array($result_register)){
-															echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\" ";
-														}else{
-															echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\" ";
-														}
-														if($row_role['value']=="edit"){
-															echo ">";
-														}else if($row_role['value']=="view"){
-															echo "disabled>";
+													if($row['person']>0){
+														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
+														$result_register = mysql_query($sql ,$conn);
+														for($i=0;$i<$row['teacher_person'];$i++) {
+															if($row_register = mysql_fetch_array($result_register)){
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+															}else{
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+															}
 														}
 													}
 													echo"    </td>";

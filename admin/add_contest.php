@@ -109,12 +109,19 @@
 							</div>
 							<div class="row">
 								<div class="col-md-3 col-lg-3">
-									จำนวนการเข้าร่วมต่อโรงเรียน  <input type="text" name="contest_person" class="form-control" value="<?php echo $_SESSION['contest_person']?>"><br>
+									จำนวนการเข้าร่วมต่อโรงเรียน(ไทย)  <input type="text" name="contest_person" class="form-control" value="<?php echo $_SESSION['contest_person']?>"><br>
+								</div>
+								<div class="col-md-3 col-lg-3">
+									จำนวนการเข้าร่วมต่อโรงเรียน(ต่างประเทศ)   <input type="text" name="contest_person_inter" class="form-control" value="<?php echo $_SESSION['contest_person_inter']?>"><br>
+								</div>
+								<div class="col-md-3 col-lg-3">
+									จำนวนการเข้าร่วมต่อโรงเรียน(เจ้าภาพ)  <input type="text" name="contest_person_host" class="form-control" value="<?php echo $_SESSION['contest_person_host']?>"><br>
 								</div>
 								<div class="col-md-3 col-lg-3">
 									จำนวนอาจารย์ควบคุมของโรงเรียน  <input type="text" name="contest_person_teacher" class="form-control" value="<?php echo $_SESSION['contest_person_teacher']?>"><br>
 								</div>
-								
+							</div>
+							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									รูปแบบการแข่งขัน <input type="text" name="contest_platform" class="form-control" value="<?php echo $_SESSION['contest_platform']?>"><br>
 								</div>
@@ -182,7 +189,9 @@
 										<th>รายการ</th>
 										<th>ระดับการศึกษา</th>
 										<th>ประเภทการแข่งขัน</th>
-										<th>จำนวนการเข้าร่วมต่อโรงเรียน</th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(ไทย)</th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(ต่างประเทศ) </th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(เจ้าภาพ)</th>
 										<th>จำนวนครูควบคุมต่อโรงเรียน</th>
 										<th>รูปแบบการแข่งขัน</th>
 										<th>วันเวลาแข่งขัน</th>
@@ -193,7 +202,7 @@
                               </thead>
                               <tbody>
                                   <?php
-										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
+										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.person_host,contest.person_inter,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
                                         $result = mysql_query($sql ,$conn);
 										if ($result && mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
@@ -203,6 +212,8 @@
 												echo "    <td>".$row['education']."</td>";
 												echo "    <td>".$row['type']."</td>";
 												echo "    <td>".$row['person']."</td>";
+												echo "    <td>".$row['person_inter']."</td>";
+												echo "    <td>".$row['person_host']."</td>";
 												echo "    <td>".$row['teacher_person']."</td>";
 												
 												echo "    <td>".$row['platform']."</td>";

@@ -70,7 +70,12 @@
 								District : <input type="text" name="amper" class="form-control" value=""><br>
 								Province : <input type="text" name="provide" class="form-control" value=""><br>
 								Zipcode : <input type="text" name="zip" class="form-control" value=""><br>
-								
+								Country : <select name="country" class="form-control">
+                                                <option value="" disabled selected>Country Select</option>
+                                                <option value="thailand">Thailand</option>
+                                                <option value="inter">International</option>
+                                                <option value="pccst">PCCST</option>
+                                            </select><br>
 								<div class="form-group">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
                                 </div>

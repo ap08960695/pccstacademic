@@ -45,7 +45,7 @@
         <!-- Navigation -->
         <?php
 			include_once("nav_admin.html");
-			$sql = "SELECT contest.contest_name,contest.education,contest.type,contest.person,contest.teacher_person,contest.platform,contest.date_start,contest.date_end FROM contest WHERE contest.code='".$_POST['contest_code']."'";
+			$sql = "SELECT contest.contest_name,contest.education,contest.type,contest.person,contest.person_inter,contest.person_host,contest.teacher_person,contest.platform,contest.date_start,contest.date_end FROM contest WHERE contest.code='".$_POST['contest_code']."'";
 			$result = mysql_query($sql ,$conn);
 			$row_contest = mysql_fetch_array($result);					
 		?>
@@ -101,11 +101,19 @@
 							</div>
 							<div class="row">
 								<div class="col-md-3 col-lg-3">
-									จำนวนการเข้าร่วมต่อโรงเรียน  <input type="text" name="contest_person" class="form-control" value="<?php echo $row_contest['person']?>"><br>
+									จำนวนการเข้าร่วมต่อโรงเรียน(ไทย)  <input type="text" name="contest_person" class="form-control" value="<?php echo $row_contest['person']?>"><br>
+								</div>
+								<div class="col-md-3 col-lg-3">
+									จำนวนการเข้าร่วมต่อโรงเรียน(ต่างประเทศ)   <input type="text" name="contest_person_inter" class="form-control" value="<?php echo $row_contest['person_inter']?>"><br>
+								</div>
+								<div class="col-md-3 col-lg-3">
+									จำนวนการเข้าร่วมต่อโรงเรียน(เจ้าภาพ)  <input type="text" name="contest_person_host" class="form-control" value="<?php echo $row_contest['person_host']?>"><br>
 								</div>
 								<div class="col-md-3 col-lg-3">
 									จำนวนอาจารย์ควบคุมของโรงเรียน  <input type="text" name="contest_person_teacher" class="form-control" value="<?php echo $row_contest['teacher_person']?>"><br>
 								</div>
+							</div>
+							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									รูปแบบการแข่งขัน <input type="text" name="contest_platform" class="form-control" value="<?php echo $row_contest['platform']?>"><br>
 								</div>
@@ -185,9 +193,10 @@
 										<th>รายการ</th>
 										<th>ระดับการศึกษา</th>
 										<th>ประเภทการแข่งขัน</th>
-										<th>จำนวนการเข้าร่วมต่อโรงเรียน</th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(ไทย)</th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(ต่างประเทศ) </th>
+										<th>จำนวนการเข้าร่วมต่อโรงเรียน(เจ้าภาพ)</th>
 										<th>จำนวนครูควบคุมต่อโรงเรียน</th>
-										
 										<th>รูปแบบการแข่งขัน</th>
 										<th>วันเวลาแข่งขัน</th>
 										<th>สถานทีแข่งขัน</th>
@@ -197,7 +206,7 @@
                               </thead>
                               <tbody>
                                   <?php
-										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
+										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.person_host,contest.person_inter,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
                                         $result = mysql_query($sql ,$conn);
 										if ($result && mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
@@ -206,8 +215,9 @@
 												echo "    <td>".$row['contest_name']."</td>";
 												echo "    <td>".$row['education']."</td>";
 												echo "    <td>".$row['type']."</td>";
-												
 												echo "    <td>".$row['person']."</td>";
+												echo "    <td>".$row['person_inter']."</td>";
+												echo "    <td>".$row['person_host']."</td>";
 												echo "    <td>".$row['teacher_person']."</td>";
 												
 												echo "    <td>".$row['platform']."</td>";

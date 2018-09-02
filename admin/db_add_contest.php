@@ -32,7 +32,7 @@
 	}else{
 		$end_date = date_format(date_create_from_format("d/m/Y H:i",$_POST['date_end']), 'Y-m-d H:i:s');
 	}
-	$sql = "INSERT INTO contest (code,contest_name,education,type,person,teacher_person,platform,date_start,date_end) VALUES ('".$_POST['contest_code']."','".$_POST['contest_name']."','".$_POST['contest_education']."','".$_POST['contest_type']."',".$_POST['contest_person'].",".$_POST['contest_person_teacher'].",'".$_POST['contest_platform']."','".$start_date."','".$end_date."')";
+	$sql = "INSERT INTO contest (code,contest_name,education,type,person,person_inter,person_host,teacher_person,platform,date_start,date_end) VALUES ('".$_POST['contest_code']."','".$_POST['contest_name']."','".$_POST['contest_education']."','".$_POST['contest_type']."',".$_POST['contest_person'].",".$_POST['contest_person_inter'].",".$_POST['contest_person_host'].",".$_POST['contest_person_teacher'].",'".$_POST['contest_platform']."','".$start_date."','".$end_date."')";
 	$result = mysql_query($sql ,$conn);
 	if(!$result){
 		mysql_close($conn);
