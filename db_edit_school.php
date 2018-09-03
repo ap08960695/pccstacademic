@@ -18,7 +18,6 @@
 		header('Location: forgetpass.php?act=error_empty');
 	}else{	
 		$sql = "select * from school where (user='".md5($usern)."' or display='$name') AND code<>'$code'";
-		echo $sql;
 		$result = mysql_query($sql ,$conn);
 		if(mysql_num_rows($result)>0){
 			header('Location: forgetpass.php?act=error_same');

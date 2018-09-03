@@ -127,13 +127,13 @@
 									  ?>
 									  
 									  </th>
-                                      <th>
-										กลุ่มรายการแข่งขัน
-									  </th>
-									  <th>E-mail
-									  
-									  </th>
-										  <th>ลบ</th>
+                                      <th>กลุ่มรายการแข่งขัน</th>
+									  <th>E-mail</th>
+									  <th>Ciyt</th>
+									  <th>Province</th>
+									  <th>Zipcode</th>
+									  <th>Country</th>
+									  <th>ลบ</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -169,6 +169,10 @@
 												echo "</td>";
 												echo "    <td>".$row['group_contest']."</td>";
 												echo "    <td>".$row['email']."</td>";
+												echo "    <td>".$row['amper']."</td>";
+												echo "    <td>".$row['changwat']."</td>";
+												echo "    <td>".$row['addrcode']."</td>";
+												echo "    <td>".$row['country']."</td>";
 												echo "    <td><form role=\"form\" action=\"db_del_school.php\" onsubmit=\"return confirm('คูณต้องการจะลบ ".$row['display']." ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"code\" value=\"".$row['code']."\"><input type=\"hidden\" name=\"user\" value=\"".$row['user']."\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
 												echo "</tr>";
 											}
