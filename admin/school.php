@@ -132,6 +132,7 @@
 									  <th>Ciyt</th>
 									  <th>Province</th>
 									  <th>Zipcode</th>
+									  <th>Phone</th>
 									  <th>Country</th>
 									  <th>ลบ</th>
                                   </tr>
@@ -172,6 +173,7 @@
 												echo "    <td>".$row['amper']."</td>";
 												echo "    <td>".$row['changwat']."</td>";
 												echo "    <td>".$row['addrcode']."</td>";
+												echo "    <td>".$row['phone']."</td>";
 												echo "    <td>".$row['country']."</td>";
 												echo "    <td><form role=\"form\" action=\"db_del_school.php\" onsubmit=\"return confirm('คูณต้องการจะลบ ".$row['display']." ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"code\" value=\"".$row['code']."\"><input type=\"hidden\" name=\"user\" value=\"".$row['user']."\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
 												echo "</tr>";

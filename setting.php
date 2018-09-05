@@ -2,7 +2,7 @@
     session_start();
     include_once('condb.php');
 	date_default_timezone_set('Asia/Bangkok');
-	$sql = "SELECT code,display,email,amper,changwat,addrcode FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
+	$sql = "SELECT code,display,email,amper,changwat,addrcode,phone FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
 	if(mysql_num_rows($result)!=1){
 		header("Location: login.php");
@@ -96,6 +96,11 @@
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"Password not same";
 									echo"</div>";
+							}else if($_GET['act']=="error_same"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"Username or school name is same";
+									echo"</div>";
 							} 
 						?>
 						<form role="form" action="db_setting.php" method="post" onsubmit="return confirm('Do you want to update profile?');">
@@ -134,6 +139,9 @@
 							<div class="row">
 								<div class="col-md-6 col-lg-6">
 									Zipcode <input type="text" name="zip" class="form-control" value="<?php echo $row['addrcode']?>"><br>
+								</div>
+								<div class="col-md-6 col-lg-6">
+									Phone <input type="text" name="phone" class="form-control" value="<?php echo $row['phone']?>"><br>
 								</div>
 							</div>
 							<br>

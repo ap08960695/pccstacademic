@@ -10,10 +10,11 @@
 	$provide = $_POST["provide"];
 	$zip = $_POST["zip"];
 	$country = $_POST["country"];
+	$phone = $_POST["phone"];
 	
 	if($passwd!=$cpasswd){
 		header('Location: register.php?act=error_pass');
-	}else if($usern=="" || $passwd=="" || $cpasswd=="" || $name=="" || $amper=="" || $provide=="" || $zip=="" || $country==""){
+	}else if($usern=="" || $passwd=="" || $cpasswd=="" || $name=="" || $amper=="" || $provide=="" || $zip=="" || $country=="" || $phone==""){
 		header('Location: register.php?act=error_empty');
 	}else{	
 		$sql = "select * from school where user='".md5($usern)."' or display='$name'";
@@ -21,7 +22,7 @@
 		if(mysql_num_rows($result)>0){
 			header('Location: register.php?act=error_same');
 		}else{
-			$sql = "INSERT INTO `school` (`user`, `pass`, `display`,`email`,`amper`,`changwat`, `addrcode`, `status`,`country`) VALUES ('".md5($usern)."', '".md5($passwd)."', '$name','$email','$amper','$provide','$zip', 0,'$country');";
+			$sql = "INSERT INTO `school` (`user`, `pass`, `display`,`email`,`amper`,`changwat`, `addrcode`, `status`,`country`,`phone`) VALUES ('".md5($usern)."', '".md5($passwd)."', '$name','$email','$amper','$provide','$zip', 0,'$country','$phone');";
 			if($result = mysql_query($sql ,$conn)){
 				mysql_close($conn);
 				header("location:login.php?act=success_register");
