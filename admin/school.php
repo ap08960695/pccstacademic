@@ -114,6 +114,7 @@
                           <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
+								 	 <th></th>
                                       <th>code</th>
                                       <th>ชื่อโรงเรียน
 									  <?php
@@ -129,7 +130,7 @@
 									  </th>
                                       <th>กลุ่มรายการแข่งขัน</th>
 									  <th>E-mail</th>
-									  <th>Ciyt</th>
+									  <th>City</th>
 									  <th>Province</th>
 									  <th>Zipcode</th>
 									  <th>Phone</th>
@@ -148,8 +149,10 @@
 										}else $sql = "SELECT * FROM school ORDER BY status ASC,u_date DESC;";
                                         $result = mysql_query($sql ,$conn);
                                         if (mysql_num_rows($result) > 0) {
+											$i=1;
                                             while($row = mysql_fetch_array($result)) {
 												echo "<tr class=\"odd gradeX\">";
+												echo "    <td>".($i++)."</td>";
 												echo "    <td>".$row['code']."</td>";
 												echo "    <td>";
 												$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
