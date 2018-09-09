@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row">
 			<center>
-				<h2><small>The Registration System </small><br>PCCST Academic festival and sience fair 2018</h2>
+				<h2><small>The Registration System </small><br>PCCST Academic festival and science fair 2018</h2>
 				<img src="logopccst.png"></img>
 			</center>
             <div class="col-md-4 col-md-offset-4">
