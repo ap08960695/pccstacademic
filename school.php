@@ -59,46 +59,47 @@
           </div>
           <!-- /.row -->
           <div class="row">
-              <div class="col-lg-12">
-                  <div class="panel panel-default">
-                      <div class="panel-heading">
-                      The school list was registered 
-                    </div>
-                      <div class="panel-body">
-						  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                              <thead>
-                                  <tr>
-                                      <th>School</th>
-                                      <th>District</th>
-                                      <th>Province</th>
-                                      <th>Zipcode</th>
-                                      <th>Status</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-									$sql = "SELECT display,amper,changwat,addrcode,status FROM school ORDER BY id";
-									$result = mysql_query($sql ,$conn);
-									while($row = mysql_fetch_array($result)) {
-										echo"<tr class=\"odd gradeX\">";
-										echo"    <td>".$row['display']."</td>";
-										echo"    <td>".$row['amper']."</td>";
-										echo"    <td>".$row['changwat']."</td>";
-                                        echo"    <td>".$row['addrcode']."</td>";
-                                        if($row['status']=='1'){
-                                            echo "    <td style='background:#ccff90'>Approved</td>";
-                                        }else echo "    <td style='background:#ffff8d'>Not approved (Waiting for approval)</td>";
-										echo"</tr>";
-									}
-								  ?>
-                              </tbody>
-                          </table>
-                      </div>
-                      <!-- /.panel-body -->
-                  </div>
-                  <!-- /.panel -->
-              </div>
-              <!-- /.col-lg-12 -->
+            <?php
+                $sql = "SELECT display,amper,changwat,addrcode,status,code FROM school ORDER BY id";
+                $result = mysql_query($sql ,$conn);
+                while($row = mysql_fetch_array($result)) {
+                    echo '<div class="col-lg-12">';
+                        echo '<div class="panel panel-default">';
+                            echo '<div class="panel-heading">';
+                                echo $row['display'];
+                                if($row['status']=='1'){
+                                    echo " (Approved)";
+                                }else echo "(Waiting for approval)";
+                            echo '</div>';                
+                            echo '<div class="panel-body">';
+                                echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">';
+                                    echo '<thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Student Name</th>
+                                                <th>Contest</th>
+                                            </tr>
+                                        </thead>';
+                                    echo '<tbody>';
+                                    $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
+                                    $result_std = mysql_query($sql ,$conn);
+                                    $i=1;
+                                    if($result_std && mysql_num_rows($result_std)>0){
+                                        while($row_std = mysql_fetch_array($result_std)) {
+                                            echo"<tr class=\"odd gradeX\">";
+                                            echo"    <td>".($i++)."</td>";
+                                            echo"    <td>".$row_std['name']."</td>";
+                                            echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
+                                            echo"</tr>";
+                                        }                        
+                                    }
+                                    echo '</tbody>';
+                                echo '</table>';
+                            echo '</div>';
+                        echo '</div>';
+                    echo '</div>';
+                }            
+                ?>
           </div>
           <!-- /.row -->
         </div>
