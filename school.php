@@ -59,46 +59,74 @@
           </div>
           <!-- /.row -->
           <div class="row">
-            <?php
-                $sql = "SELECT display,amper,changwat,addrcode,status,code FROM school ORDER BY id";
-                $result = mysql_query($sql ,$conn);
-                while($row = mysql_fetch_array($result)) {
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        School List
+                    </div>                
+                    <div class="panel-body">
+                        <select class="form-control" onchange="reload()">
+                            <?php
+                                $sql = "SELECT display,id FROM school ORDER BY id";
+                                $result = mysql_query($sql ,$conn);
+                                if($_GET['select']==""){
+                                    echo "<option disabled selected>Choose school</option>";
+                                    while($row = mysql_fetch_array($result)) {
+                                        echo "<option value='".$row['id']."'>".$row['display'].")</option>";
+                                    }
+                                }else{
+                                    echo "<option disabled>Choose school</option>";
+                                    while($row = mysql_fetch_array($result)) {
+                                        if($row['id']==$_GET['select'])
+                                          echo "<option value='".$row['id']."' selected>".$row['display']."</option>";
+                                        else echo "<option value='".$row['id']."'>".$row['display']."</option>";
+                                    }
+                                }
+                            ?> 
+                        </select>
+                    </div>
+                </div>
+                <?php
+                if($_GET['select']!=""){
+                    $sql = "SELECT display,id,status,code FROM school WHERE id='".$_GET['select']."'";
+                    $result = mysql_query($sql ,$conn);
+                    $row = mysql_fetch_array($result);
                     echo '<div class="col-lg-12">';
                         echo '<div class="panel panel-default">';
                             echo '<div class="panel-heading">';
                                 echo $row['display'];
-                                if($row['status']=='1'){
-                                    echo " (Approved)";
-                                }else echo "(Waiting for approval)";
-                            echo '</div>';                
-                            echo '<div class="panel-body">';
-                                echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">';
-                                    echo '<thead>
-                                            <tr>
-                                                <th>Order</th>
-                                                <th>Student Name</th>
-                                                <th>Contest</th>
-                                            </tr>
-                                        </thead>';
-                                    echo '<tbody>';
-                                    $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
-                                    $result_std = mysql_query($sql ,$conn);
-                                    $i=1;
-                                    if($result_std && mysql_num_rows($result_std)>0){
-                                        while($row_std = mysql_fetch_array($result_std)) {
-                                            echo"<tr class=\"odd gradeX\">";
-                                            echo"    <td>".($i++)."</td>";
-                                            echo"    <td>".$row_std['name']."</td>";
-                                            echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
-                                            echo"</tr>";
-                                        }                        
-                                    }
-                                    echo '</tbody>';
-                                echo '</table>';
+                                    if($row['status']=='1'){
+                                        echo " (Approved)";
+                                    }else echo " (Waiting for approval)";
+                                echo '</div>';                
+                                echo '<div class="panel-body">';
+                                    echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">';
+                                        echo '<thead>
+                                                <tr>
+                                                    <th>Order</th>
+                                                    <th>Student Name</th>
+                                                    <th>Contest</th>
+                                                </tr>
+                                            </thead>';
+                                        echo '<tbody>';
+                                        $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
+                                        $result_std = mysql_query($sql ,$conn);
+                                        $i=1;
+                                        if($result_std && mysql_num_rows($result_std)>0){
+                                            while($row_std = mysql_fetch_array($result_std)) {
+                                                echo"<tr class=\"odd gradeX\">";
+                                                echo"    <td>".($i++)."</td>";
+                                                echo"    <td>".$row_std['name']."</td>";
+                                                echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
+                                                echo"</tr>";
+                                            }                        
+                                        }
+                                        echo '</tbody>';
+                                    echo '</table>';
+                                echo '</div>';
                             echo '</div>';
                         echo '</div>';
-                    echo '</div>';
-                }            
+                    }            
                 ?>
           </div>
           <!-- /.row -->
@@ -109,13 +137,16 @@
     <!-- /#wrapper -->
 
     <script>
-    function checkFilled(inputVal) {
-        if (inputVal.value == "") {
-            inputVal.style.backgroundColor = "#FFFFFF";
-        } else {
-            inputVal.style.backgroundColor = "#FFFF99";
+        function checkFilled(inputVal) {
+            if (inputVal.value == "") {
+                inputVal.style.backgroundColor = "#FFFFFF";
+            } else {
+                inputVal.style.backgroundColor = "#FFFF99";
+            }
         }
-    }
+        function reload() {
+            location.href = "school.php?select="+$('select').val();
+        }
     </script>
 
     <!-- jQuery -->
@@ -129,7 +160,7 @@
  
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
-
+    
 </body>
 
 </html>
