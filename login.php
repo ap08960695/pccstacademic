@@ -84,7 +84,7 @@
                                 <div class="form-group">
 									<input type="button" onclick="window.location='register.php'" class="btn btn-lg btn-warning btn-block" value="Register">
 								</div>
-                                <a href="forgetpass.php" style="color:red">Edit Profile?</a>
+                                <a href="forgetpass.php" style="color:red">Forget password?</a>
                             </fieldset>
                         </form>
                     </div>
