@@ -33,7 +33,7 @@
 	if($len_name!=count($list_name)){
 		$sql = "UPDATE register SET status=1 WHERE school_id='$school_code'";
 		mysql_query($sql);
-		header("location:index.php?error=update_student");
+		header("location:index.php?error=update_student_same");
 		exit();
 	}else if($sql_string!=""){
 		$sql_string = substr($sql_string, 0, -1);

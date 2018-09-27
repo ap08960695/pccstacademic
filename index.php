@@ -87,6 +87,11 @@
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"Cannot add constestant";
 									echo"</div>";
+							}else if($_GET['error']=="update_student_same"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"The student is same name in other contest";
+									echo"</div>"; 
 							}else if($_GET['act']=="update_teacher"){
 									echo"<div class=\"alert alert-danger alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
