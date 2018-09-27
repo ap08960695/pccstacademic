@@ -88,16 +88,17 @@
 						  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
-                                      <th></th>
+                                      <th>Order</th>
                                       <th>Student name</th>
                                       <th>School name</th>
+									  <th>Province</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php
                                     $select = $_GET['select'];
                                     if($select != ""){
-                                        $sql = "SELECT register.name,school.display FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
+                                        $sql = "SELECT register.name,school.display,school.changwat FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
                                         $result = mysql_query($sql ,$conn);
                                         $i = 1;
                                         while($row = mysql_fetch_array($result)) {
@@ -105,6 +106,7 @@
                                             echo"    <td>".($i++)."</td>";
                                             echo"    <td>".$row['name']."</td>";
                                             echo"    <td>".$row['display']."</td>";
+											echo"    <td>".$row['changwat']."</td>";
                                             echo"</tr>";
                                         }
                                     }
