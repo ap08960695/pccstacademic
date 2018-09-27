@@ -106,10 +106,11 @@
                                                     <th>Order</th>
                                                     <th>Student Name</th>
                                                     <th>Contest</th>
+													<th>Teacher</th>
                                                 </tr>
                                             </thead>';
                                         echo '<tbody>';
-                                        $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
+                                        $sql = "SELECT register.name,register_teacher.name AS teacher,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id INNER JOIN register_teacher ON register.subject_id=register_teacher.subject_id WHERE register_teacher.school_id='".$row['code']."' AND register.school_id='".$row['code']."' ORDER BY register.id";
                                         $result_std = mysql_query($sql ,$conn);
                                         $i=1;
                                         if($result_std && mysql_num_rows($result_std)>0){
@@ -118,6 +119,7 @@
                                                 echo"    <td>".($i++)."</td>";
                                                 echo"    <td>".$row_std['name']."</td>";
                                                 echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
+												echo"    <td>".$row_std['teacher']."</td>";
                                                 echo"</tr>";
                                             }                        
                                         }
