@@ -127,7 +127,7 @@
 									$result = mysql_query($sql ,$conn);
 									if(mysql_num_rows($result) > 0) {
 										while($row = mysql_fetch_array($result)) {
-											$sql = "SELECT name FROM register WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
+											$sql = "SELECT name FROM register WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1 ORDER BY id ASC";
 											$result_register = mysql_query($sql ,$conn);
 											if($row_role['value']=="all"){
 												echo"<tr class=\"odd gradeX\">";
@@ -183,7 +183,7 @@
 													echo"    <td class=\"center\">";
 														
 													if($row['person']>0){
-														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
+														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1 ORDER BY id ASC";
 														$result_register = mysql_query($sql ,$conn);
 														for($i=0;$i<$row['teacher_person'];$i++) {
 															if($row_register = mysql_fetch_array($result_register)){
