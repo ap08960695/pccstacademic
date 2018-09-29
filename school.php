@@ -110,26 +110,28 @@
                                                 </tr>
                                             </thead>';
                                         echo '<tbody>';
-										$sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
-                                        $result_std = mysql_query($sql ,$conn);
-                                        $i=1;
-                                        if($result_std && mysql_num_rows($result_std)>0){
-                                            while($row_std = mysql_fetch_array($result_std)) {
-                                                echo"<tr class=\"odd gradeX\">";
-                                                echo"    <td>".($i++)."</td>";
-                                                echo"    <td>".$row_std['name']."</td>";
-                                                echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
-												echo"    <td>";
-												$sql = "SELECT name FROM register_teacher WHERE school_id='".$row['code']."' AND subject_id='".$row_std['code']."'";
-												$result_teacher = mysql_query($sql ,$conn);
-												if($result_teacher && mysql_num_rows($result_teacher)>0){
-													while($row_teacher = mysql_fetch_array($result_teacher)) {
-														echo $row_teacher['name']."<br>";
-													}
-												}
-												echo"</td>";
-                                                echo"</tr>";
-                                            }                        
+                                        if($row['code']!=""){
+                                            $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
+                                            $result_std = mysql_query($sql ,$conn);
+                                            $i=1;
+                                            if($result_std && mysql_num_rows($result_std)>0){
+                                                while($row_std = mysql_fetch_array($result_std)) {
+                                                    echo"<tr class=\"odd gradeX\">";
+                                                    echo"    <td>".($i++)."</td>";
+                                                    echo"    <td>".$row_std['name']."</td>";
+                                                    echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
+                                                    echo"    <td>";
+                                                    $sql = "SELECT name FROM register_teacher WHERE school_id='".$row['code']."' AND subject_id='".$row_std['code']."'";
+                                                    $result_teacher = mysql_query($sql ,$conn);
+                                                    if($result_teacher && mysql_num_rows($result_teacher)>0){
+                                                        while($row_teacher = mysql_fetch_array($result_teacher)) {
+                                                            echo $row_teacher['name']."<br>";
+                                                        }
+                                                    }
+                                                    echo"</td>";
+                                                    echo"</tr>";
+                                                }                        
+                                            }
                                         }
                                         echo '</tbody>';
                                     echo '</table>';
