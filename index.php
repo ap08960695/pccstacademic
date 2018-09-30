@@ -164,6 +164,7 @@
 												echo"<tr class=\"odd gradeX\">"; 
 												echo"    <td>".$row['code']."</td>";
 												echo"    <td>".$row['contest_name']." (".$row['person']." คน)"."</td>";
+												echo"    <td>".$row['type']."</td>";
 												echo"    <td>".$row['education']."</td>";
 												echo"    <td class=\"center\">";
 												if($row_role['value']=="edit" || $row_role['value']=="view"){	
@@ -187,9 +188,14 @@
 														$result_register = mysql_query($sql ,$conn);
 														for($i=0;$i<$row['teacher_person'];$i++) {
 															if($row_register = mysql_fetch_array($result_register)){
-																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\" ";
 															}else{
-																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
+																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\" ";
+															}
+															if($row_role['value']=="edit"){
+																echo ">";
+															}else if($row_role['value']=="view"){
+																echo "disabled>";
 															}
 														}
 													}
