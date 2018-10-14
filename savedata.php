@@ -20,7 +20,7 @@
 	$len_name = 0;
 	foreach($arrstudent as $key => $value){
 		foreach($value as $sub_value){
-			if($sub_value!=""){
+			if(preg_replace('/[ -]/', '', $sub_value)!=""){
 				$sql_string .= "('$school_code', $key,'$sub_value'),";
 				$list_name[$sub_value] = 1;
 				$len_name++;
