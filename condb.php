@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "12345678";
-$dbname = "pccstaca_pccst";
+$password = "";
+$dbname = "pccstaca_pccst2";
 
 
 // Create connection

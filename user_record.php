@@ -7,12 +7,9 @@
 	if(mysql_num_rows($result)!=1){
 		header("Location: login.php");
 		exit();
-	} else {
-    $school_info = mysql_fetch_assoc($result);
-  }
+	}
     $school_code = $_SESSION["code"];
     $schoolname = $_SESSION["display"];
- 
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +65,7 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header"> School Information of Contestant</h1>
+                  <h1 class="page-header">The Contest List <small> (Please press save button after fill information)</small></h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -79,73 +76,23 @@
                     <form role="form" action="savedata.php" method="post">
 						
                       <div class="panel-heading">
-						 <h4> School Detail </h4>
+						  Regist to Chulabhorn's Academic Contest 
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
-            <div class="row" >
-                <div class="col-lg-6" >
-
-                    <?php
-                    echo "<div>school: ".$school_info["display"]."</div>";
-                    echo "<div>Email: ".$school_info["email"]."</div>"  ;
-                    echo "<div>District: ".$school_info["amper"]."</div>" ; 
-                    echo "<div>Province: ".$school_info["changwat"]."</div>";
-                    echo "<div>Zipcode: ".$school_info["addrcode"]."</div>"  ;
-                    echo "<div>Tel No.: ".$school_info["phone"]."</div>"  ;
-                    echo "<div>Country: ".$school_info["country"]."</div>"  ;
-                    ?>
-                </div>
-            </div>
-				      <div class="panel-heading">
-						 <h4> Contest List Detail of Contestant School </h4>
+                        
+                      <?php
+                      $sql = ""
+                      ?> 
+                      <div class="card" style="width: 18rem;">
+                        <!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
+                        <div class="card-body">
+                          <h5 class="card-title">Card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
                       </div>
-                
-                  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                <thead>
-                  <tr>
-                    <th>Contest Name</th>
-                    <th>Level</th>
-					<th>Type</th>
-                    <th>Platform</th>
-                    <th>Current Contestant</th>
-                    <th>Start Date To End Date</th>
-                    <th>Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-              <?php 
-                // $sql="SELECT c.*,r.*, COUNT(r.subject_id) as counter FROM `contest_group` as cg,`contest` as c , register as r WHERE r.subject_id=cg.contest_code AND cg.contest_code=c.code AND cg.group_name='".$school_info["group_contest"]."' AND r.school_id='".$school_info["code"]."' GROUP BY r.subject_id";
-                $sql="SELECT rmc.*, rm.*, c.*,r.*, COUNT(r.subject_id) as counter FROM `contest_group` as cg ";
-                $sql.= "LEFT JOIN `contest` as c  ON  cg.contest_code=c.code ";
-                $sql.= "LEFT JOIN `register` as r ON r.subject_id=cg.contest_code ";
-                $sql.= "LEFT JOIN `room_contest` as rmc on rmc.contest_code = cg.contest_code ";
-                $sql.= "LEFT JOIN `room` as rm on rm.id = rmc.room_id ";
-                $sql.= "WHERE cg.group_name='".$school_info["group_contest"]."' AND r.school_id='".$school_info["code"]."' GROUP BY r.subject_id";
-
-
-                $result= mysql_query($sql, $conn);
-                if(mysql_num_rows($result)>1) {
-                  while($row = mysql_fetch_assoc($result)) {
-                    // var_dump($row);
-                    echo "<tr>";
-                    echo "<td>".$row["contest_name"]."(".$row["subject_id"].")"."</td>" ;
-                    echo "<td>".$row["education"]."</td>" ;
-                    echo "<td>".$row["type"]."</td>" ;
-                    // echo $school_info['group_contest']=="ในประเทศ"?"<td>".$row["person"]."</td>" :"<td>".$row["person_inter"]."</td>";
-                    echo "<td>".$row["platform"]."</td>" ;
-                    echo "<td>".$row["counter"]."</td>" ;
-                    echo "<td>".$row["date_start"]." to ".$row["date_end"]."</td>" ;
-                    // echo "<td>".$row["room_id"]."</td>" ;
-                    echo $row["room_id"]=== NULL?"<td>Location is unavailable</td>":"<td>".$row["room_name"]."</td>" ;
-                    echo "</tr>";
-                  }
-                }
-              ?>   
-                                
-                    </tbody>        
-						  
-                            </form>
+						</form>
                       </div>
                       <!-- /.panel-body -->
                   </div>
