@@ -1,7 +1,8 @@
 <?php
     session_start();
     include_once('condb.php');
-	date_default_timezone_set('Asia/Bangkok');
+  date_default_timezone_set('Asia/Bangkok');
+   include_once('user_utility.php');
 	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
 	if(mysql_num_rows($result)!=1){
@@ -82,7 +83,34 @@
                       <div class="panel-body">
                         
                       <?php
-                      $sql = ""
+                      $sql = "SELECT * from contest";
+                      $result = mysql_query($sql, $conn);
+                      if(mysql_num_rows($result)>0) {
+                        while($row = mysql_fetch_assoc($result)) {
+                          $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
+                          $register_result = mysql_query($sql, $conn);
+                          if(mysql_num_rows($register_result) >0){
+                            echo '<div class="card" style="width: 18rem;">'.
+                            '<div class="card-body">'.
+                            '<h5 class="card-title">'.$row["contest_name"]."(".$row["code"].")"." ".$row["date_start"]." to ".$row["date_end"].
+                            '</h5>';
+                            $temp_index = 0;
+                            while($register_row = mysql_fetch_assoc($register_result)) {
+                              echo "<p>".$register_row["name"]."</p>";
+                              // echo $temp_index===0?"<p>".$register_row["score"]."</p>":"";
+                              if($temp_index===mysql_num_rows($register_result)-1) {
+                                if($register_row["score"]!=NULL) {
+                                  echo "<p>".$register_row["score"]."</p>".scoreDivider($register_row["score"]);
+                                } else {
+                                  echo "No Score , Contest Not sart";
+                                }
+                              }
+                              $temp_index+=1;
+                            }
+                            echo '</div></div>--------------------------------------------------------------';
+                          }
+                        }
+                      }
                       ?> 
                       <div class="card" style="width: 18rem;">
                         <!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
