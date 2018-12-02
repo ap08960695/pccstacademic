@@ -74,7 +74,7 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                    <form role="form" action="savedata.php" method="post">
+                    <!-- <form role="form" action="savedata.php" method="post"> -->
 						
                       <div class="panel-heading">
 						  Regist to Chulabhorn's Academic Contest 
@@ -90,21 +90,27 @@
                           $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
                           $register_result = mysql_query($sql, $conn);
                           if(mysql_num_rows($register_result) >0){
-                            echo '<div class="card" style="width: 18rem;">'.
+                            echo '<div class="card" style="width: 100rem;">'.
                             '<div class="card-body">'.
-                            '<h5 class="card-title">'.$row["contest_name"]."(".$row["code"].")"." ".$row["date_start"]." to ".$row["date_end"].
-                            '</h5>';
+                            '<h5 class="card-title">'.$row["contest_name"]."(".$row["code"].")"." ";
+                            if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
+                                echo "| contest Not Start </h5>";
+                            }else {
+                                $row["date_start"]." to ".$row["date_end"].'</h5>';
+                            }
+                            echo  "<button>Print</button>";
                             $temp_index = 0;
                             while($register_row = mysql_fetch_assoc($register_result)) {
-                              echo "<p>".$register_row["name"]."</p>";
+                              echo "<div>".$register_row["name"]."";
                               // echo $temp_index===0?"<p>".$register_row["score"]."</p>":"";
                               if($temp_index===mysql_num_rows($register_result)-1) {
                                 if($register_row["score"]!=NULL) {
-                                  echo "<p>".$register_row["score"]."</p>".scoreDivider($register_row["score"]);
+                                  echo "".$register_row["score"]." ".scoreDivider($register_row["score"]);
                                 } else {
-                                  echo "No Score , Contest Not sart";
+                                  echo " | No Score ";
                                 }
                               }
+                              echo "</div>";
                               $temp_index+=1;
                             }
                             echo '</div></div>--------------------------------------------------------------';
@@ -112,15 +118,7 @@
                         }
                       }
                       ?> 
-                      <div class="card" style="width: 18rem;">
-                        <!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
-                        <div class="card-body">
-                          <h5 class="card-title">Card title</h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                      </div>
-						</form>
+             			<!-- </form> -->
                       </div>
                       <!-- /.panel-body -->
                   </div>

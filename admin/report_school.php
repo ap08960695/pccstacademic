@@ -81,12 +81,14 @@
                                         if (mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
 												$sql_s = "SELECT * FROM register WHERE school_id = '".$row['code']."' AND no = 1 AND status = 1;";
-												$result_s = mysql_query($sql_s ,$conn);
+                                                $result_s = mysql_query($sql_s ,$conn);
+                                                $result_s_rows = mysql_num_rows($result_s);
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".$row['code']."</td>";
-												echo "    <td>".$row['display']." (".mysql_num_rows($result_s)." คน)</td>";
-												echo "    <td><a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a></td>";
-												echo "</tr>";
+												echo "    <td>".$row['display']." (".$result_s_rows." คน)</td>";
+												echo "    <td><a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a>";
+                                                echo "    <a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a></td>";
+                                                echo "</tr>";
 												
 												/*
 												$sql_s = "SELECT * FROM register r JOIN subject s ON r.subject_id = s.code WHERE school_id = '".$row['code']."' AND type != 'ทีม (2 คน)'  AND no = 1 AND r.status = 1;";
