@@ -258,9 +258,15 @@ for($i=0;$i<count($obj_array_room);$i+=1){
   $temp_paging[$i][1] = $page_start;
   $page_end+= intVal($obj_array_room[$i]["amount_student"]);
   if($temp_arr_len>intVal($obj_array_room[$i]["amount_student"]) ){
-    $temp_paging[$i][2] = $page_end;
-    $page_start =$page_end;
-    $temp_arr_len -=intVal($obj_array_room[$i]["amount_student"]);
+    if($temp_arr_len-intVal($obj_array_room[$i]["amount_student"])<=3){
+      $temp_paging[$i][2] = $page_end+3;
+      $page_start =$page_end+3;
+      $temp_arr_len -=intVal($obj_array_room[$i]["amount_student"])+3;
+    }else{
+      $temp_paging[$i][2] = $page_end;
+      $page_start =$page_end;
+      $temp_arr_len -=intVal($obj_array_room[$i]["amount_student"]);
+    }
   }else{
     // echo $temp_arr_len;
     $temp_paging[$i][2] = $page_start+$temp_arr_len;
