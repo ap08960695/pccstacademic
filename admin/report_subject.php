@@ -92,11 +92,11 @@
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".$row['code']."</td>";
 												if($row['type'] == 'ทีม (2 คน)'){
-													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND no = 1 AND s.status = 1 AND r.status = 1;";
+													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
 													$result_s = mysql_query($sql_s ,$conn);
 													echo "    <td>".$row['name']." (".(mysql_num_rows($result_s)/2)." ทีม)</td>";
 												}else{
-													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND no = 1 AND s.status = 1 AND r.status = 1;";
+													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
 													$result_s = mysql_query($sql_s ,$conn);
 													echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)</td>";
 												}
