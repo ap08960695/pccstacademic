@@ -134,12 +134,15 @@
 												echo "    <td>".$row['room_name']."</td>";
 												echo "    <td>".$row['amount_student']."</td>";
 												echo "<td>";
-												$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.date_start,contest.date_end FROM room_contest INNER JOIN contest ON room_contest.contest_code=contest.code WHERE room_contest.room_id=".$row['id']." ORDER BY contest.updatetime DESC;";
-												$result_contest = mysql_query($sql ,$conn);
-												if ($result_contest) {
-													while($row_contest = mysql_fetch_array($result_contest)) {
-												
-														echo $row_contest['code']." ".$row_contest['contest_name']."(".$row_contest['education'].")<br>";
+												$sql = "SELECT contest_code FROM room_contest WHERE room_id=".$row['id']." ORDER BY updatetime DESC;";
+												if ($result_room = mysql_query($sql ,$conn)) {
+													while($row_room = mysql_fetch_array($result_room)) {
+
+														$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE code=".$row_room['contest_code']." ORDER BY updatetime DESC;";
+														$result_contest = mysql_query($sql ,$conn);
+														while($row_contest = mysql_fetch_array($result_contest)) {
+															echo $row_contest['code']." ".$row_contest['contest_name']."(".$row_contest['education'].")<br>";
+														}
 													}
 												}
 												echo "</td>";
