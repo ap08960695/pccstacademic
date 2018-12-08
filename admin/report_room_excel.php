@@ -36,26 +36,19 @@ while($row=mysql_fetch_array($result)){
 <td height="25" align="left" valign="middle" ><?php echo $row['room_name'];?></td>
 <td align="left" valign="middle" ><?php echo $row['amount_student'];?></td>
 <?php
-	$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.date_start,contest.date_end FROM room_contest INNER JOIN contest ON room_contest.contest_code=contest.code WHERE room_contest.room_id=".$row['id']." ORDER BY contest.date_start,contest.date_end ASC;";
-	$result_contest = mysql_query($sql ,$conn);
-	if ($result_contest) {
-		if($row_contest = mysql_fetch_array($result_contest)) {
-			echo '<td align="left" valign="middle">'.$row_contest['code'].' '.$row_contest['contest_name'].'('.$row_contest['education'].')</td>';
-			$start_date = date_format(date_create($row_contest['date_start']), 'd/m/Y H:i');
-			$end_date = date_format(date_create($row_contest['date_end']), 'd/m/Y H:i');
-			echo '<td align="center" valign="middle">'.$start_date.'</td>';
-			echo '<td align="center" valign="middle">'.$end_date.'</td>';
-			echo '</tr>';
-			while($row_contest = mysql_fetch_array($result_contest)){
-				echo '<tr>';
-				echo '<td></td>';
-				echo '<td></td>';
-				echo '<td align="left" valign="middle">'.$row_contest['code'].' '.$row_contest['contest_name'].'('.$row_contest['education'].')</td>';	
+	$sql = "SELECT contest_code FROM room_contest WHERE room_id=".$row['id']." ORDER BY updatetime DESC;";
+	if ($result_room = mysql_query($sql ,$conn)) {
+		if($row_room = mysql_fetch_array($result_room)) {
+			$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE code=".$row_room['contest_code']." ORDER BY updatetime DESC;";
+			$result_contest = mysql_query($sql ,$conn);
+			while($row_contest = mysql_fetch_array($result_contest)) {
+				echo '<td align="left" valign="middle">'.$row_contest['code'].' '.$row_contest['contest_name'].'('.$row_contest['education'].')</td>';
 				$start_date = date_format(date_create($row_contest['date_start']), 'd/m/Y H:i');
 				$end_date = date_format(date_create($row_contest['date_end']), 'd/m/Y H:i');
 				echo '<td align="center" valign="middle">'.$start_date.'</td>';
 				echo '<td align="center" valign="middle">'.$end_date.'</td>';
 				echo '</tr>';
+			
 			}
 		}else echo '</tr>';
 	}
