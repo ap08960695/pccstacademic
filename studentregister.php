@@ -79,46 +79,64 @@
           </div>
           <!-- /.row -->
           <div class="row">
-              <div class="col-lg-12">
-                  <div class="panel panel-default">
-                      <div class="panel-heading">
-                      The student list was registered contest   
-                    </div>
-                      <div class="panel-body">
-						  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                              <thead>
-                                  <tr>
-                                      <th>Order</th>
-                                      <th>Student name</th>
-                                      <th>School name</th>
-									  <th>Province</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-                                    $select = $_GET['select'];
-                                    if($select != ""){
-                                        $sql = "SELECT register.name,school.display,school.changwat FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
-                                        $result = mysql_query($sql ,$conn);
-                                        $i = 1;
-                                        while($row = mysql_fetch_array($result)) {
-                                            echo"<tr class=\"odd gradeX\">";
-                                            echo"    <td>".($i++)."</td>";
-                                            echo"    <td>".$row['name']."</td>";
-                                            echo"    <td>".$row['display']."</td>";
-											echo"    <td>".$row['changwat']."</td>";
-                                            echo"</tr>";
-                                        }
+            <?php
+                    $select = $_GET['select'];
+                    if($select != ""){
+                        $sql = "SELECT date_start,date_end FROM contest WHERE code='$select'";
+                        $result_contest = mysql_query($sql ,$conn);
+                        if(mysql_num_rows($result_contest)>0){
+                            $row_contest = mysql_fetch_array($result_contest);
+                            $start_date = date_format(date_create($row_contest['date_start']), 'd/m/Y H:i');
+                            $end_date = date_format(date_create($row_contest['date_end']), 'd/m/Y H:i');
+                            
+                            $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
+                            $result_room = mysql_query($sql ,$conn);
+                            
+                            $sql = "SELECT register.name,school.display,school.changwat FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
+                            $result_student = mysql_query($sql ,$conn);
+                            $max_student = mysql_num_rows($result_student);
+                            
+                            $i = 1;
+                            while($row_room = mysql_fetch_array($result_room)) {
+                                $max_student_room = intval($row_room['amount_student']);    
+                                echo '<div class="col-lg-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"> 
+                                                At the place : '.$row_room['room_name'].' on '.$start_date.' - '.$end_date.'
+                                            </div>
+                                            <div class="panel-body">';
+                                echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Order</th>
+                                            <th>Student name</th>
+                                            <th>School name</th>
+                                            <th>Province</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>';
+                                $count = 1;
+                                while($row_student = mysql_fetch_array($result_student)) {
+                                    echo"<tr class=\"odd gradeX\">";
+                                    echo"    <td>".($i++)."</td>";
+                                    echo"    <td>".$row_student['name']."</td>";
+                                    echo"    <td>".$row_student['display']."</td>";
+                                    echo"    <td>".$row_student['changwat']."</td>";
+                                    echo"</tr>";
+                                    $count++;
+                                    if($count > $max_student_room){
+                                        if($max_student-$i <= 3){
+                                            $max_student_room += 3;
+                                        }else{
+                                            echo '</tbody></table></div></div></div>';
+                                            break;
+                                        }                
                                     }
-								  ?>
-                              </tbody>
-                          </table>
-                      </div>
-                      <!-- /.panel-body -->
-                  </div>
-                  <!-- /.panel -->
-              </div>
-              <!-- /.col-lg-12 -->
+                                }            
+                            }
+                        }
+                    }
+            ?>
           </div>
           <!-- /.row -->
         </div>
