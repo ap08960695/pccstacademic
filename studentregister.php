@@ -86,8 +86,9 @@
                         $result_contest = mysql_query($sql ,$conn);
                         if(mysql_num_rows($result_contest)>0){
                             $row_contest = mysql_fetch_array($result_contest);
-                            $start_date = date_format(date_create($row_contest['date_start']), 'd/m/Y H:i');
-                            $end_date = date_format(date_create($row_contest['date_end']), 'd/m/Y H:i');
+                            $date = date_format(date_create($row_contest['date_start']), 'd M Y');
+                            $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
+                            $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
                             
                             $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
                             $result_room = mysql_query($sql ,$conn);
@@ -102,7 +103,7 @@
                                 echo '<div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-heading"> 
-                                                At the place : '.$row_room['room_name'].' on '.$start_date.' - '.$end_date.'
+                                                At the place : '.$row_room['room_name'].' on '.$date.' '.$start_date.' - '.$end_date.'
                                             </div>
                                             <div class="panel-body">';
                                 echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
