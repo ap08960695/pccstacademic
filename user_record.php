@@ -29,6 +29,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrapcard.css" rel="stylesheet">
+
     <!-- MetisMenu CSS -->
     <link href="vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
@@ -90,8 +93,8 @@
                           $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
                           $register_result = mysql_query($sql, $conn);
                           if(mysql_num_rows($register_result) >0){
-                            echo '<div class="card" style="width: 100rem;">'.
-                            '<div class="card-body">'.
+                            echo '<div class="card border-primary" style="width: 100rem;">'.
+                            '<div class="card-body border-primary">'.
                             '<h5 class="card-title">'.$row["contest_name"]."(".$row["code"].")"." ";
                             if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
                                 echo "| contest Not Start </h5>";
