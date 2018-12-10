@@ -199,7 +199,15 @@ function NbLines($w,$txt)
   // Colored table
 
 }
-  //
+  
+function d_form_str($d_start, $d_end) {
+  $date = date_format(date_create($d_start), 'd F Y'); //case 1 day 
+  $time_start = date_format(date_create($d_start), 'H:i');
+  $time_end = date_format(date_create($d_end), 'H:i');
+
+  return $date." ".$time_start." - ".$time_end;
+}
+
   if(isset($_GET["s"])){
     $subject_id = $_GET["s"];
   }
@@ -276,13 +284,15 @@ for($i=0;$i<count($obj_array_room);$i+=1){
    $temp_paging[$i][5] = $obj_array_room[$i]["education"];
    $temp_paging[$i][6] = $obj_array_room[$i]["type"];
    $temp_paging[$i][7] = $obj_array_room[$i]["code"];
+   $temp_paging[$i][8] = $obj_array_room[$i]["date_start"];
+   $temp_paging[$i][9] = $obj_array_room[$i]["date_end"];
    
    $page_start =$page_end; 
 }
 //  var_dump($obj_array_room);
  
 // var_dump($temp_paging);
- $header_title[0] ="รายชื่อผู้เข้าร่วมการแข่งขัน งาน จ.ภ.วิชาการ '60 (PCCST ACADEMIC FESTIVAL AND SCIENE FAIR 2017)";
+ $header_title[0] ="List of contestants in PCCST ACADEMIC FESTIVAL AND SCIENE FAIR 2018";
  
 $arr_len = count($obj_array);
 // echo $arr_len;
@@ -295,8 +305,12 @@ for($j=0;$j<count($temp_paging);$j+=1){
        $pdf->AddPage();
        $pdf->Cell(0,7,"",0,1,"C");
        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
-       $pdf->Cell(0,5,iconv( 'UTF-8','cp874//IGNORE',"รหัสวิชา ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
-       $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"สถานที่การจัดแข่ง ".$temp_paging[$j][3]),0,1,"C");
+       $pdf->Cell(0,5,iconv( 'UTF-8','cp874//IGNORE',"Subject: ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
+       $date_setup = 
+       $temp_paging[$j][8]=="0000-00-00 00:00:00" && $temp_paging[$j][9]=="0000-00-00 00:00:00"?
+        "Not Specified":
+        d_form_str($temp_paging[$j][8],$temp_paging[$j][9]);
+       $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"Place: ".$temp_paging[$j][3]." Date: ".$date_setup),0,1,"C");
        $pdf->Cell(0,7,"",0,1,"C");
        $pdf->Row($header_table);
     for($i=$start_index;$i<$end_index;$i++){
