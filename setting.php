@@ -10,6 +10,8 @@
 	}else{
 		$row = mysql_fetch_array($result);
 	}
+	$school_code = $_SESSION["code"];
+    $schoolname = $_SESSION["display"];
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +56,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">PCCST Academic festival and science fair 2018 - <small><?php echo $schoolname; ?></small></a>
+                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018 - <small><?php echo $schoolname; ?></small></a>
             </div>
             <!-- /.navbar-header -->
 			<?php include_once("nav.html");?>
