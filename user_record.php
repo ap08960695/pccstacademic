@@ -69,7 +69,10 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">The Contest List </h1>
+                  <h1 class="page-header">
+                    The Contest List 
+                    <button type="button" class="btn btn-primary " style="margin-left:10px" >Print all certificates</button>
+                  </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -92,7 +95,7 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str.' <button>Print Certificate</button>
+                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str.' <button type="button" class="btn btn-primary " style="margin-left:10px" >Print Certificates</button>
                                     </div>
                                     <div class="panel-body">';
                             
@@ -101,7 +104,7 @@
                             echo '<div class="row">';
                             echo '<p class="col-sm-4 col-form-label">'.$register_row['name'].'</p>';
                             echo '<p class="col-sm-3 col-form-label">'.scoreDivider($register_row["score"]).'</label>';
-                            echo '<p class="col-sm-3 col-form-label"><button>Certificate</button></label>';
+                            echo '<p class="col-sm-3 col-form-label"><button type="button" class="btn btn-primary " style="margin-left:10px" >Certificate</button></label>';
                             echo '</div>';  
                         }
                         echo "</div></div></div></div>";
