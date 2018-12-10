@@ -76,69 +76,95 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                    <form role="form" action="savedata.php" method="post">
-						
-                      <div class="panel-heading">
-						 <h4> School Detail </h4>
-                      </div>
-                      <!-- /.panel-heading -->
+                    <form role="form">
                       <div class="panel-body">
-            <div class="row" >
-                <div class="col-lg-6" >
+                <?php
+                    echo '<div class="row" >';
+                    echo '<label class="col-sm-2 col-form-label">School:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["display"].'</label>';
+                    echo '</div>';
 
-                    <?php
-                    echo "<div>school: ".$school_info["display"]."</div>";
-                    echo "<div>Email: ".$school_info["email"]."</div>"  ;
-                    echo "<div>District: ".$school_info["amper"]."</div>" ; 
-                    echo "<div>Province: ".$school_info["changwat"]."</div>";
-                    echo "<div>Zipcode: ".$school_info["addrcode"]."</div>"  ;
-                    echo "<div>Tel No.: ".$school_info["phone"]."</div>"  ;
-                    echo "<div>Country: ".$school_info["country"]."</div>"  ;
-                    ?>
-                </div>
-            </div>
-				      <div class="panel-heading">
-						 <h4> Contest List Detail of Contestant School </h4>
-                      </div>
-                
-                  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    echo '<div class="row" >';
+                    echo '<label class="col-sm-2 col-form-label">Email:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["email"].'</p>';
+                    echo '</div>';
+                    echo '<div class="row" >';
+                    echo '<label class="col-sm-2 col-form-label">District:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["amper"].'</p>';
+                    echo '</div>';
+                    
+                    echo '<div class="row" >';
+                    echo '<label class="col-sm-2 col-form-label">Province:</label>';
+                    echo '<p class="col-sm-10">'.$school_info["changwat"].'</p>';
+                    echo '</div>';
+                    
+                    echo '<div class="row" >';
+                    echo '<label class="col-sm-2 col-form-label">Zipcode:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["addrcode"].'</p>';
+                    echo '</div>';
+                    
+                    echo '<div class="row">';
+                    echo '<label class="col-sm-2 col-form-label">Tel:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["phone"].'</p>';
+                    echo '</div>';
+                    
+                    if($school_info["country"]=="thailand")
+                        $school_info["country"]="Thailand";
+                    else if($school_info["country"]=="inter")
+                        $school_info["country"]="International";
+                    else if($school_info["country"]=="pccst")
+                        $school_info["country"]="Host";
+                    
+                    echo '<div class="row">';
+                    echo '<label class="col-sm-2 col-form-label">Country:</label>';
+                    echo '<p class="col-sm-10 col-form-label">'.$school_info["country"].'</p>';
+                    echo '</div>';
+                    
+                ?>
+			    <table class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                   <tr>
                     <th>Contest Name</th>
                     <th>Level</th>
 					<th>Type</th>
                     <th>Platform</th>
-                    <th>Current Contestant</th>
+                    <th>Current Student</th>
                     <th>Start Date To End Date</th>
                     <th>Location</th>
                     </tr>
                 </thead>
                 <tbody>
               <?php 
-                // $sql="SELECT c.*,r.*, COUNT(r.subject_id) as counter FROM `contest_group` as cg,`contest` as c , register as r WHERE r.subject_id=cg.contest_code AND cg.contest_code=c.code AND cg.group_name='".$school_info["group_contest"]."' AND r.school_id='".$school_info["code"]."' GROUP BY r.subject_id";
-                $sql="SELECT rmc.*, rm.*, c.*,r.*, COUNT(r.subject_id) as counter FROM `contest_group` as cg ";
-                $sql.= "LEFT JOIN `contest` as c  ON  cg.contest_code=c.code ";
-                $sql.= "LEFT JOIN `register` as r ON r.subject_id=cg.contest_code ";
-                $sql.= "LEFT JOIN `room_contest` as rmc on rmc.contest_code = cg.contest_code ";
-                $sql.= "LEFT JOIN `room` as rm on rm.id = rmc.room_id ";
-                $sql.= "WHERE cg.group_name='".$school_info["group_contest"]."' AND r.school_id='".$school_info["code"]."' GROUP BY r.subject_id";
-
-
+                $sql = "SELECT *,(SELECT COUNT(*) FROM register WHERE school_id='".$school_info["code"]."' AND subject_id=contest.code) AS count FROM contest";
                 $result= mysql_query($sql, $conn);
                 if(mysql_num_rows($result)>1) {
                   while($row = mysql_fetch_assoc($result)) {
-                    // var_dump($row);
-                    echo "<tr>";
-                    echo "<td>".$row["contest_name"]."(".$row["subject_id"].")"."</td>" ;
-                    echo "<td>".$row["education"]."</td>" ;
-                    echo "<td>".$row["type"]."</td>" ;
-                    // echo $school_info['group_contest']=="ในประเทศ"?"<td>".$row["person"]."</td>" :"<td>".$row["person_inter"]."</td>";
-                    echo "<td>".$row["platform"]."</td>" ;
-                    echo "<td>".$row["counter"]."</td>" ;
-                    echo "<td>".$row["date_start"]." to ".$row["date_end"]."</td>" ;
-                    // echo "<td>".$row["room_id"]."</td>" ;
-                    echo $row["room_id"]=== NULL?"<td>Location is unavailable</td>":"<td>".$row["room_name"]."</td>" ;
-                    echo "</tr>";
+                      if(intval($row['count'])>0){
+                        echo "<tr>";
+                        echo "<td>".$row["contest_name"]."(".$row["code"].")"."</td>" ;
+                        echo "<td>".$row["education"]."</td>" ;
+                        echo "<td>".$row["type"]."</td>" ;
+                        echo "<td>".$row["platform"]."</td>" ;
+                        
+                        echo "<td>".$row['count']."</td>" ;
+                        $date = date_format(date_create($row['date_start']), 'd/m/Y');
+                        $start_date = date_format(date_create($row['date_start']), 'H:i');
+                        $end_date = date_format(date_create($row['date_end']), 'H:i');
+                        
+                        echo "<td>".$date." at ".$start_date." to ".$end_date."</td>" ;
+                        
+                        $sql = "SELECT room.room_name FROM room_contest INNER JOIN room ON room.id=room_contest.room_id WHERE contest_code='".$row["code"]."'";
+                        $result_room = mysql_query($sql, $conn);
+                        echo "<td>";
+                        if(mysql_num_rows($result_room)==0){
+                            echo "Location unspecified";
+                        }else{
+                            while($row_room = mysql_fetch_assoc($result_room)) {
+                                echo $row_room['room_name']."<br>";
+                            }
+                        }
+                      }
+                    
                   }
                 }
               ?>   
