@@ -1,9 +1,12 @@
 <?php 
   function scoreDivider($score) {
-    $obj_map_score = [0=>"No Medal",50=>"Bronze",60=>"Silver", 80=>"Gold"];
+    $score_map = [[80,"Gold"],[60,"Silver"],[50,"Bronze"],[0,"Participate"]];
     $setter = "";
-    foreach($obj_map_score as $key => $value) {
-      if($score>=$key) $setter = $value;
+    for($i=0;$i<count($score);$i++) {
+      if($score_map[$i][0]<=$score){ 
+        $setter = $score_map[$i][1];
+        break;
+      }
     }
     return $setter;
   }
