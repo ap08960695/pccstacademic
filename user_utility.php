@@ -4,7 +4,7 @@
     $score_map = [[80,"Gold"],[60,"Silver"],[50,"Bronze"],[0,"Participate"]];
     $setter = "";
     if($score==-1){
-      return "Wait For scroce";
+      return "Wait For score";
     }
     for($i=0;$i<count($score);$i++) {
       if($score_map[$i][0]<=$score){ 
