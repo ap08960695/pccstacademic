@@ -326,7 +326,11 @@ for($j=0;$j<count($temp_paging);$j+=1){
         $pdf->Cell(0,7,"",0,1,"C");
         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"รหัสวิชา ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
-        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"สถานที่การจัดแข่ง ".$temp_paging[$j][3]),0,1,"C");
+        $date_setup = 
+        $temp_paging[$j][8]=="0000-00-00 00:00:00" && $temp_paging[$j][9]=="0000-00-00 00:00:00"?
+          "Not Specified":
+          d_form_str($temp_paging[$j][8],$temp_paging[$j][9]);
+        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"Place: ".$temp_paging[$j][3]." Date: ".$date_setup),0,1,"C");
         $pdf->Cell(0,7,"",0,1,"C");
         $pdf->Row($header_table);
       for($i=$start_index;$i<$start_index+30;$i++){

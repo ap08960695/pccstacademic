@@ -2,6 +2,7 @@
     session_start();
     include_once('condb.php');
     date_default_timezone_set('Asia/Bangkok');
+    include_once('user_utility.php');
 	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
 	if(mysql_num_rows($result)!=1){
@@ -87,13 +88,13 @@
                 <div class="col-lg-6" >
 
                     <?php
-                    echo "<div>school: ".$school_info["display"]."</div>";
-                    echo "<div>Email: ".$school_info["email"]."</div>"  ;
-                    echo "<div>District: ".$school_info["amper"]."</div>" ; 
-                    echo "<div>Province: ".$school_info["changwat"]."</div>";
-                    echo "<div>Zipcode: ".$school_info["addrcode"]."</div>"  ;
-                    echo "<div>Tel No.: ".$school_info["phone"]."</div>"  ;
-                    echo "<div>Country: ".$school_info["country"]."</div>"  ;
+                    echo "<div><span class=\"badge badge-info\">school</span>: ".$school_info["display"]."</div>";
+                    echo "<div><span class=\"badge badge-info\">Email</span>: ".$school_info["email"]."</div>"  ;
+                    echo "<div><span class=\"badge badge-info\">District</span>: ".$school_info["amper"]."</div>" ; 
+                    echo "<div><span class=\"badge badge-info\">Province</span>: ".$school_info["changwat"]."</div>";
+                    echo "<div><span class=\"badge badge-info\">Zipcode</span>: ".$school_info["addrcode"]."</div>"  ;
+                    echo "<div><span class=\"badge badge-info\">No.</span>: ".$school_info["phone"]."</div>"  ;
+                    echo "<div><span class=\"badge badge-info\">Country</span>: ".$school_info["country"]."</div>"  ;
                     ?>
                 </div>
             </div>
@@ -135,7 +136,10 @@
                     // echo $school_info['group_contest']=="ในประเทศ"?"<td>".$row["person"]."</td>" :"<td>".$row["person_inter"]."</td>";
                     echo "<td>".$row["platform"]."</td>" ;
                     echo "<td>".$row["counter"]."</td>" ;
-                    echo "<td>".$row["date_start"]." to ".$row["date_end"]."</td>" ;
+                    $date_setup = $row["date_start"]=="0000-00-00 00:00:00" && $row["date_end"] == "0000-00-00 00:00:00"?
+                                "Not Specified":
+                                d_form_str($row["date_start"], $row["date_end"]);
+                    echo "<td>".$date_setup."</td>" ;
                     // echo "<td>".$row["room_id"]."</td>" ;
                     echo $row["room_id"]=== NULL?"<td>Location is unavailable</td>":"<td>".$row["room_name"]."</td>" ;
                     echo "</tr>";
