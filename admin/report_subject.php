@@ -104,7 +104,10 @@
 												echo "    <td>".$row['level']."</td>";
                                                 echo "    <td>";
                                                 echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a> <a href=\"reportsubject_edit.php?s=".$row['code']."\" class=\"btn btn-warning\"><span class=\"glyphicon glyphicon-edit\"></span></a>";
-                                                echo "<form method=\"post\" action=\"school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"30000\" /><input type=\"file\" name=\"myFile\"><button>Upload</button></form>";
+                                                echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"30000\" />
+                                                        <input type=\"file\" name=\"myFile\">
+                                                        <button>Upload</button>
+                                                        </form>";
                                                 echo "    <a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a> <a href=\"get_cert_subject.php?s=".$row['code']."\" class=\"btn btn-warning\">Gen Certification</a></td>";
 												
                                                 echo "</tr>";

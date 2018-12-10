@@ -77,7 +77,7 @@
                     <!-- <form role="form" action="savedata.php" method="post"> -->
 						
                       <div class="panel-heading">
-						  Regist to Chulabhorn's Academic Contest 
+						  Regist to Chulabhorn's Academic Contest <button> print zip</button>
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">

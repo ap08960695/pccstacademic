@@ -22,7 +22,7 @@ require_once __DIR__ . '/vendor/autoload.php';
     }
     
     $sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.school_id=school.code AND register_teacher.subject_id='".$subject_id."'";
-    echo $sql;
+    // echo $sql;
     if($teacher_result = mysql_query($sql, $conn)) {
       $obj_array_t = [];
       while($row = mysql_fetch_assoc($teacher_result)) {
@@ -51,11 +51,11 @@ $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
 							 ->setCategory("Test result file");
 // Add some data
 $objPHPExcel->setActiveSheetIndex(0)
-  ->setCellValue('A1', "#")
-  ->setCellValue('B1', "Name")
-  ->setCellValue('C1', "School Name")
-  ->setCellValue('D1', "School Code")
-  ->setCellValue('E1', "Score");
+->setCellValue('A1', "#")
+->setCellValue('B1', "Name")
+->setCellValue('C1', "School Name")
+->setCellValue('D1', "School Code")
+->setCellValue('E1', "Score");
 for($i=0; $i<count($obj_array); $i++) {
   $indexing = $i+2;
   $objPHPExcel->setActiveSheetIndex(0)
@@ -63,7 +63,7 @@ for($i=0; $i<count($obj_array); $i++) {
   ->setCellValue('B'.strval($indexing), $obj_array[$i]["name"])
   ->setCellValue('C'.strval($indexing), $obj_array[$i]["display"])
   ->setCellValue('D'.strval($indexing), $obj_array[$i]["code"])
-  ->setCellValue('E'.strval($indexing), $obj_array[$i]["score"]);
+  ->setCellValue('E'.strval($indexing), $obj_array[$i]["score"]==-1?"":$obj_array[$i]["score"]);
 }
 $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn('B')->setAutoSize(false);
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
@@ -72,8 +72,9 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
 
+$objPHPExcel->getActiveSheet()->setTitle('Student');
 
-            // ->setCellValue('A1', 'Hello')
+// ->setCellValue('A1', 'Hello')
             // ->setCellValue('B2', 'world!')
             // ->setCellValue('C1', 'Hello')
             // ->setCellValue('D2', 'world!');
@@ -115,7 +116,7 @@ $newsheet->setTitle('Teacher');
 
 // Rename worksheet
 // Redirect output to a client’s web browser (Excel2007)
-$fileExportName =  "report_".$subject_id."_".gmdate('d_m_Y_His').".xlsx";
+$fileExportName =  $subject_id.".xlsx";
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="'.$fileExportName.'"');
 header('Cache-Control: max-age=0');

@@ -31,9 +31,9 @@ function Row($data)
     $nb=0;
     for($i=0;$i<count($data);$i++)
         $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]));
-    $h=5*$nb;
+    $h=5.75*$nb;
     //Issue a page break first if needed
-    $this->CheckPageBreak($h);
+    // $this->CheckPageBreak($h);
     //Draw the cells of the row
     for($i=0;$i<count($data);$i++)
     {
@@ -43,9 +43,9 @@ function Row($data)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        $this->Rect($x,$y,$w,$h);
+        // $this->Rect($x,$y,$w,$h);
         //Print the text
-        $this->MultiCell($w,5,$data[$i],0,$a);
+        $this->MultiCell($w,5.5,$data[$i],0,$a);
         //Put the position to the right of the cell
         $this->SetXY($x+$w,$y);
     }
@@ -293,28 +293,31 @@ for($j=0;$j<count($temp_paging);$j+=1){
   // echo $start_index."   ".$end_index."<br>";
   if($end_index-$start_index<=30) {
        $pdf->AddPage();
+       $pdf->Cell(0,7,"",0,1,"C");
        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
        $pdf->Cell(0,5,iconv( 'UTF-8','cp874//IGNORE',"รหัสวิชา ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"สถานที่การจัดแข่ง ".$temp_paging[$j][3]),0,1,"C");
+       $pdf->Cell(0,7,"",0,1,"C");
        $pdf->Row($header_table);
     for($i=$start_index;$i<$end_index;$i++){
       // echo $i."<br>";
       if($i<$arr_len)
-       $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), ""));
+       $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), "__________________"));
     }
   }else {
     $temp_arr_len = $end_index-$start_index; // case 1000 / 35
     $page_count = intVal($temp_arr_len/$page_len)+1;
     for($m=0;$m<$page_count;$m++){
         $pdf->AddPage();
+        $pdf->Cell(0,7,"",0,1,"C");
         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"รหัสวิชา ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"สถานที่การจัดแข่ง ".$temp_paging[$j][3]),0,1,"C");
-        
+        $pdf->Cell(0,7,"",0,1,"C");
         $pdf->Row($header_table);
       for($i=$start_index;$i<$start_index+30;$i++){
         if($i<$arr_len){
-          $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), ""));
+          $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), "__________________"));
         }
       }
       $start_index+=  30; 
