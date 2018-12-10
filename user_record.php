@@ -1,8 +1,8 @@
 <?php
     session_start();
     include_once('condb.php');
-  date_default_timezone_set('Asia/Bangkok');
-   include_once('user_utility.php');
+    date_default_timezone_set('Asia/Bangkok');
+    include_once('user_utility.php');
 	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
 	if(mysql_num_rows($result)!=1){
@@ -69,67 +69,46 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">The Contest List <small> (Please press save button after fill information)</small></h1>
+                  <h1 class="page-header">The Contest List </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
-          <!-- /.row -->
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="panel panel-default">
-                    <!-- <form role="form" action="savedata.php" method="post"> -->
-						
-                      <div class="panel-heading">
-						  Regist to Chulabhorn's Academic Contest <button> print zip</button>
-                      </div>
-                      <!-- /.panel-heading -->
-                      <div class="panel-body">
-                        
-                      <?php
-                      $sql = "SELECT * from contest";
-                      $result = mysql_query($sql, $conn);
-                      if(mysql_num_rows($result)>0) {
-                        while($row = mysql_fetch_assoc($result)) {
-                          $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
-                          $register_result = mysql_query($sql, $conn);
-                          if(mysql_num_rows($register_result) >0){
-                            echo '<div class="card border-primary" style="width: 100rem;">'.
-                            '<div class="card-body border-primary">'.
-                            '<h5 class="card-title">'.$row["contest_name"]."(".$row["code"].")"." ";
-                            if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
-                                echo "| contest Not Start </h5>";
-                            }else {
-                                $row["date_start"]." to ".$row["date_end"].'</h5>';
-                            }
-                            echo  "<button>Print</button>";
-                            $temp_index = 0;
-                            while($register_row = mysql_fetch_assoc($register_result)) {
-                              echo "<div>".$register_row["name"]."";
-                              // echo $temp_index===0?"<p>".$register_row["score"]."</p>":"";
-                              if($temp_index===mysql_num_rows($register_result)-1) {
-                                if($register_row["score"]!=NULL) {
-                                  echo "".$register_row["score"]." ".scoreDivider($register_row["score"]);
-                                } else {
-                                  echo " | No Score ";
-                                }
-                              }
-                              echo "</div>";
-                              $temp_index+=1;
-                            }
-                            echo '</div></div>--------------------------------------------------------------';
-                          }
+            <?php
+                $sql = "SELECT * from contest";
+                $result = mysql_query($sql, $conn);
+                while($row = mysql_fetch_assoc($result)) {
+                    $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
+                    $register_result = mysql_query($sql, $conn);        
+                    if(mysql_num_rows($register_result)>0){
+                        if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
+                            $date_str = "Date unspecified";
+                        }else {
+                            $date = date_format(date_create($row['date_start']), 'd M Y');
+                            $start_date = date_format(date_create($row['date_start']), 'H:i');
+                            $end_date = date_format(date_create($row['date_end']), 'H:i');
+                            $date_str = ", ".$date." at ".$start_date." to ".$end_date;
                         }
-                      }
-                      ?> 
-             			<!-- </form> -->
-                      </div>
-                      <!-- /.panel-body -->
-                  </div>
-                  <!-- /.panel -->
-              </div>
-              <!-- /.col-lg-12 -->
-          </div>
-          <!-- /.row -->
+                        echo '<div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str.' <button>Print Certificate</button>
+                                    </div>
+                                    <div class="panel-body">';
+                            
+                        while($register_row = mysql_fetch_assoc($register_result)){
+                            
+                            echo '<div class="row">';
+                            echo '<p class="col-sm-4 col-form-label">'.$register_row['name'].'</p>';
+                            echo '<p class="col-sm-3 col-form-label">'.scoreDivider($register_row["score"]).'</label>';
+                            echo '<p class="col-sm-3 col-form-label"><button>Certificate</button></label>';
+                            echo '</div>';  
+                        }
+                        echo "</div></div></div></div>";
+                    }            
+                    
+                }
+            ?> 
         </div>
         <!-- /#page-wrapper -->
 
