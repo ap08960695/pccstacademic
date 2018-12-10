@@ -10,7 +10,7 @@
     if(isset($_GET["s"])){
      $subject_id = $_GET["s"];
     }
-    $sql = "  SELECT r.id, r.score, s.display, r.subject_id, r.name as name , rt.name as tname FROM register as r, school as s, register_teacher as rt 
+    $sql = "  SELECT r.school_id, r.id, r.score, s.display, r.subject_id, r.name as name , rt.name as tname FROM register as r, school as s, register_teacher as rt 
      WHERE rt.school_id= r.school_id AND rt.subject_id=r.subject_id AND
     r.school_id=s.code AND r.subject_id='".$subject_id."'";
     if($student_result = mysql_query($sql, $conn)) {
@@ -24,19 +24,8 @@
       echo "err";
     }
     
-    $sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.school_id=school.code AND register_teacher.subject_id='".$subject_id."'";
-    // echo $sql;
-    if($teacher_result = mysql_query($sql, $conn)) {
-      $obj_array_t = [];
-      while($row = mysql_fetch_assoc($teacher_result)) {
-        array_push($obj_array_t, $row);
-      }
-    } else {
-      echo "err";
-    }
-    // var_dump($obj_array);
     function genCert($data_array) {
-      
+       $dir_up = realpath(__DIR__ . '/..');  
       
       for($i=0;$i<count($data_array);$i++){
         $pdf=new FPDF();
@@ -68,14 +57,14 @@
             // } else { 
             //   $pdf->Cell(0,0,iconv( 'UTF-8','TIS-620','ครูผู้ฝึกซ้อมนักเรียน'.$str.$subject.' '.$level),0,1,"C");
             // }
-            $filename = "cerpccst_2560".$data_array[$i]["subject_id"]."_".$data_array[$i]["id"].".pdf";
-            $pdf->Output("files/".$filename,"F");
+            $filename = $data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
+            $pdf->Output($dir_up."\\pccstcer\\certfile\\".$filename,"F");
           }
-          zipArchiver(realpath("files"));
+          // zipArchiver(realpath("files"));
           // $pdf-> Output();
       // echo "adsfsad";
     }
-
+  
     function zipArchiver($rootPath) {
       $zip = new ZipArchive();
       $zip->open('file.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
@@ -114,10 +103,10 @@
       $zip->close();
 
       // Delete all files from "delete list"
-      foreach ($filesToDelete as $file)
-      {
-          unlink($file);
-      }
+      // foreach ($filesToDelete as $file)
+      // {
+      //     unlink($file);
+      // }
     }
     genCert($obj_array);
 ?>

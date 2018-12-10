@@ -53,7 +53,7 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">สรุปรายชื่อต่อรายการแข่ง  <a href="pccstcer/processcer.php" class="btn btn-success">ประมวนผลเกียรติบัตร!!</a></h1> 
+                  <h1 class="page-header">สรุปรายชื่อต่อรายการแข่ง  <a href="get_cert_all.php" class="btn btn-success">ประมวนผลเกียรติบัตร!!</a></h1> 
               </div>
               <!-- /.col-lg-12 -->
           </div>
