@@ -11,6 +11,7 @@
 	}
     $school_code = $_SESSION["code"];
     $schoolname = $_SESSION["display"];
+    $dir_path = __DIR__."\\pccstcer\\certfile\\";
 ?>
 
 <!DOCTYPE html>
@@ -71,12 +72,18 @@
               <div class="col-lg-12">
                   <h1 class="page-header">
                     The Contest List 
-                    <button type="button" class="btn btn-primary " style="margin-left:10px" >Print all certificates</button>
+             <?php
+                echo check_dir_file_exist($dir_path."*_".$school_code."_*.pdf")?
+                '<a href="zip_getter.php?school='.$school_code.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print all certificates</a>':'';
+                
+             ?>
                   </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
             <?php
+                
+                    
                 $sql = "SELECT * from contest";
                 $result = mysql_query($sql, $conn);
                 while($row = mysql_fetch_assoc($result)) {
@@ -95,16 +102,20 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str.' <button type="button" class="btn btn-primary " style="margin-left:10px" >Print Certificates</button>
-                                    </div>
+                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str;
+                        echo check_dir_file_exist($dir_path.$row["code"]."_".$school_code."_*.pdf")?
+                        ' <a href="zip_getter.php?school='.$school_code.'&&subject='.$row["code"].'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Certificates</a>':'';
+                        echo '    </div>
                                     <div class="panel-body">';
                             
                         while($register_row = mysql_fetch_assoc($register_result)){
-                            
+                            $cer_file_name = $row["code"]."_".$register_row["school_id"]."_".padseven($register_row["id"]).".pdf";
                             echo '<div class="row">';
                             echo '<p class="col-sm-4 col-form-label">'.$register_row['name'].'</p>';
                             echo '<p class="col-sm-3 col-form-label">'.scoreDivider($register_row["score"]).'</label>';
-                            echo '<p class="col-sm-3 col-form-label"><button type="button" class="btn btn-primary " style="margin-left:10px" >Certificate</button></label>';
+                            echo '<p class="col-sm-3 col-form-label">';
+                            echo check_file_exist($dir_path,$cer_file_name)?
+                            '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
                             echo '</div>';  
                         }
                         echo "</div></div></div></div>";

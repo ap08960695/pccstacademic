@@ -22,4 +22,20 @@
 
     return $date." ".$time_start." - ".$time_end;
   }
+
+  function check_file_exist($path, $filename){
+
+    return file_exists($path.$filename);
+  }
+  function check_dir_file_exist($pattern){
+  $bool_file = false;
+    foreach (glob($pattern) as $filename) {
+      if($filename) $bool_file=true;
+    }
+    return $bool_file;
+  }
+
+  function padseven($str) {
+    return str_pad($str,7,"0",STR_PAD_LEFT);
+  }
 ?>
