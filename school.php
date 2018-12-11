@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">PCCST Academic festival and science fair 2018<small></small></a>
+                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018<small></small></a>
             </div>
         </nav>
 

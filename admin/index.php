@@ -1,7 +1,8 @@
 <?php
     session_start();
     include_once('../condb.php');
-	include_once('admin_check.php');
+    include_once('admin_check.php');
+    
 ?>
 
 <!DOCTYPE html>
@@ -29,29 +30,22 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Navigation -->
         <?php
 			include_once("nav_admin.html");
 		?>
-		
+        
+
         <!-- Page Content -->
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">รายการแข่งขัน <small>(โปรดกดปุ่ม Save เมื่อต้องการบันทึกข้อมูลที่กรอก)</small></h1>
+                  <h1 class="page-header">รายการชื่อโรงเรียนที่เข้าร่วม<button type="button" class="btn btn-primary " style="margin-left:10px" onclick="window.location='report_school_excel.php'">EXCEL</button> </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -59,340 +53,149 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                    <form role="form" action="savedata_pccst.php" method="post">
                       <div class="panel-heading">
-							ลงทะเบียนรายการแข่งขันงาน จ.ภ.วิชาการ
-							<div class="dropdown">
-							  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">======== เลือกวิชา ========
-							  <span class="caret"></span></button>
-							  <ul class="dropdown-menu">
-								<?php
-									$sql = "SELECT code, name, level, type FROM subject WHERE status = 1;";
-									$result = mysql_query($sql ,$conn);
-									if (mysql_num_rows($result) > 0) {
-                                        while($row = mysql_fetch_array($result)) {
-											echo "<li><a href=\"index.php?subject=".$row['code']."\">[".$row['code']."] ".$row['name']." (".$row['level'].")</a></li>\n";
-										}
-									}
-								?>
-							  </ul>
-							</div>
+							รายชื่อโรงเรียนทั้งหมด
+							<button type="button" class="btn btn-info btn-xs" onclick="window.location='index.php'">โรงเรียนทั้งหมด</button>
+							<button type="button" class="btn btn-success btn-xs" onclick="window.location='index.php?view=success'">ยืนยันแล้ว</button>
+							<button type="button" class="btn btn-warning btn-xs" onclick="window.location='index.php?view=danger'">ยังไม่ยืนยัน</button>
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
+						<?php
+							$name_school = "";
+							if(isset($_GET['user'])){
+								$user_school = $_GET['user']; 
+								$sql = "SELECT display,code,status FROM school WHERE user='$user_school'";
+                                $result = mysql_query($sql ,$conn);
+                                $row_school = mysql_num_rows($result);
+							}
+							if($_GET['act']=="success_approved"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"การยืนยันเสร็จสิ้น ";
+									echo"</div>";
+							}else if($_GET['act']=="success_code"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"เพิ่ม Code สำเร็จ";
+									echo"</div>";
+							}else if($_GET['act']=="success_delete"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ลบข้อมูลสำเร็จ";
+									echo"</div>";
+							}else if($_GET['act']=="success_update"){
+									echo"<div class=\"alert alert-success alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ปรับปรุงข้อมูลสำเร็จ";
+									echo"</div>";
+							}if($_GET['act']=="error_approved"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ไม่สามารถยืนยันได้";
+									echo"</div>";
+							}else if($_GET['act']=="error_code"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ไม่สามารถเพิ่ม Code";
+									echo"</div>";
+							}else if($_GET['act']=="error_delete"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ลบข้อมูลไม่สำเร็จ";
+									echo"</div>";
+							}else if($_GET['act']=="error_update"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ปรับปรุงข้อมูลไม่สำเร็จ";
+									echo"</div>";
+							}
+						?>
                           <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
-                                      <th>รหัสการแข่งขัน</th>
-                                      <th>รายการแข่งขัน</th>
-                                      <th>ระดับชั้น</th>
-                                      <th>ชื่อผู้เข้าแข่งขัน (คำนำหน้า ชื่อ-นามสกุล)</th>
-                                      <th>ชื่อครูผู้ควบคุม (รายการละ 1 คนเท่านั้น)</th>
+								 	 <th></th>
+                                      <th>code</th>
+                                      <th>ชื่อโรงเรียน
+									  <?php
+										$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
+											$result_group = mysql_query($sql ,$conn);
+											if ($result_group && mysql_num_rows($result) > 0) {
+												while($row_group = mysql_fetch_array($result_group)) {
+													echo '<button type="button" class="btn btn-warning btn-xs" style="margin-left: 10px;" onclick="window.location=\'db_updateallschool.php?group='.$row_group['group_name'].'\'">ยืนยันทั้งหมด กลุ่ม'.$row_group['group_name'].' </button>';
+												}
+											}
+									  ?>
+									  
+									  </th>
+                                      <th>กลุ่มรายการแข่งขัน</th>
+									  <th>E-mail</th>
+									  <th>City</th>
+									  <th>Province</th>
+									  <th>Zipcode</th>
+									  <th>Phone</th>
+									  <th>Country</th>
+									  <th>ลบ</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   <?php
-                                        $stdcode = "";
-                                        $teachcode = "";
-                                        //$sql = "SELECT id,code,name,level,type,person,platform,status FROM subject WHERE status = 1 ORDER BY level DESC;";
-										$sql = "SET SESSION group_concat_max_len = 1000000;";
-										mysql_query($sql ,$conn);
-                                        $sql = "SELECT s.id,s.code,s.name AS 'subjectname',s.level,s.type,s.person,GROUP_CONCAT(r.name) AS 'name',GROUP_CONCAT(r.no) AS 'no',s.platform,s.status
-                                        FROM subject s LEFT JOIN (SELECT * FROM register WHERE school_id = '$school_code'  AND status = 1) r ON s.code = r.subject_id
-                                        WHERE s.code = '$subject_code' AND s.status = 1 GROUP BY s.code ORDER BY s.level DESC,s.code ASC;";
+                                        if(isset($_GET['view'])){
+											if($_GET['view']=='success'){
+												$sql = "SELECT * FROM school WHERE status=1 ORDER BY u_date DESC;";
+											}else if($_GET['view']=='danger'){
+												$sql = "SELECT * FROM school WHERE status=0 ORDER BY u_date DESC;";
+											}else $sql = "SELECT * FROM school ORDER BY status ASC,u_date DESC;";
+										}else $sql = "SELECT * FROM school ORDER BY status ASC,u_date DESC;";
                                         $result = mysql_query($sql ,$conn);
                                         if (mysql_num_rows($result) > 0) {
+											$i=1;
                                             while($row = mysql_fetch_array($result)) {
-                                                echo"<tr class=\"odd gradeX\">";
-                                                echo"    <td>".$row['code']."</td>";
-                                                echo"    <td>".$row['subjectname']." (".$row['person']." คน)"."</td>";
-                                                echo"    <td>".$row['level']."</td>";
-                                                echo"    <td class=\"center\">";
-                                                $arrname = explode(",",$row['name']);
-                                                $arrno = explode(",",$row['no']);
-                                                if($row['person'] == 2) {
-                                                    if($arrno[0] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[0]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-
-                                                    if(@$arrno[1] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[1]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[2] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[2]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[3] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[3]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[4] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[4]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[5] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[5]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[6] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[6]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[7] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[7]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[8] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[8]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[9] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[9]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if($arrno[10] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[10]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-
-                                                    if(@$arrno[11] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[11]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[12] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[12]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[13] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[13]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[14] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[14]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[15] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[15]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[16] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[16]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[17] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[17]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													echo "<hr>";
-													if(@$arrno[18] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[18]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[19] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[19]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-                                                    echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-                                                } else {
-                                                    if($arrno[0] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[0]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[1] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[1]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[2] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[2]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[3] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[3]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[4] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[4]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[5] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[5]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[6] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[6]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[7] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[7]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[8] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[8]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[9] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[9]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if($arrno[10] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[10]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[11] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[11]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[12] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[12]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[13] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[13]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[14] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[14]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[15] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[15]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[16] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[16]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[17] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[17]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[18] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[18]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-													if(@$arrno[19] == '1') {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[19]."\">";
-                                                    } else {
-                                                        echo"        <input type=\"text\" name=\"student[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
-                                                    }
-                                                    
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													echo "<input type=\"hidden\" name=\"code[]\" value=\"".$row['code']."\">\n";
-													
-                                                }
-                                                echo"    </td>";
-
-                                                $key = array_search ('0', $arrno);
-                                                if($arrno[$key] == '0') {
-                                                    echo"    <td class=\"center\"><input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$arrname[$key]."\"></td>";
-                                                } else {
-                                                    echo"    <td class=\"center\"><input type=\"text\" name=\"teacher[]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\"></td>";
-                                                }
-
-												echo "<input type=\"hidden\" name=\"teachcode[]\" value=\"".$row['code']."\">\n";
-                                                //$teachcode .= $row['code'].",";
-                                                echo"</tr>";
-                                            }
-                                        }
-                                        //echo "<input type=\"hidden\" name=\"stdcode\" value=\"".$stdcode."\">\n";
-                                        //echo "<input type=\"hidden\" name=\"teachcode\" value=\"".$teachcode."\">\n";
-                                  ?>
+												echo "<tr class=\"odd gradeX\">";
+												echo "    <td>".($i++)."</td>";
+												echo "    <td>".$row['code']."</td>";
+												echo "    <td>";
+												$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
+												$result_group = mysql_query($sql ,$conn);
+												if ($result_group && mysql_num_rows($result) > 0) {
+													echo $row['display']."<label style='margin-left: 10px;'></label>";
+													while($row_group = mysql_fetch_array($result_group)) {
+														if($row['status']==0){
+															echo "<button type='button' style='margin-right: 4px;' class='btn btn-warning btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >ยืนยัน กลุ่ม".$row_group['group_name']." </button>";
+														}else if($row['group_contest']!=$row_group['group_name'])echo "<button type='button' style='margin-right: 4px;' class='btn btn-success btn-xs' onclick='window.location=\"db_change_school_group_contest.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >เปลี่ยนกลุ่ม".$row_group['group_name']." </button>";
+													}
+												}else{
+													if($row['status']==0){
+														echo $row['display']."<label style='margin-left: 10px;'></label>";
+														echo "<button type='button' style='margin-right: 4px;' class='btn btn-warning btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."\"' >ยืนยัน </button>";
+													}else echo $row['display'];
+												}
+												echo "</td>";
+												echo "    <td>".$row['group_contest']."</td>";
+												echo "    <td>".$row['email']."</td>";
+												echo "    <td>".$row['amper']."</td>";
+												echo "    <td>".$row['changwat']."</td>";
+												echo "    <td>".$row['addrcode']."</td>";
+												echo "    <td>".$row['phone']."</td>";
+												echo "    <td>".$row['country']."</td>";
+												echo "    <td><form role=\"form\" action=\"db_del_school.php\" onsubmit=\"return confirm('คูณต้องการจะลบ ".$row['display']." ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"code\" value=\"".$row['code']."\"><input type=\"hidden\" name=\"user\" value=\"".$row['user']."\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
+												echo "</tr>";
+											}
+										}
+									?>
                               </tbody>
                           </table>
                           <!-- /.table-responsive -->
-                          <center><input type="submit" class="btn btn-lg btn-success" value="Save บันทึกข้อมูล !"></center>
-                          </form>
+						  
+				
+				
                       </div>
                       <!-- /.panel-body -->
                   </div>
                   <!-- /.panel -->
               </div>
               <!-- /.col-lg-12 -->
+				
           </div>
           <!-- /.row -->
         </div>
@@ -402,7 +205,7 @@
     <!-- /#wrapper -->
 
     <script>
-    function checkFilled(inputVal) {
+	function checkFilled(inputVal) {
         if (inputVal.value == "") {
             inputVal.style.backgroundColor = "#FFFFFF";
         } else {
@@ -424,5 +227,4 @@
     <script src="../dist/js/sb-admin-2.js"></script>
 
 </body>
-
 </html>

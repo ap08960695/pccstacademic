@@ -8,7 +8,7 @@
 	header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
 	header("Pragma:no-cache");
 
-	$sql=mysql_query("SELECT code,display,email,amper,changwat,addrcode,status FROM school ORDER BY u_date DESC;");
+	$sql=mysql_query("SELECT code,display,email,phone,amper,changwat,addrcode,status FROM school ORDER BY u_date DESC;");
 	$num=mysql_num_rows($sql);
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office"xmlns:x="urn:schemas-microsoft-com:office:excel"xmlns="http://www.w3.org/TR/REC-html40">
@@ -25,6 +25,7 @@
 <td width="94" height="30" align="center" valign="middle" ><strong>รหัส</strong></td>
 <td width="200" align="center" valign="middle" ><strong>ชื่อโรงเรียน</strong></td>
 <td width="181" align="center" valign="middle" ><strong>E-mail</strong></td>
+<td width="181" align="center" valign="middle" ><strong>เบอร์ติดต่อ</strong></td>
 <td width="181" align="center" valign="middle" ><strong>อำเภอ</strong></td>
 <td width="181" align="center" valign="middle" ><strong>จังหวัด</strong></td>
 <td width="185" align="center" valign="middle" ><strong>รหัสไปรษณี</strong></td>
@@ -38,6 +39,7 @@ while($row=mysql_fetch_array($sql)){
 <td height="25" align="left" valign="middle" ><?php echo $row['code'];?></td>
 <td align="left" valign="middle" ><?php echo $row['display'];?></td>
 <td align="left" valign="middle"><?php echo $row['email'];?></td>
+<td align="left" valign="middle"><?php echo $row['phone'];?></td>
 <td align="left" valign="middle"><?php echo $row['amper'];?></td>
 <td align="left" valign="middle"><?php echo $row['changwat'];?></td>
 <td align="left" valign="middle"><?php echo $row['addrcode'];?></td>
