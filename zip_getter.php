@@ -1,13 +1,5 @@
 <?php 
-    session_start();
-    include_once('condb.php');
-    date_default_timezone_set('Asia/Bangkok');
-    $sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
-    $result = mysql_query($sql);
-	if(mysql_num_rows($result)!=1){
-		header("Location: login.php");
-		exit();
-	}
+
   function archiver_download($file_names,$archive_file_name,$file_path){ //sending download
    $zip = new ZipArchive();
     //create the file and throw the error if unsuccessful
@@ -24,10 +16,10 @@
     $zip->close();
     header("Content-type: application/zip"); 
     header("Content-Disposition: attachment; filename=$archive_file_name");
-    header("Content-length: " . filesize($archive_file_name));
+    header("Content-length: " . filesize($dir_temp.$archive_file_name));
     header("Pragma: no-cache"); 
     header("Expires: 0"); 
-    readfile("$archive_file_name");
+    readfile($dir_temp.$archive_file_name);
     exit;
   }
   $dir_path = __DIR__."\\pccstcer\\certfile\\";
