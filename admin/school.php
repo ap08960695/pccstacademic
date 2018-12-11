@@ -55,9 +55,9 @@
                   <div class="panel panel-default">
                       <div class="panel-heading">
 							รายชื่อโรงเรียนทั้งหมด
-							<button type="button" class="btn btn-info btn-xs" onclick="window.location='school.php'">โรงเรียนทั้งหมด</button>
-							<button type="button" class="btn btn-success btn-xs" onclick="window.location='school.php?view=success'">ยืนยันแล้ว</button>
-							<button type="button" class="btn btn-warning btn-xs" onclick="window.location='school.php?view=danger'">ยังไม่ยืนยัน</button>
+							<button type="button" class="btn btn-info btn-xs" onclick="window.location='index.php'">โรงเรียนทั้งหมด</button>
+							<button type="button" class="btn btn-success btn-xs" onclick="window.location='index.php?view=success'">ยืนยันแล้ว</button>
+							<button type="button" class="btn btn-warning btn-xs" onclick="window.location='index.php?view=danger'">ยังไม่ยืนยัน</button>
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">

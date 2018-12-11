@@ -10,9 +10,9 @@
     $sql = "UPDATE school SET status=1,code='$code',group_contest='$group' WHERE user='$user';";
     $result = mysql_query($sql ,$conn);
 	if(mysql_query($sql ,$conn)){
-		header("location:school.php?act=success_approved");
+		header("location:index.php?act=success_approved");
 	}else{
-		header("location:school.php?act=error_approved");
+		header("location:index.php?act=error_approved");
 	}
 	mysql_close($conn);
 	

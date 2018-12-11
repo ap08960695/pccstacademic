@@ -30,12 +30,12 @@
 			foreach($_POST as $key => $value){
 				unset($_SESSION[$key]);
 			}
-			header("location:school.php?act=success_update");
+			header("location:index.php?act=success_update");
 		}else{
-			header("location:school.php?act=error_update_pass");
+			header("location:index.php?act=error_update_pass");
 		}
 	}else{
-		header("location:school.php?act=error_update_user");
+		header("location:index.php?act=error_update_user");
 	}
     mysql_close($conn);
 ?>
