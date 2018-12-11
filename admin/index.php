@@ -69,7 +69,12 @@
                                 $result = mysql_query($sql ,$conn);
                                 $row_school = mysql_num_rows($result);
 							}
-							if($_GET['act']=="success_approved"){
+							if($_GET['act']=="success_edit_school"){
+                                echo"<div class=\"alert alert-success alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"การแก้ไขสำเร็จ";
+                                echo"</div>";
+                            }else if($_GET['act']=="success_approved"){
 									echo"<div class=\"alert alert-success alert-dismissable\">";
 									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
 									echo"การยืนยันเสร็จสิ้น ";
@@ -111,7 +116,7 @@
 									echo"</div>";
 							}
 						?>
-                          <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                          <table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
 								 	 <th></th>
@@ -153,7 +158,7 @@
                                             while($row = mysql_fetch_array($result)) {
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".($i++)."</td>";
-												echo "    <td>".$row['code']."</td>";
+												echo "    <td>".$row['code']."<button type='button' style='margin-right: 4px;' class='btn btn-primary btn-xs' onclick='window.location=\"edit_school.php?code=".$row['code']."\"' >EDIT</button></td>";
 												echo "    <td>";
 												$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
 												$result_group = mysql_query($sql ,$conn);
