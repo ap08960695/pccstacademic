@@ -53,7 +53,13 @@
                       <!-- /.panel-heading -->
                       <div class="panel-body">
                         <?php 
-							if($_GET['act']=="error_get_data"){
+                            
+                            if($_GET['act']=="empty_file"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่พบไฟล์";
+                                echo"</div>";
+                            }else if($_GET['act']=="error_get_data"){
                                 echo"<div class=\"alert alert-danger alert-dismissable\">";
                                 echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
                                 echo"ไม่สามารถดึงข้อมูลได้";
@@ -119,21 +125,15 @@
                                   <?php
                                         $stdcode = "";
                                         $teachcode = "";
-                                        $sql = "SELECT * FROM subject WHERE status = 1;";
+                                        $sql = "SELECT * FROM contest";
                                         $result = mysql_query($sql ,$conn);
                                         if (mysql_num_rows($result) > 0) {
                                             while($row = mysql_fetch_array($result)) {
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".$row['code']."</td>";
-												if($row['type'] == 'ทีม (2 คน)'){
-													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
-													$result_s = mysql_query($sql_s ,$conn);
-													echo "    <td>".$row['name']." (".(mysql_num_rows($result_s)/2)." ทีม)<br>";
-												}else{
-													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
-													$result_s = mysql_query($sql_s ,$conn);
-													echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)<br>";
-                                                }
+												$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
+												$result_s = mysql_query($sql_s ,$conn);
+												echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)<br>";
                                                 echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\">";
                                                 echo '<div class="form-group">
                                                     <div class="input-group input-file" name="myFile">
@@ -149,7 +149,7 @@
                                                 echo "</form>";
                                                 echo "</td>";
 												echo "    <td>".$row['type']."</td>";
-												echo "    <td>".$row['level']."</td>";
+												echo "    <td>".$row['education']."</td>";
                                                 echo "    <td>";
                                                 echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
                                                 echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
