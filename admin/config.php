@@ -1,7 +1,6 @@
 <?php
     session_start();
     include_once('../condb.php');
-    date_default_timezone_set('Asia/Bangkok');
 	include_once('admin_check.php');
 ?>
 

@@ -1,7 +1,6 @@
 <?php
     session_start();
     include_once('condb.php');
-	date_default_timezone_set('Asia/Bangkok');
 	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
 	if(mysql_num_rows($result)!=1){

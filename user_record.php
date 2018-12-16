@@ -1,7 +1,6 @@
 <?php
     session_start();
     include_once('condb.php');
-    date_default_timezone_set('Asia/Bangkok');
     include_once('user_utility.php');
 	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
     $result = mysql_query($sql);
@@ -11,7 +10,6 @@
 	}
     $school_code = $_SESSION["code"];
     $schoolname = $_SESSION["display"];
-    $dir_path = __DIR__."\\pccstcer\\certfile\\";
 ?>
 
 <!DOCTYPE html>

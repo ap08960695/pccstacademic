@@ -4,7 +4,6 @@
     include(__DIR__."/pccstcer/fpdf.php");
     session_start();
     include_once('condb.php');
-    date_default_timezone_set('Asia/Bangkok');
     $sql = "SELECT code FROM  school";
       $result = mysql_query($sql, $conn);
       if(mysql_num_rows($result)>0){

@@ -1,12 +1,10 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "pccstaca_pccst2";
+$password = "12345678";
+$dbname = "pccstaca_pccst";
+$dir_path = __DIR__."\\pccstcer\\certfile\\";
 
-
-// Create connection
-//$conn = new mysqli($servername, $username, $password, $dbname);
 $conn = mysql_connect($servername, $username, $password);
 if (!$conn) {
     die('Could not connect: ' . mysql_error());
@@ -16,12 +14,6 @@ if (!$selectdb) {
     die ('blog not selected : ' . mysql_error());  
 }  
 
-// Check connection
-/*
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-*/
 
 $cs1 = "SET character_set_results = utf8";
 $result = mysql_query($cs1);
@@ -32,4 +24,5 @@ $result = mysql_query($cs2);
 $cs3 = "SET character_set_connection = utf8";
 $result = mysql_query($cs3);
 
+date_default_timezone_set('Asia/Bangkok');
 ?>

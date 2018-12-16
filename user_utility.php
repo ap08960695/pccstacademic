@@ -24,7 +24,6 @@
   }
 
   function check_file_exist($path, $filename){
-
     return file_exists($path.$filename);
   }
   function check_dir_file_exist($pattern){
