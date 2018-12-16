@@ -7,74 +7,65 @@
   define('FPDF_FONTPATH','font/');
   require_once __DIR__ . '/vendor/autoload.php';
 
-  $uploaddir = __DIR__."\\files\\";
-  $uploadfile = $uploaddir . basename($_FILES['myFile']['name']);
-
-  if (move_uploaded_file($_FILES['myFile']['tmp_name'], $uploadfile)) {
-    // echo "File is valid, and was successfully uploaded.\n";
-    // echo $uploadfile;
-  } else {
-      echo "Possible file upload attack!\n";
+  if($_FILES['myFile']['name']==""){
+    header("location:cert_maker.php?act=empty_file");
+    exit();
   }
-
-
-  /** PHPExcel_IOFactory */
-
-  $inputFileName =  $uploadfile;
-  // $inputFileName = __DIR__.'\\files\\report_11101_24_11_2018_065804.xlsx';
-  // echo 'Loading file ',pathinfo($inputFileName,PATHINFO_BASENAME),' using IOFactory to identify the format<br />';
-  $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-  // echo '<hr />';
+  $uploadfile = $uploaddir . basename($_FILES['myFile']['name']);
+  $uploadfilepath = $_FILES['myFile']['tmp_name'];
+  $objPHPExcel = PHPExcel_IOFactory::load($uploadfilepath);
   $sheetData = $objPHPExcel->getSheet(0)->toArray(null,true,true,true);
+  genCert($sheetData,$dir_temp);
   
-  function genCert($data_array) {
-      $dir_up = realpath(__DIR__ . '/..');  
+  function genCert($data_array,$dir_temp) {
       $temp_arr = array();
-      for($i=2;$i<count($data_array);$i++){
-        
+      for($i=1;$i<count($data_array);$i++){
         $pdf=new FPDF();
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
         $pdf->AddPage('L');
-        $pdf->Image('cerpccstth.jpg', 0, 0, 299, 205); 
-
-         		$pdf->SetFont('TH Charm of AU','',26);
-            $pdf->setXY(15,88);
-            $pdf->Cell(0,0,iconv( 'UTF-8','TIS-620',$data_array[$i]["A"]),0,1,"C");
-            $pdf->SetFont('TH Charm of AU','',18);
-            $pdf->setXY(15,98);
-            $filename = "temp_".$i.".pdf";
-            $pdf->Output($dir_up."\\pccstcer\\joincertfile\\".$filename,"F");
-            array_push($temp_arr,$filename);
-          }
-        $archive_file_name = "temp_all_download.zip";
-        $file_path = $dir_up."\\pccstcer\\joincertfile\\";
-        $file_path_temp = $dir_up."\\pccstcer\\temp\\";
-        archiver_download($temp_arr, $archive_file_name, $file_path, $file_path_temp);
-        
+        $pdf->Image('cerpccst.jpg', 0, 0, 299, 205); 
+        $pdf->SetFont('TH Charm of AU','',26);
+        $pdf->setXY(15,88);
+        $pdf->Cell(0,0,iconv( 'UTF-8','TIS-620',$data_array[$i]["A"]),0,1,"C");
+        $pdf->SetFont('TH Charm of AU','',18);
+        $pdf->setXY(15,98);
+        $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
+        $filename_temp = $filename; 
+        $same = 9999;
+        while(file_exists($dir_temp."\\".$filename.".pdf")){
+          $filename = $filename_temp."_".str_pad(strval($same--),4,"0",STR_PAD_LEFT);
+        }
+        $filename .= ".pdf";
+        $pdf->Output($dir_temp.$filename,"F");
+        array_push($temp_arr,$filename);
+      }
+      archiver_download($temp_arr, date("Ymdhis"),$dir_temp);
+      foreach($temp_arr as $files){
+        unlink($dir_temp.$files);
+      } 
     }
     
-  function archiver_download($file_names,$archive_file_name,$file_path, $file_path_temp){ //sending download
-   $zip = new ZipArchive();
-    //create the file and throw the error if unsuccessful
-    $dir_temp = $file_path_temp;
-    if ($zip->open($dir_temp.$archive_file_name, ZIPARCHIVE::CREATE )!==TRUE) {
-        exit("cannot open <$archive_file_name>\n");
-    }
-
-    //add each files of $file_name array to archive
-    foreach($file_names as $files)
-    {
+    function archiver_download($file_names,$archive_file_name,$file_path){ //sending download
+      $zip = new ZipArchive();
+      $countfile = 1;
+      $filename = $archive_file_name;
+      $archive_file_name = $filename.str_pad(strval($countfile++),4,"0",STR_PAD_LEFT).".zip";
+      while ($zip->open($file_path.$archive_file_name, ZIPARCHIVE::CREATE )!==TRUE) {
+        $archive_file_name = $filename.str_pad(strval($countfile++),4,"0",STR_PAD_LEFT).".zip"; 
+      }
+      foreach($file_names as $files){  
         $zip->addFile($file_path.$files,$files);
-        // echo $file_path.$files,$files;
+      }
+      $zip->close();
+      echo "Wait for zip processing...<br>";
+      header("Content-type: application/zip"); 
+      header("Content-Disposition: attachment; filename='$archive_file_name'");
+      header("Content-length: " . filesize($file_path.$archive_file_name));
+      header("Pragma: no-cache"); 
+      header("Expires: 0"); 
+      ob_clean();
+      flush();
+      readfile($file_path.$archive_file_name);
+      unlink($file_path.$archive_file_name);
     }
-    $zip->close();
-    header("Content-type: application/zip"); 
-    header("Content-Disposition: attachment; filename=$archive_file_name");
-    header("Content-length: " . filesize($dir_temp.$archive_file_name));
-    header("Pragma: no-cache"); 
-    header("Expires: 0"); 
-    readfile($dir_temp.$archive_file_name);
-    exit;
-  }
-    genCert($sheetData);
   ?>

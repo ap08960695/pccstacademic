@@ -2,7 +2,6 @@
     session_start();
     include_once('../condb.php');
     include_once('admin_check.php');
-    
 ?>
 
 <!DOCTYPE html>
@@ -30,26 +29,14 @@
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 <body>
 
     <div id="wrapper">
-
-        <!-- Navigation -->
         <?php
 			include_once("nav_admin.html");
 		?>
-        
-
-        <!-- Page Content -->
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
@@ -57,12 +44,6 @@
               </div>
               <!-- /.col-lg-12 -->
           </div>
-          <!-- /.row -->
-			<?php
-				if(isset($_GET['q'])){
-					echo "<div class=\"alert alert-info\" role=\"alert\">สร้างเกียรติบัตรสำเร็จ รายการเกียรติบัตรทั้งหมดอยู่ที่ <a href=\"http://pccstacademic.net/cer/index.php\">http://pccstacademic.net/cer/index.php</a></div>";
-				}
-			?>
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
@@ -71,6 +52,59 @@
                       </div>
                       <!-- /.panel-heading -->
                       <div class="panel-body">
+                        <?php 
+							if($_GET['act']=="error_get_data"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่สามารถดึงข้อมูลได้";
+                                echo"</div>";
+                            }else if($_GET['act']=="empty_contest"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่มี contest";
+                                echo"</div>";
+                            }else if($_GET['act']=="student_error_insert"){
+									echo"<div class=\"alert alert-danger alert-dismissable\">";
+									echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+									echo"ไม่สามารถเพิ่มข้อมูลนักเรียนได้";
+									echo"</div>";
+							}else if($_GET['act']=="success_cer"){
+                                echo"<div class=\"alert alert-success alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"สร้างเกียรติบัตรสำเร็จ";
+                                echo"</div>";
+                            }else if($_GET['act']=="success"){
+                                echo"<div class=\"alert alert-success alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"เปลี่ยนแปลงข้อมูลสำเร็จ";
+                                echo"</div>";
+                            }else if($_GET['act']=="student_error_delete"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่สามารถลบข้อมูลเก่าของนักเรียนได้";
+                                echo"</div>";
+                            }else if($_GET['act']=="student_error_excel"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"เกิดความขัดข้องของนักเรียน";
+                                echo"</div>";
+                            }else if($_GET['act']=="teacher_error_delete"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่สามารถลบข้อมูลเก่าของครูได้";
+                                echo"</div>";
+                            }else if($_GET['act']=="teacher_error_excel"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"เกิดความขัดข้องของครู";
+                                echo"</div>";
+                            }else if($_GET['act']=="teacher_error_insert"){
+                                echo"<div class=\"alert alert-danger alert-dismissable\">";
+                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                                echo"ไม่สามารถเพิ่มข้อมูลครูได้";
+                                echo"</div>";
+                            }
+						?>
                           <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                               <thead>
                                   <tr>
@@ -94,22 +128,33 @@
 												if($row['type'] == 'ทีม (2 คน)'){
 													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
 													$result_s = mysql_query($sql_s ,$conn);
-													echo "    <td>".$row['name']." (".(mysql_num_rows($result_s)/2)." ทีม)</td>";
+													echo "    <td>".$row['name']." (".(mysql_num_rows($result_s)/2)." ทีม)<br>";
 												}else{
 													$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
 													$result_s = mysql_query($sql_s ,$conn);
-													echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)</td>";
-												}
+													echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)<br>";
+                                                }
+                                                echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\">";
+                                                echo '<div class="form-group">
+                                                    <div class="input-group input-file" name="myFile">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default btn-choose" type="button">Choose</button>
+                                                        </span>
+                                                        <input type="text" class="form-control" placeholder="Choose a file..." />
+                                                        <span class="input-group-btn">
+                                                            <button type="submit" class="btn btn-success pull-right">Upload</button>
+                                                        </span>
+                                                    </div>
+                                                </div>';
+                                                echo "</form>";
+                                                echo "</td>";
 												echo "    <td>".$row['type']."</td>";
 												echo "    <td>".$row['level']."</td>";
                                                 echo "    <td>";
-                                                echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a> <a href=\"reportsubject_edit.php?s=".$row['code']."\" class=\"btn btn-warning\"><span class=\"glyphicon glyphicon-edit\"></span></a>";
-                                                echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\"><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"30000\" />
-                                                        <input type=\"file\" name=\"myFile\">
-                                                        <button>Upload</button>
-                                                        </form>";
-                                                echo "    <a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a> <a href=\"get_cert_subject.php?s=".$row['code']."\" class=\"btn btn-warning\">Gen Certification</a></td>";
-												
+                                                echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
+                                                echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
+                                                echo "<a href=\"get_cert_subject.php?s=".$row['code']."\" class=\"btn btn-warning\">Gen Certification</a>";
+                                                
                                                 echo "</tr>";
 											}
 										}
@@ -152,7 +197,37 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+    <script>
+    function bs_input_file() {
+        $(".input-file").before(
+            function() {
+                if ( ! $(this).prev().hasClass('input-ghost') ) {
+                    var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                    element.attr("name",$(this).attr("name"));
+                    element.change(function(){
+                        element.next(element).find('input').val((element.val()).split('\\').pop());
+                    });
+                    $(this).find("button.btn-choose").click(function(){
+                        element.click();
+                    });
+                    $(this).find("button.btn-reset").click(function(){
+                        element.val(null);
+                        $(this).parents(".input-file").find('input').val('');
+                    });
+                    $(this).find('input').css("cursor","pointer");
+                    $(this).find('input').mousedown(function() {
+                        $(this).parents('.input-file').prev().click();
+                        return false;
+                    });
+                    return element;
+                }
+            }
+        );
+    }
+    $(function() {
+        bs_input_file();
+    });
+    </script>
 </body>
 
 </html>

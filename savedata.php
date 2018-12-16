@@ -22,7 +22,7 @@
 				$list_name[$sub_value] = 1;
 				$len_name++;
 			}else if($_POST['role']=="edit"){
-				$sql_string .= "('$school_code', $key,'$sub_value'),";
+				$sql_string .= "('$school_code', $key,'$sub_value',-1),";
 			}
 		}
 		
@@ -34,7 +34,7 @@
 		exit();
 	}else if($sql_string!=""){
 		$sql_string = substr($sql_string, 0, -1);
-		$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `name`) VALUES $sql_string;";
+		$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `name`, `score`) VALUES $sql_string;";
 		$result = mysql_query($sql ,$conn);
 		if(!$result){
 			$sql = "UPDATE register SET status=1 WHERE school_id='$school_code'";

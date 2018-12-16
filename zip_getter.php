@@ -24,7 +24,7 @@
 	  flush();
     readfile($dir_temp.$archive_file_name);
     unlink($dir_temp.$archive_file_name);
-    exit;
+    exit();
   }
   $arr = array();
   if(isset($_GET["subject"]) && isset($_GET["school"])) {

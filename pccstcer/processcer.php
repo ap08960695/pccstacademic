@@ -39,7 +39,7 @@ function gencer($i,$id,$code,$no,$person,$score,$subject,$level) {
 	$pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
 	
 	if($code < 20000) {
-		$pdf->Image('cerpccstth.jpg', 0, 0, 299, 205); 
+		$pdf->Image('cerpccst.jpg', 0, 0, 299, 205); 
 		if($score >= 80){
 			$str = "ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน";
 		} elseif($score >= 70){
@@ -62,7 +62,7 @@ function gencer($i,$id,$code,$no,$person,$score,$subject,$level) {
 		}
 	
 	} else {
-		$pdf->Image('cerpccsten.jpg', 0, 0, 299, 205); 		
+		$pdf->Image('cerpccst.jpg', 0, 0, 299, 205); 		
 		$pdf->SetFont('TH Charm of AU','',26);
 		$pdf->setXY(15,92);
 		$pdf->Cell(0,0,iconv( 'UTF-8','TIS-620',$person),0,1,"C");
