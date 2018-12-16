@@ -1,7 +1,8 @@
 <?php
 	session_start();
     include_once('condb.php');
-
+	include_once('user_check.php');
+	
 	if($_POST['password']!=$_POST['repassword']){
 		mysql_close($conn);
 		header("location:setting.php?act=error_password");

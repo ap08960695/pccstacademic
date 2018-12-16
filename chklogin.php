@@ -12,12 +12,13 @@
 	  $sql = "SELECT user,code,display FROM school WHERE user = '".md5($_POST['user'])."' AND pass = '".md5($_POST['pass'])."' AND status = 1;";
       $result = mysql_query($sql);
       if (mysql_num_rows($result) > 0) {
-          while($row = mysql_fetch_array($result)) {
+          if($row = mysql_fetch_array($result)) {
+                print_r($row);
 				$_SESSION['user'] = $row['user'];
 				$_SESSION['code'] = $row['code'];
 				$_SESSION['display'] = $row['display'];
 				header("Location: index.php");  
-              exit();
+                exit();
           }
       } else {
           header("Location: login.php?err=1");

@@ -2,14 +2,9 @@
     session_start();
     include_once('condb.php');
     include_once('user_utility.php');
-	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
-    $result = mysql_query($sql);
-	if(mysql_num_rows($result)!=1){
-		header("Location: login.php");
-		exit();
-	}
-    $school_code = $_SESSION["code"];
-    $schoolname = $_SESSION["display"];
+    include_once('user_check.php');
+    $school_code = $school_info["code"];
+    $schoolname = $school_info["display"];
 ?>
 
 <!DOCTYPE html>
@@ -70,12 +65,7 @@
               <div class="col-lg-12">
                   <h1 class="page-header">
                     The Contest List 
-             <?php
-                echo check_dir_file_exist($dir_path."*_".$school_code."_*.pdf")?
-                '<a href="zip_getter.php?school='.$school_code.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print all certificates</a>':'';
-                
-             ?>
-                  </h1>
+                     </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>

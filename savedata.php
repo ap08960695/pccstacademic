@@ -1,13 +1,10 @@
 <?php
     session_start();
-    include_once('condb.php');
-    if(!isset($_SESSION["user"]))
-    {
-        header("location:login.php");
-    }
+	include_once('condb.php');
+    include_once('user_check.php');
 
-    $school_code = $_SESSION["code"];
-    $schoolname = $_SESSION["display"];
+    $school_code = $school_info["code"];
+    $schoolname = $school_info["display"];
 
     $arrstudent = $_POST['student'];
     $arrteacher = $_POST['teacher'];

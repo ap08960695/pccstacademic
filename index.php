@@ -1,17 +1,10 @@
 <?php
     session_start();
     include_once('condb.php');
+    include_once('user_check.php');
     include_once('user_utility.php');
-	$sql = "SELECT * FROM school WHERE user='".$_SESSION['user']."' AND code='".$_SESSION['code']."'";
-    $result = mysql_query($sql);
-	if(mysql_num_rows($result)!=1){
-		header("Location: login.php");
-		exit();
-	} else {
-    $school_info = mysql_fetch_assoc($result);
-  }
-    $school_code = $_SESSION["code"];
-    $schoolname = $_SESSION["display"];
+    $school_code = $school_info["code"];
+    $schoolname = $school_info["display"];
  
 ?>
 
