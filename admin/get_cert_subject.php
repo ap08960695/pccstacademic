@@ -3,7 +3,7 @@
 	include_once('../condb.php');
   include_once('admin_check.php');
   $upOne = realpath(__DIR__ . '/..');  
-  require( $upOne.'\\pccstcer\\fpdf.php');
+  require( $upOne.'/pccstcer/fpdf.php');
   define('FPDF_FONTPATH','font/');
 
   if(isset($_GET["s"])){
@@ -27,7 +27,7 @@
   }
   
   function genCert($data_array) {
-    $dir_up = realpath(__DIR__ . '/..');  
+    $dir_up = realpath(__DIR__ . '/..');
       for($i=0;$i<count($data_array);$i++){
         $pdf=new FPDF();
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
@@ -52,7 +52,7 @@
           $pdf->setXY(15,98);
           $pdf->Cell(0,0,iconv( 'UTF-8','TIS-620',$str.$data_array[$i]["subject_id"].' '),0,1,"C");
           $filename = $data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
-          $pdf->Output($dir_up."\\pccstcer\\certfile\\".$filename,"F");
+          $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"F");
         } 		
       }
     }

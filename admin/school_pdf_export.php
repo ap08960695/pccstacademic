@@ -3,11 +3,9 @@
 	include_once('../condb.php');
   include_once('admin_check.php');
   $upOne = realpath(__DIR__ . '/..');  
-  require( $upOne.'\\pccstcer\\fpdf.php');
+  require( $upOne.'/pccstcer/fpdf.php');
   define('FPDF_FONTPATH','font/');
 	
-  // echo $upOne;
-  
 class PDF extends FPDF
 {
   var $widths;
@@ -211,9 +209,8 @@ function d_form_str($d_start, $d_end) {
   if(isset($_GET["s"])){
     $subject_id = $_GET["s"];
   }
-  $sql ="SELECT * FROM room_contest, room, contest WHERE contest.code=room_contest.contest_code AND room.id=room_contest.room_id AND room_contest.contest_code=".$subject_id;
+  $sql ="SELECT * FROM room_contest INNER JOIN room ON room_contest.room_id=room.id INNER JOIN contest ON contest.code=room_contest.contest_code WHERE room_contest.contest_code='".$subject_id."'";
   $result = mysql_query($sql, $conn);
-  // $row = mysql_fetch_assoc($result);
   $obj_array_room = [];
   if($result){
     while($row = mysql_fetch_assoc($result)){
@@ -223,15 +220,10 @@ function d_form_str($d_start, $d_end) {
   }
   if(!$obj_array_room)echo "<script> alert('Please assign room to contest');</script>";
   $header = [];
-  
-  // $header[1] ="รหัส ".$row["code"]." ".$row["name"]." ".$row["level"];
-  // $header[2] ="สถานที่แข่งขัน ".$row["room1"]." / ".$row["room2"]." / ".$row["room3"]." / ".$row["starttime"];
-  
   $sql = "  SELECT * FROM register, school WHERE register.school_id=school.code AND register.subject_id='".$subject_id."'";
     if($student_result = mysql_query($sql, $conn)) {
       $obj_array = [];
       while($row = mysql_fetch_assoc($student_result)) {
-        // var_dump($row);
         array_push($obj_array, $row);
       }
     } else {
@@ -250,14 +242,10 @@ function d_form_str($d_start, $d_end) {
   $header_table = array('#', 'Name', 'School', 'Province', 'Signature');
   
 $pdf = new PDF();
-// Column headings
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
-// Data loading
-// $data = $pdf->LoadData('countries.txt');
 $pdf->AddFont('Angsana','','angsa.php');
 $pdf->SetFont('Angsana','',14);
 $pdf->SetWidths(array(10,45,60,35,40));
-// $pdf->MultiCell( 20  , 5 , iconv( 'UTF-8','cp874' , 'นี่คือข้อความที่ตั้งใจให้ยาวเลยความกว้างของกรอบเซลล์' ) );
 $page_start = 0;
 $page_end =0;
 $temp_arr_len = count($obj_array);
@@ -340,26 +328,8 @@ for($j=0;$j<count($temp_paging);$j+=1){
       }
       $start_index+=  30; 
     }
-
-    // echo "asdf";
     
   }
 }
-    // if($arr_len%$page_len!=0) $page_count = intVal($arr_len/$page_len)+1;
-    // else $page_count = intVal($arr_len/$page_len);
-    // // echo $page_count."asdf".$arr_len;
-    //   for($j=0;$j<$page_count;$j+=1){
-        
-        // $pdf->AddPage();
-        // $pdf->Row($header_table);
-    //     for($i=$page_start;$i<$page_end;$i++){
-    //       if($i<$arr_len)
-    //       $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), ""));
-    //     }
-        
-    //       $page_start+=$page_len;
-    //       $page_end+=$page_len;
-    //   }
   $pdf->Output();
-
 ?>

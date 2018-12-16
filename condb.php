@@ -3,8 +3,8 @@ $servername = "localhost";
 $username = "root";
 $password = "12345678";
 $dbname = "pccstaca_pccst";
-$dir_path = __DIR__."\\pccstcer\\certfile\\";
-$dir_temp = __DIR__."\\pccstcer\\temp\\";
+$dir_path = __DIR__."/pccstcer/certfile/";
+$dir_temp = __DIR__."/pccstcer/temp/";
 
 $conn = mysql_connect($servername, $username, $password);
 if (!$conn) {

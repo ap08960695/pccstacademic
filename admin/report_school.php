@@ -89,18 +89,6 @@
 												echo "    <td><a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a>";
                                                 echo "    <a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a></td>";
                                                 echo "</tr>";
-												
-												/*
-												$sql_s = "SELECT * FROM register r JOIN subject s ON r.subject_id = s.code WHERE school_id = '".$row['code']."' AND type != 'ทีม (2 คน)'  AND no = 1 AND r.status = 1;";
-												$result_s = mysql_query($sql_s ,$conn);
-												$sql_c = "SELECT * FROM register r JOIN subject s ON r.subject_id = s.code WHERE school_id = '".$row['code']."' AND type = 'ทีม (2 คน)'  AND no = 1 AND r.status = 1;";
-												$result_c = mysql_query($sql_c ,$conn);
-												echo "<tr class=\"odd gradeX\">";
-												echo "    <td>".$row['code']."</td>";
-												echo "    <td>".$row['display']." (".(mysql_num_rows($result_s) + (mysql_num_rows($result_c)/2))." คน)</td>";
-												echo "    <td><a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a></td>";
-												echo "</tr>";
-												*/
 											}
 										}
 									?>

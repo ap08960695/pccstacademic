@@ -3,7 +3,7 @@
   include_once('../condb.php');
   include_once('admin_check.php');
   $upOne = realpath(__DIR__ . '/..');  
-  require( $upOne.'\\pccstcer\\fpdf.php');
+  require( $upOne.'/pccstcer/fpdf.php');
   define('FPDF_FONTPATH','font/');
   require_once __DIR__ . '/vendor/autoload.php';
 
@@ -32,7 +32,7 @@
         $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
         $filename_temp = $filename; 
         $same = 9999;
-        while(file_exists($dir_temp."\\".$filename.".pdf")){
+        while(file_exists($dir_temp."/".$filename.".pdf")){
           $filename = $filename_temp."_".str_pad(strval($same--),4,"0",STR_PAD_LEFT);
         }
         $filename .= ".pdf";
