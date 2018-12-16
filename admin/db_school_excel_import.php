@@ -4,7 +4,7 @@
   include_once('admin_check.php');
   require_once __DIR__ . '/vendor/autoload.php';
 
-  $uploaddir = __DIR__."\\files\\";
+  $uploaddir = __DIR__."/files/";
   if($_FILES['myFile']['name']==""){
     header("location:report_subject.php?act=empty_file");
     exit();
@@ -18,17 +18,20 @@
     $subject_id = $_GET["s"];
     $sql = "UPDATE register SET status = 0 WHERE subject_id='".$subject_id."'";
     if($result = mysql_query($sql, $conn)) {
+      $strinsert = "";
       for($i=2; $i<=count($sheetData); $i++) {
         $score = $sheetData[$i]["E"]==""? -1 : intval($sheetData[$i]["E"]); 
-        $sql = "INSERT INTO register (school_id, subject_id, name, status, score) VALUES ('".$sheetData[$i]["D"]."','".$subject_id."','".$sheetData[$i]["B"]."',1,".$score.")";
-        if(!mysql_query($sql, $conn)) {
-          $sql = "DELETE FROM register WHERE subject_id='".$subject_id."' AND status=1";
-          mysql_query($sql, $conn);
-          $sql = "UPDATE register SET status = 1 WHERE subject_id='".$subject_id."' AND status=0";
-          mysql_query($sql, $conn);      
-          header("location:report_subject.php?act=student_error_insert");
-          exit();
-        }
+        $strinsert .= "('".$sheetData[$i]["D"]."','".$subject_id."','".$sheetData[$i]["B"]."',1,".$score."),";
+      }
+      $strinsert = substr($strinsert, 0, -1);
+      $sql = "INSERT INTO register (school_id, subject_id, name, status, score) VALUES ".$strinsert;
+      if(!mysql_query($sql, $conn)) {
+        $sql = "DELETE FROM register WHERE subject_id='".$subject_id."' AND status=1";
+        mysql_query($sql, $conn);
+        $sql = "UPDATE register SET status = 1 WHERE subject_id='".$subject_id."' AND status=0";
+        mysql_query($sql, $conn);      
+        header("location:report_subject.php?act=student_error_insert");
+        exit();
       }
       $sql = "DELETE FROM register WHERE subject_id='".$subject_id."' AND status=0";
       if(!mysql_query($sql, $conn)){
@@ -46,28 +49,30 @@
     $sheetData = $objPHPExcel->getSheet(1)->toArray(null,true,true,true);
     $sql = "UPDATE register_teacher SET status= 0 WHERE subject_id='".$subject_id."'";
     if(mysql_query($sql, $conn)) {
+      $strinsert = "";
       for($i=2; $i<=count($sheetData); $i++) {
-        $sql = "INSERT INTO register_teacher (school_id, subject_id, name, status) VALUES ('".$sheetData[$i]["D"]."','".$subject_id."','".$sheetData[$i]["B"]."',1)";
-        if(!mysql_query($sql, $conn)) {
-          $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=1";
-          mysql_query($sql, $conn);
-          $sql = "UPDATE register_teacher SET status = 1 WHERE subject_id=".$subject_id." AND status=0";
-          mysql_query($sql, $conn);      
-          header("location:report_subject.php?act=teacher_error_insert");
-          exit();
-        }
-        $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=0";
-        if(mysql_query($sql, $conn)){
-          header("location:report_subject.php?act=success");
-          exit();
-        }else {
-          $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=1";
-          mysql_query($sql, $conn);
-          $sql = "UPDATE register_teacher SET status = 1 WHERE subject_id=".$subject_id." AND status=0";
-          mysql_query($sql, $conn);      
-          header("location:report_subject.php?act=teacher_error_delete");
-          exit();
-        }
+        $strinsert .= "('".$sheetData[$i]["D"]."','".$subject_id."','".$sheetData[$i]["B"]."',1),";
+      }
+      $strinsert = substr($strinsert, 0, -1);
+      $sql = "INSERT INTO register_teacher (school_id, subject_id, name, status) VALUES ".$strinsert;
+      if(!mysql_query($sql, $conn)) {
+        $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=1";
+        mysql_query($sql, $conn);
+        $sql = "UPDATE register_teacher SET status = 1 WHERE subject_id=".$subject_id." AND status=0";
+        mysql_query($sql, $conn);      
+        header("location:report_subject.php?act=teacher_error_insert");
+        exit();
+      }
+      $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=0";
+      if(mysql_query($sql, $conn)){
+        header("location:report_subject.php?act=success");
+        exit();
+      }else {
+        $sql = "DELETE FROM register_teacher WHERE subject_id='".$subject_id."' AND status=1";          mysql_query($sql, $conn);
+        $sql = "UPDATE register_teacher SET status = 1 WHERE subject_id=".$subject_id." AND status=0";
+        mysql_query($sql, $conn);      
+        header("location:report_subject.php?act=teacher_error_delete");
+        exit();
       }
     }else{
       header("location:report_subject.php?act=teacher_error_excel");
