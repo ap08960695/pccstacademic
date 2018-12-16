@@ -1,5 +1,6 @@
 <?php
     include_once('condb.php');
+    include_once('user_utility.php');
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +93,7 @@
                             $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
                             $result_room = mysql_query($sql ,$conn);
                             
-                            $sql = "SELECT register.name,school.display,school.changwat FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
+                            $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.id";
                             $result_student = mysql_query($sql ,$conn);
                             $max_student = mysql_num_rows($result_student);
                             
@@ -112,6 +113,7 @@
                                             <th>Student name</th>
                                             <th>School name</th>
                                             <th>Province</th>
+                                            <th>Certificate</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -122,6 +124,10 @@
                                     echo"    <td>".$row_student['name']."</td>";
                                     echo"    <td>".$row_student['display']."</td>";
                                     echo"    <td>".$row_student['changwat']."</td>";
+                                    $cer_file_name = $row_student["subject_id"]."_".$row_student["school_id"]."_".padseven($row_student["id"]).".pdf";
+                                    echo"<td>";
+                                    echo check_file_exist($dir_path,$cer_file_name)?'<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
+                                    echo"</td>";
                                     echo"</tr>";
                                     $count++;
                                     if($count > $max_student_room){

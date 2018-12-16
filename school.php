@@ -1,5 +1,6 @@
 <?php
     include_once('condb.php');
+    include_once('user_utility.php');
 ?>
 
 <!DOCTYPE html>
@@ -105,12 +106,13 @@
                                                     <th>Order</th>
                                                     <th>Student Name</th>
                                                     <th>Contest</th>
-													<th>Teacher</th>
+                                                    <th>Teacher</th>
+                                                    <th>Certificate</th>
                                                 </tr>
                                             </thead>';
                                         echo '<tbody>';
                                         if($row['code']!=""){
-                                            $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
+                                            $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type,register.school_id,register.subject_id,register.id FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='".$row['code']."' ORDER BY register.id";
                                             $result_std = mysql_query($sql ,$conn);
                                             $i=1;
                                             if($result_std && mysql_num_rows($result_std)>0){
@@ -127,6 +129,11 @@
                                                             echo $row_teacher['name']."<br>";
                                                         }
                                                     }
+                                                    echo"</td>";
+                                                    $cer_file_name = $row_std["subject_id"]."_".$row_std["school_id"]."_".padseven($row_std["id"]).".pdf";
+                                                    echo"<td>";
+                                                    echo check_file_exist($dir_path,$cer_file_name)?
+                                                    '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
                                                     echo"</td>";
                                                     echo"</tr>";
                                                 }                        
