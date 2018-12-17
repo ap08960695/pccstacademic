@@ -134,7 +134,7 @@
 												$sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code WHERE subject_id = '".$row['code']."' AND s.status = 1 AND r.status = 1;";
 												$result_s = mysql_query($sql_s ,$conn);
 												echo "    <td>".$row['name']." (".mysql_num_rows($result_s)." คน)<br>";
-                                                echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\">";
+                                                echo "<form method=\"post\" action=\"db_school_excel_import.php?s=".$row['code']."\"  enctype=\"multipart/form-data\" onsubmit=\"return confirm('คุณต้องการอัพเดทข้อมูล ใช่หรือไม่?');\">";
                                                 echo '<div class="form-group">
                                                     <div class="input-group input-file" name="myFile">
                                                         <span class="input-group-btn">
@@ -151,9 +151,12 @@
 												echo "    <td>".$row['type']."</td>";
 												echo "    <td>".$row['education']."</td>";
                                                 echo "    <td>";
-                                                echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
-                                                echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
-                                                echo "<a href=\"get_cert_subject.php?s=".$row['code']."\" class=\"btn btn-warning\">Gen Certification</a>";
+                                                
+                                                echo "<form method=\"post\" action=\"get_cert_subject.php?s=".$row['code']."\"   onsubmit=\"return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');\">";
+                                                    echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
+                                                    echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
+                                                    echo "<button type='submit' class=\"btn btn-warning\" >Gen Certification</a>";
+                                                echo "</form>";
                                                 
                                                 echo "</tr>";
 											}
