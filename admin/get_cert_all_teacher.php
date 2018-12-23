@@ -31,10 +31,10 @@
           $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
           $pdf->AddPage('L');
           if($data_array[$i]["subject_id"][0]=="1"){
-            $charset = "TIS-620";
+            $charset = "cp874//IGNORE";
             $pdf->Image('cert_th.png', 0, 0, 299, 205); 
           }else if($data_array[$i]["subject_id"][0]=="2"){
-            $charset = "UTF-8";
+            $charset = "cp874//IGNORE";
             $pdf->Image('cert_en.png', 0, 0, 299, 205);
           }
           if(intval($data_array[$i]["score"])!=-1){
