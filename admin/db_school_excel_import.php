@@ -20,9 +20,14 @@
     if($result = mysql_query($sql, $conn)) {
       $strinsert = "";
       for($i=2; $i<=count($sheetData); $i++) {
-        $score = $sheetData[$i]["E"]==""? -1 : intval($sheetData[$i]["E"]); 
+        if($sheetData[$i]["E"]=="0")
+          $score = 0;
+        else if($sheetData[$i]["E"]=="")
+          $score = -1;
+        else $score = intval($sheetData[$i]["E"]);
         $strinsert .= "('".$sheetData[$i]["D"]."','".$subject_id."','".$sheetData[$i]["B"]."',1,".$score."),";
       }
+      
       $strinsert = substr($strinsert, 0, -1);
       $sql = "INSERT INTO register (school_id, subject_id, name, status, score) VALUES ".$strinsert;
       if(!mysql_query($sql, $conn)) {

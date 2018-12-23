@@ -34,7 +34,7 @@
         $pdf->AddPage('L');
         $pdf->Image('cerpccst.jpg', 0, 0, 299, 205); 
 
-        if($data_array[$i]["score"]!=-1){
+        if(intval($data_array[$i]["score"])!=-1){
           $score = intVal($data_array[$i]["score"]);
           if($score >= 80){
             $str = "ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน";

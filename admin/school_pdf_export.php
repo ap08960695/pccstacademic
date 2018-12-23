@@ -41,7 +41,7 @@ function Row($data)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        // $this->Rect($x,$y,$w,$h);
+        $this->Rect($x,$y,$w,$h);
         //Print the text
         $this->MultiCell($w,5.5,$data[$i],0,$a);
         //Put the position to the right of the cell
@@ -239,7 +239,7 @@ function d_form_str($d_start, $d_end) {
     } else {
       echo "err";
     }
-  $header_table = array('#', 'Name', 'School', 'Province', 'Signature');
+  $header_table = array('No.', 'Name', 'School', 'Province', 'Signature');
   
 $pdf = new PDF();
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');

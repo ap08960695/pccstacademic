@@ -72,7 +72,7 @@
                                 if($_GET['select']==""){
                                     echo "<option disabled selected>Choose school</option>";
                                     while($row = mysql_fetch_array($result)) {
-                                        echo "<option value='".$row['id']."'>".$row['display'].")</option>";
+                                        echo "<option value='".$row['id']."'>".$row['display']."</option>";
                                     }
                                 }else{
                                     echo "<option disabled>Choose school</option>";
