@@ -23,16 +23,17 @@
         $pdf=new FPDF();
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
         $pdf->AddPage('L');
-        $pdf->Image('cerpccst.jpg', 0, 0, 299, 205); 
+        $pdf->Image('cert_th.png', 0, 0, 299, 205); 
         $pdf->SetFont('TH Charm of AU','',26);
-        $pdf->setXY(15,88);
-        $pdf->Cell(0,0,iconv( 'UTF-8','TIS-620',$data_array[$i]["A"]),0,1,"C");
+        $pdf->setXY(15,89);
+        $pdf->Cell(0,0,iconv( 'UTF-8','UTF-8',$data_array[$i]["A"]),0,1,"C");
         $pdf->SetFont('TH Charm of AU','',18);
-        $pdf->setXY(15,98);
+        $pdf->setXY(15,100);
+        $pdf->Cell(0,0,iconv( 'UTF-8','UTF-8','เป็นคณะกรรมการดำเนิน'),0,1,"C");
         $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
         $filename_temp = $filename; 
         $same = 9999;
-        while(file_exists($dir_temp."/".$filename.".pdf")){
+        while(file_exists($dir_temp."/".$fiการlename.".pdf")){
           $filename = $filename_temp."_".str_pad(strval($same--),4,"0",STR_PAD_LEFT);
         }
         $filename .= ".pdf";

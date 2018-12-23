@@ -40,9 +40,11 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                <form method="post" action="get_cert_all.php" onsubmit="return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');">";                                    
-                  <h1 class="page-header">สรุปรายชื่อต่อรายการแข่ง  <button type='submit' class="btn btn-success" > ประมวนผลเกียรติบัตร!!</button></h1> 
-                </form>
+               <h1 class="page-header">
+                    สรุปรายชื่อต่อรายการแข่ง 
+                    <a href="get_cert_all.php" onclick="return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');" class="btn btn-success">ประมวนผลเกียรติบัตร!!</a>
+                    <a href="get_cert_all_teacher.php" onclick="return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');" class="btn btn-success">ประมวนผลเกียรติบัตรครู!!</a>
+                  </h1>
               </div>
               <!-- /.col-lg-12 -->
           </div>
@@ -154,12 +156,11 @@
 												echo "    <td>".$row['education']."</td>";
                                                 echo "    <td>";
                                                 
-                                                echo "<form method=\"post\" action=\"get_cert_subject.php?s=".$row['code']."\"   onsubmit=\"return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');\">";
-                                                    echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
-                                                    echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
-                                                    echo "<button type='submit' class=\"btn btn-warning\" >Gen Certification</button>";
-                                                echo "</form>";
-                                                
+                                                echo "<a href=\"school_excel_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export excel</a>";
+                                                echo "<a href=\"school_pdf_export.php?s=".$row['code']."\" class=\"btn btn-primary\">export pdf</a>";
+                                                echo "<br>";
+                                                echo "<a href=\"get_cert_subject.php?s=".$row['code']."\" onclick=\"return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');\" class=\"btn btn-warning\" >Gen Certification</a>";
+                                                echo "<a href=\"get_cert_subject_teacher.php?s=".$row['code']."\" onclick=\"return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');\" class=\"btn btn-warning\" >Gen Teacher Certification</a>";
                                                 echo "</tr>";
 											}
 										}

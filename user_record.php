@@ -70,13 +70,15 @@
               <!-- /.col-lg-12 -->
           </div>
             <?php
-                
-                    
                 $sql = "SELECT * from contest";
                 $result = mysql_query($sql, $conn);
                 while($row = mysql_fetch_assoc($result)) {
                     $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
                     $register_result = mysql_query($sql, $conn);        
+                    
+                    $sql = "SELECT * FROM register_teacher WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
+                    $teacher_result = mysql_query($sql, $conn);        
+                    
                     if(mysql_num_rows($register_result)>0){
                         if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
                             $date_str = "Date unspecified";
@@ -84,15 +86,22 @@
                             $date = date_format(date_create($row['date_start']), 'd M Y');
                             $start_date = date_format(date_create($row['date_start']), 'H:i');
                             $end_date = date_format(date_create($row['date_end']), 'H:i');
-                            $date_str = ", ".$date." at ".$start_date." to ".$end_date;
+                            $date_str = ", Start ".$date." at ".$start_date." to ".$end_date;
                         }
+                        $teacher = "Trainer ";
+                        while($teacher_row = mysql_fetch_assoc($teacher_result)){
+                           $teacher .= $teacher_row['name'].", ";
+                        }
+                        $teacher = substr($teacher,0,-2);
                         echo '<div class="row">
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        '.$row["contest_name"].'('.$row["code"].') '.$date_str;
+                                        '.$row["contest_name"].'('.$row["code"].') '.$teacher.$date_str;
                         echo check_dir_file_exist($dir_path.$row["code"]."_".$school_code."_*.pdf")?
                         ' <a href="zip_getter.php?school='.$school_code.'&&subject='.$row["code"].'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Certificates</a>':'';
+                        echo check_dir_file_exist($dir_path."teacher_".$row["code"]."_".$school_code."_*.pdf")?
+                        ' <a href="zip_getter_teacher.php?school='.$school_code.'&&subject='.$row["code"].'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Teacher Certificates</a>':'';
                         echo '    </div>
                                     <div class="panel-body">';
                             
