@@ -33,10 +33,10 @@
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
         $pdf->AddPage('L');
         if($data_array[$i]["subject_id"][0]=="1"){
-          $charset = "TIS-620";
+          $charset = "cp874//IGNORE";
           $pdf->Image('cert_th.png', 0, 0, 299, 205); 
         }else if($data_array[$i]["subject_id"][0]=="2"){
-          $charset = "UTF-8";
+          $charset = "cp874//IGNORE";
           $pdf->Image('cert_en.png', 0, 0, 299, 205);
         }
         if(intval($data_array[$i]["score"])!=-1){
@@ -75,10 +75,10 @@
             $str .= $data_array[$i]["contest_name"]." ".$data_array[$i]["education"];
           }
           $pdf->SetFont('TH Charm of AU','',26);
-          $pdf->setXY(15,89);
+          $pdf->setXY(15,92);
           $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$data_array[$i]["name"]),0,1,"C");
           $pdf->SetFont('TH Charm of AU','',18);
-          $pdf->setXY(15,100);
+          $pdf->setXY(15,103);
           $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$str),0,1,"C");
           $filename = $data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
           $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"F");
