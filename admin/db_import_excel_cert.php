@@ -6,7 +6,8 @@
   require( $upOne.'/pccstcer/fpdf.php');
   define('FPDF_FONTPATH','font/');
   require_once __DIR__ . '/vendor/autoload.php';
-
+  ini_set('memory_limit', '1024M');
+  ini_set('max_execution_time', 300);
   if($_FILES['myFile']['name']==""){
     header("location:cert_maker.php?act=empty_file");
     exit();
@@ -25,11 +26,11 @@
         $pdf->AddPage('L');
         $pdf->Image('cert_th.png', 0, 0, 299, 205); 
         $pdf->SetFont('TH Charm of AU','',26);
-        $pdf->setXY(15,89);
-        $pdf->Cell(0,0,iconv( 'UTF-8','UTF-8',$data_array[$i]["A"]),0,1,"C");
+        $pdf->setXY(15,78);
+        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",$data_array[$i]["A"]),0,1,"C");
         $pdf->SetFont('TH Charm of AU','',18);
-        $pdf->setXY(15,100);
-        $pdf->Cell(0,0,iconv( 'UTF-8','UTF-8','เป็นคณะกรรมการดำเนิน'),0,1,"C");
+        $pdf->setXY(15,89);
+        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",'เป็นคณะกรรมการดำเนิน'),0,1,"C");
         $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
         $filename_temp = $filename; 
         $same = 9999;
@@ -58,9 +59,8 @@
         $zip->addFile($file_path.$files,$files);
       }
       $zip->close();
-      echo "Wait for zip processing...<br>";
       header("Content-type: application/zip"); 
-      header("Content-Disposition: attachment; filename='$archive_file_name'");
+      header("Content-Disposition: attachment; filename=$archive_file_name");
       header("Content-length: " . filesize($file_path.$archive_file_name));
       header("Pragma: no-cache"); 
       header("Expires: 0"); 

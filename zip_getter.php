@@ -2,6 +2,8 @@
   session_start();
   include_once('condb.php');
   include_once('user_check.php');
+  ini_set('memory_limit', '1024M');
+  ini_set('max_execution_time', 300);
   function archiver_download($file_names,$archive_file_name,$file_path,$dir_temp){ //sending download
     $zip = new ZipArchive();
     $countfile = 1;
