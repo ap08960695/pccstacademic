@@ -107,7 +107,6 @@
                                                     <th>Student Name</th>
                                                     <th>Contest</th>
                                                     <th>Teacher</th>
-                                                    <th>Certificate</th>
                                                 </tr>
                                             </thead>';
                                         echo '<tbody>';
@@ -119,21 +118,26 @@
                                                 while($row_std = mysql_fetch_array($result_std)) {
                                                     echo"<tr class=\"odd gradeX\">";
                                                     echo"    <td>".($i++)."</td>";
-                                                    echo"    <td>".$row_std['name']."</td>";
+                                                    echo"    <td>";
+                                                    echo  $row_std['name'];
+                                                    $cer_file_name = $row_std["subject_id"]."_".$row_std["school_id"]."_".padseven($row_std["id"]).".pdf";
+                                                    echo check_file_exist($dir_path,$cer_file_name)?
+                                                    '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
+                                                    
+                                                    echo "</td>";
                                                     echo"    <td>".$row_std['code']." ".$row_std['contest_name']."(".$row_std['education']." ".$row_std['type'].")</td>";
                                                     echo"    <td>";
-                                                    $sql = "SELECT name FROM register_teacher WHERE school_id='".$row['code']."' AND subject_id='".$row_std['code']."'";
+                                                    $sql = "SELECT id,name FROM register_teacher WHERE school_id='".$row['code']."' AND subject_id='".$row_std['code']."'";
                                                     $result_teacher = mysql_query($sql ,$conn);
                                                     if($result_teacher && mysql_num_rows($result_teacher)>0){
                                                         while($row_teacher = mysql_fetch_array($result_teacher)) {
-                                                            echo $row_teacher['name']."<br>";
+                                                            echo $row_teacher['name'];
+                                                            
+                                                            $cer_file_name = "teacher_".$row_std["subject_id"]."_".$row_std["school_id"]."_".padseven($row_teacher["id"]).".pdf";
+                                                            echo check_file_exist($dir_path,$cer_file_name)?'<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
+                                                            echo "<br>";
                                                         }
                                                     }
-                                                    echo"</td>";
-                                                    $cer_file_name = $row_std["subject_id"]."_".$row_std["school_id"]."_".padseven($row_std["id"]).".pdf";
-                                                    echo"<td>";
-                                                    echo check_file_exist($dir_path,$cer_file_name)?
-                                                    '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
                                                     echo"</td>";
                                                     echo"</tr>";
                                                 }                        

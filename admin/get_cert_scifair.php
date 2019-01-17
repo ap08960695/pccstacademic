@@ -19,18 +19,20 @@
   genCert($sheetData,$dir_temp);
   
   function genCert($data_array,$dir_temp) {
-      $temp_arr = array();
-      for($i=1;$i<count($data_array);$i++){
+    $temp_arr = array();
+    for($i=1;$i<count($data_array);$i++){
         $pdf=new FPDF();
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
         $pdf->AddPage('L');
-        $pdf->Image('cert_th.png', 0, 0, 299, 205); 
+        $charset = "cp874//IGNORE";
+        $pdf->Image('cert_en.png', 0, 0, 299, 205);
+        $str = "Has been awarded a ".$data_array[$i]["B"]." medal certificate in ".$data_array[$i]["C"];
         $pdf->SetFont('TH Charm of AU','',26);
         $pdf->setXY(15,80);
-        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",$data_array[$i]["A"]),0,1,"C");
+        $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$data_array[$i]["A"]),0,1,"C");
         $pdf->SetFont('TH Charm of AU','',21);
         $pdf->setXY(15,91);
-        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",'เป็นคณะกรรมการดำเนิน'),0,1,"C");
+        $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$str),0,1,"C");
         $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
         $filename_temp = $filename; 
         $same = 9999;
@@ -40,11 +42,11 @@
         $filename .= ".pdf";
         $pdf->Output($dir_temp.$filename,"F");
         array_push($temp_arr,$filename);
-      }
+      } 		
       archiver_download($temp_arr, date("Ymdhis"),$dir_temp);
       foreach($temp_arr as $files){
         unlink($dir_temp.$files);
-      } 
+      }
     }
     
     function archiver_download($file_names,$archive_file_name,$file_path){ //sending download

@@ -89,21 +89,13 @@
                             $date = date_format(date_create($row_contest['date_start']), 'd M Y');
                             $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
                             $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
-                            
-                            $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
-                            $result_room = mysql_query($sql ,$conn);
-                            
-                            $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select'";
+                        
+                            $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.score DESC,school.display ASC";
                             $result_student = mysql_query($sql ,$conn);
-                            $max_student = mysql_num_rows($result_student);
-                            
-                            $i = 1;
-                            while($row_room = mysql_fetch_array($result_room)) {
-                                $max_student_room = intval($row_room['amount_student']);    
                                 echo '<div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-heading"> 
-                                                At the place : '.$row_room['room_name'].' on '.$date.' '.$start_date.' - '.$end_date.'
+                                                At the place : '.$date.' '.$start_date.' - '.$end_date.'
                                             </div>
                                             <div class="panel-body">';
                                 echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -112,36 +104,36 @@
                                             <th>Order</th>
                                             <th>Student name</th>
                                             <th>School name</th>
-                                            <th>Province</th>
                                             <th>Certificate</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
-                                $count = 1;
+                                $count = $order = 0;
+                                $old_score = -1;
                                 while($row_student = mysql_fetch_array($result_student)) {
                                     echo"<tr class=\"odd gradeX\">";
-                                    echo"    <td>".($i++)."</td>";
+                                    if($old_score!=$row_student['score']){
+                                        if($count!=$order){
+                                            $order=$count+1;
+                                        }else $order++;
+                                    }
+                                    $count++;   
+                                    echo"    <td>".($order)."</td>";
                                     echo"    <td>".$row_student['name']."</td>";
                                     echo"    <td>".$row_student['display']."</td>";
-                                    echo"    <td>".$row_student['changwat']."</td>";
                                     $cer_file_name = $row_student["subject_id"]."_".$row_student["school_id"]."_".padseven($row_student["id"]).".pdf";
                                     echo"<td>";
                                     echo check_file_exist($dir_path,$cer_file_name)?'<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
                                     echo"</td>";
                                     echo"</tr>";
-                                    $count++;
-                                    if($count > $max_student_room){
-                                        if($max_student-$i <= 3){
-                                            $max_student_room += 3;
-                                        }else{
-                                            echo '</tbody></table></div></div></div>';
-                                            break;
-                                        }                
-                                    }
-                                }            
+                                    $old_score=$row_student['score'];
+                                } 
+                                echo '</tbody></table></div></div></div>';
+                                                       
                             }
                         }
-                    }
+                        
+                    
             ?>
           </div>
           <!-- /.row -->
@@ -172,7 +164,7 @@
             }
         }
         function reload() {
-            location.href = "studentregister.php?select="+$('select').val();
+            location.href = "scoreboard.php?select="+$('select').val();
         }
     
     </script>

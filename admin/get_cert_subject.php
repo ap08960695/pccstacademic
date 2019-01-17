@@ -46,19 +46,19 @@
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a gold medal certificate for ";
+              $str = "Has been awarded a gold medal certificate in ";
             }
           } else if($score >= 70){
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญเงิน การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a silver medal certificate for ";
+              $str = "Has been awarded a silver medal certificate in ";
             }
           } else if($score >= 60){
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญทองแดง การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a bronze medal certificate for ";
+              $str = "Has been awarded a bronze medal certificate in ";
             }
           } else {
             if($data_array[$i]["subject_id"][0]=="1"){
@@ -77,7 +77,7 @@
           $pdf->SetFont('TH Charm of AU','',26);
           $pdf->setXY(15,78);
           $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$data_array[$i]["name"]),0,1,"C");
-          $pdf->SetFont('TH Charm of AU','',18);
+          $pdf->SetFont('TH Charm of AU','',21);
           $pdf->setXY(15,89);
           $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$str),0,1,"C");
           $filename = $data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
