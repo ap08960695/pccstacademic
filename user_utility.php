@@ -1,7 +1,7 @@
 <?php 
   function scoreDivider($score) {
     $score = intval($score);
-    $score_map = [[80,"Gold medal"],[60,"Silver medal"],[50,"Bronze medal"],[0,"Participate"]];
+    $score_map = [[80,"Gold medal"],[60,"Silver medal"],[50,"Bronze medal"],[0,"Attended"]];
     $setter = "";
     if($score==-1){
       return "Wait For score";

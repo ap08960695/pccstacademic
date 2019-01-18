@@ -104,7 +104,7 @@
                                             <th>Order</th>
                                             <th>Student name</th>
                                             <th>School name</th>
-                                            <th>Certificate</th>
+                                            <th>Awards</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -123,7 +123,23 @@
                                     echo"    <td>".$row_student['display']."</td>";
                                     $cer_file_name = $row_student["subject_id"]."_".$row_student["school_id"]."_".padseven($row_student["id"]).".pdf";
                                     echo"<td>";
-                                    echo check_file_exist($dir_path,$cer_file_name)?'<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
+                                    if(check_file_exist($dir_path,$cer_file_name)){ 
+                                        echo '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank"';
+                                        $score = $row_student['score'];
+                                        if($score >= 80){
+                                            echo "class='btn btn-warning' return false; style='margin-left:10px' >Gold medal";
+                                        } else if($score >= 70){
+                                            echo "class='btn btn-info' return false; style='margin-left:10px'>Silver medal";
+                                        }else if($score >= 60){
+                                            echo "class='btn btn-danger' return false; style='margin-left:10px'>Bronze medal";
+                                        } else {
+                                            echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
+                                        }
+                                        echo '</a>';
+                                    }else{
+                                        echo 'Waiting';
+                                    }
+                                    
                                     echo"</td>";
                                     echo"</tr>";
                                     $old_score=$row_student['score'];
