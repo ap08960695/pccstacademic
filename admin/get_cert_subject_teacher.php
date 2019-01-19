@@ -50,30 +50,30 @@
                 if($data_array[$i]["subject_id"][0]=="1"){
                   $str = "ครูผู้ฝึกซ้อมนักเรียน ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน"; 
                 }else if($data_array[$i]["subject_id"][0]=="2"){
-                  $str = "For training a student receiving a gold medal award in ";
+                  $str = "for training a student receiving a gold medal award in ";
                 }
               } else if($score >= 70){
                 if($data_array[$i]["subject_id"][0]=="1"){
                   $str = "ครูผู้ฝึกซ้อมนักเรียน ได้รับรางวัลเกียรติบัตรเหรียญเงิน การแข่งขัน"; 
                 }else if($data_array[$i]["subject_id"][0]=="2"){
-                  $str = "For training a student receiving a silver medal award in ";
+                  $str = "for training a student receiving a silver medal award in ";
                 }
               } else if($score >= 60){
                 if($data_array[$i]["subject_id"][0]=="1"){
                   $str = "ครูผู้ฝึกซ้อมนักเรียน ได้รับรางวัลเกียรติบัตรเหรียญทองแดง การแข่งขัน"; 
                 }else if($data_array[$i]["subject_id"][0]=="2"){
-                  $str = "For training a student receiving a bronze medal award in ";
+                  $str = "for training a student receiving a bronze medal award in ";
                 }
               } else {
                 if($data_array[$i]["subject_id"][0]=="1"){
                   $str = "ครูผู้ฝึกซ้อมนักเรียน ได้รับรางวัลเกียรติบัตรเข้าร่วมการแข่งขัน การแข่งขัน"; 
                 }else if($data_array[$i]["subject_id"][0]=="2"){
-                  $str = "For training a student ";
+                  $str = "for training a student ";
                 }
               }
               if($data_array[$i]["subject_id"][0]=="1"){
-                $data_array[$i]["education"] = str_replace("ม.","มัธยมศึกษา",$data_array[$i]["education"]);
-                $data_array[$i]["education"] = str_replace("ป.","ประถมศึกษา",$data_array[$i]["education"]);
+                $data_array[$i]["education"] = str_replace("ม.","มัธยมศึกษาตอน",$data_array[$i]["education"]);
+                $data_array[$i]["education"] = str_replace("ป.","ประถมศึกษาตอน",$data_array[$i]["education"]);
                 $str .= $data_array[$i]["contest_name"]." ระดับ".$data_array[$i]["education"]; 
               }else if($data_array[$i]["subject_id"][0]=="2"){
                 $str .= $data_array[$i]["contest_name"]." ".$data_array[$i]["education"];
@@ -85,7 +85,7 @@
               $pdf->setXY(15,89);
               $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$str),0,1,"C");
               $filename = "teacher_".$data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
-              $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"F");
+              $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"FD");
             } 		
           }
     }  

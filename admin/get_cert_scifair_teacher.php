@@ -8,6 +8,7 @@
   require_once __DIR__ . '/vendor/autoload.php';
   ini_set('memory_limit', '1024M');
   ini_set('max_execution_time', 300);
+  //  $uploaddir = __DIR__."/files/";
   if($_FILES['myFile']['name']==""){
     header("location:cert_maker.php?act=empty_file");
     exit();
@@ -20,15 +21,16 @@
 
   function genCert($data_array,$dir_temp) {
       $temp_arr = array();
-      for($i=1;$i<count($data_array);$i++){
+      echo count($data_array);
+      for($i=1;$i<=count($data_array);$i++){
           $pdf=new FPDF();
           $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
           $pdf->AddPage('L');
           $charset = "cp874//IGNORE";
-          $pdf->Image('cert_en_teacher.png', 0, 0, 299, 205);
+          $pdf->Image('cert_scifair_teacher.png', 0, 0, 299, 205);
           $pdf->SetFont('TH Charm of AU','',26);
           $pdf->setXY(15,80);
-          $str = "As a project work advisor in ".$data_array[$i]["B"];
+          $str = "as a project work advisor in ".$data_array[$i]["B"];
           $pdf->Cell(0,0,iconv('UTF-8',$charset,$data_array[$i]["A"]),0,1,"C");
           $pdf->SetFont('TH Charm of AU','',21);
           $pdf->setXY(15,91);

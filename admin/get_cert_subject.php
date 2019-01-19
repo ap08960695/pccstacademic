@@ -46,30 +46,30 @@
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a gold medal certificate in ";
+              $str = "has been awarded a gold medal certificate in ";
             }
           } else if($score >= 70){
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญเงิน การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a silver medal certificate in ";
+              $str = "has been awarded a silver medal certificate in ";
             }
           } else if($score >= 60){
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเหรียญทองแดง การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has been awarded a bronze medal certificate in ";
+              $str = "has been awarded a bronze medal certificate in ";
             }
           } else {
             if($data_array[$i]["subject_id"][0]=="1"){
               $str = "ได้รับรางวัลเกียรติบัตรเข้าร่วมการแข่งขัน การแข่งขัน"; 
             }else if($data_array[$i]["subject_id"][0]=="2"){
-              $str = "Has attended ";
+              $str = "has attended ";
             }
           }
           if($data_array[$i]["subject_id"][0]=="1"){
-            $data_array[$i]["education"] = str_replace("ม.","มัธยมศึกษา",$data_array[$i]["education"]);
-            $data_array[$i]["education"] = str_replace("ป.","ประถมศึกษา",$data_array[$i]["education"]);
+            $data_array[$i]["education"] = str_replace("ม.","มัธยมศึกษาตอน",$data_array[$i]["education"]);
+            $data_array[$i]["education"] = str_replace("ป.","ประถมศึกษาตอน",$data_array[$i]["education"]);
             $str .= $data_array[$i]["contest_name"]." ระดับ".$data_array[$i]["education"]; 
           }else if($data_array[$i]["subject_id"][0]=="2"){
             $str .= $data_array[$i]["contest_name"]." ".$data_array[$i]["education"];
@@ -81,7 +81,7 @@
           $pdf->setXY(15,89);
           $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$str),0,1,"C");
           $filename = $data_array[$i]["subject_id"]."_".$data_array[$i]["school_id"]."_".str_pad($data_array[$i]["id"],7,"0",STR_PAD_LEFT).".pdf";
-          $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"F");
+          $pdf->Output($dir_up."/pccstcer/certfile/".$filename,"FD");
         } 		
       }
     }

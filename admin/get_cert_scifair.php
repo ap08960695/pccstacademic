@@ -12,6 +12,7 @@
     header("location:cert_maker.php?act=empty_file");
     exit();
   }
+   $uploaddir = __DIR__."/files/";
   $uploadfile = $uploaddir . basename($_FILES['myFile']['name']);
   $uploadfilepath = $_FILES['myFile']['tmp_name'];
   $objPHPExcel = PHPExcel_IOFactory::load($uploadfilepath);
@@ -20,13 +21,13 @@
   
   function genCert($data_array,$dir_temp) {
     $temp_arr = array();
-    for($i=1;$i<count($data_array);$i++){
+    for($i=1;$i<=count($data_array);$i++){
         $pdf=new FPDF();
         $pdf->AddFont('TH Charm of AU','','TH Charm of AU.php');
         $pdf->AddPage('L');
         $charset = "cp874//IGNORE";
-        $pdf->Image('cert_en.png', 0, 0, 299, 205);
-        $str = "Has been awarded a ".$data_array[$i]["B"]." medal certificate in ".$data_array[$i]["C"];
+        $pdf->Image('cert_scifair_student.png', 0, 0, 299, 205);
+        $str = "has been awarded a ".$data_array[$i]["B"]." medal certificate in ".$data_array[$i]["C"];
         $pdf->SetFont('TH Charm of AU','',26);
         $pdf->setXY(15,80);
         $pdf->Cell(0,0,iconv( 'UTF-8',$charset,$data_array[$i]["A"]),0,1,"C");
