@@ -137,7 +137,7 @@
                                         }
                                         echo '</a>';
                                     }else{
-                                        echo 'Waiting';
+                                        echo 'Absent';
                                     }
                                     
                                     echo"</td>";
