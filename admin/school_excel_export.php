@@ -61,7 +61,7 @@ for($i=0; $i<count($obj_array); $i++) {
   ->setCellValue('A'.strval($indexing), $indexing-1)
   ->setCellValue('B'.strval($indexing), $obj_array[$i]["name"])
   ->setCellValue('C'.strval($indexing), $obj_array[$i]["display"])
-  ->setCellValue('D'.strval($indexing), $obj_array[$i]["code"])
+  ->setCellValue('D'.strval($indexing), strval($obj_array[$i]["code"]))
   ->setCellValue('E'.strval($indexing), $obj_array[$i]["score"]==-1?"":$obj_array[$i]["score"]);
 }
 $objPHPExcel->getActiveSheet()->getColumnDimensionByColumn('B')->setAutoSize(false);
@@ -96,7 +96,7 @@ for($i=0; $i<count($obj_array); $i++) {
   ->setCellValue('A'.strval($indexing), $indexing-1)
   ->setCellValue('B'.strval($indexing), $obj_array[$i]["name"])
   ->setCellValue('C'.strval($indexing), $obj_array[$i]["display"])
-  ->setCellValue('D'.strval($indexing), $obj_array[$i]["code"]);
+  ->setCellValue('D'.strval($indexing), strval($obj_array[$i]["code"]));
   // ->setCellValue('E'.strval($indexing), $obj_array[$i]["score"]);
 }
 $newsheet->getColumnDimensionByColumn('B')->setAutoSize(false);
