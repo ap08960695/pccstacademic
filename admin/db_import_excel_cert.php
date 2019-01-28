@@ -8,6 +8,7 @@
   require_once __DIR__ . '/vendor/autoload.php';
   ini_set('memory_limit', '1024M');
   ini_set('max_execution_time', 300);
+
   if($_FILES['myFile']['name']==""){
     header("location:cert_maker.php?act=empty_file");
     exit();
@@ -30,7 +31,7 @@
         $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",$data_array[$i]["A"]),0,1,"C");
         $pdf->SetFont('TH Charm of AU','',21);
         $pdf->setXY(15,91);
-        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",'เป็นคณะกรรมการดำเนิน'),0,1,"C");
+        $pdf->Cell(0,0,iconv( 'UTF-8',"cp874//IGNORE",'คณะกรรมการดำเนินการจัดการแข่งขัน'),0,1,"C");
         $filename = "temp_".date("Ymdhis")."_".str_pad(strval($i),4,"0",STR_PAD_LEFT);
         $filename_temp = $filename; 
         $same = 9999;
