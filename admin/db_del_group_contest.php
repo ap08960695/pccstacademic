@@ -7,11 +7,10 @@
     $group_name = $_POST['group_name'];
     
     $sql = "DELETE FROM contest_group WHERE group_name='$group_name';";
-    if(mysql_query($sql ,$conn)){
+    if(mysqli_query($conn,$sql)){
 		header("location:add_group_contest.php?act=success_delete");
 	}else{
 		header("location:add_group_contest.php?act=error_delete");
 	}
 	
-    mysql_close($conn);
-?>
+    mysqli_close($conn);

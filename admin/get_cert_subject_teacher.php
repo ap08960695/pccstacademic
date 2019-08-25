@@ -13,12 +13,12 @@
     exit();
   }
   $sql = "SELECT register_teacher.school_id, register_teacher.id, school.display, register_teacher.subject_id, register_teacher.name,contest.contest_name,contest.education FROM register_teacher INNER JOIN school ON register_teacher.school_id=school.code INNER JOIN contest ON register_teacher.subject_id=contest.code WHERE register_teacher.subject_id='".$subject_id."'";
-  if($student_result = mysql_query($sql, $conn)) {
+  if($student_result = mysqli_query($conn,$sql);) {
     $obj_array = [];
-    while($row = mysql_fetch_assoc($student_result)) {
+    while($row = mysqli_fetch_assoc($student_result)) {
       $sql = "SELECT MAX(register.score) AS score FROM register WHERE register.subject_id='".$subject_id."' AND register.school_id='".$row['school_id']."'";
-      if($score_result = mysql_query($sql, $conn)) {
-        $row_score = mysql_fetch_assoc($score_result);
+      if($score_result = mysqli_query($conn,$sql);) {
+        $row_score = mysqli_fetch_assoc($score_result);
         $row['score'] = $row_score['score']; 
       } 
       array_push($obj_array, $row);

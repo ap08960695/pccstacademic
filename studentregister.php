@@ -1,6 +1,6 @@
 <?php
-    include_once('condb.php');
-    include_once('user_utility.php');
+include_once('condb.php');
+include_once('user_utility.php');
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    
+
 </head>
 
 <body>
@@ -51,62 +51,62 @@
 
         <!-- Page Content -->
         <div id="page-wrapper-nomenu">
-          <div class="row">
-              <div class="col-lg-12">
-                  <h1 class="page-header">
-                         <select class="form-control" onchange="reload()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        <select class="form-control" onchange="reload()">
                             <?php
-                                $sql = "SELECT contest_name,code,education FROM contest ORDER BY code ASC";
-                                $result = mysql_query($sql ,$conn);
-                                if($_GET['select']==""){
-                                    echo "<option disabled selected>Choose the contest</option>";
-                                    while($row = mysql_fetch_array($result)) {
-                                        echo "<option value='".$row['code']."'>"."(".$row['code'].") ".$row['contest_name']." (".$row['education'].")</option>";
-                                    }
-                                }else{
-                                    echo "<option disabled>Choose the contest</option>";
-                                    while($row = mysql_fetch_array($result)) {
-                                        if($row['code']==$_GET['select'])
-                                          echo "<option value='".$row['code']."' selected>"."(".$row['code'].") ".$row['contest_name']." (".$row['education'].")</option>";
-                                        else echo "<option value='".$row['code']."'>"."(".$row['code'].") ".$row['contest_name']." (".$row['education'].")</option>";
-                                    }
+                            $sql = "SELECT contest_name,code,education FROM contest ORDER BY code ASC";
+                            $result = mysqli_query($conn, $sql);
+                            if ($_GET['select'] == "") {
+                                echo "<option disabled selected>Choose the contest</option>";
+                                while ($row = mysqli_fetch_array($result)) {
+                                    echo "<option value='" . $row['code'] . "'>" . "(" . $row['code'] . ") " . $row['contest_name'] . " (" . $row['education'] . ")</option>";
                                 }
-                            ?> 
+                            } else {
+                                echo "<option disabled>Choose the contest</option>";
+                                while ($row = mysqli_fetch_array($result)) {
+                                    if ($row['code'] == $_GET['select'])
+                                        echo "<option value='" . $row['code'] . "' selected>" . "(" . $row['code'] . ") " . $row['contest_name'] . " (" . $row['education'] . ")</option>";
+                                    else echo "<option value='" . $row['code'] . "'>" . "(" . $row['code'] . ") " . $row['contest_name'] . " (" . $row['education'] . ")</option>";
+                                }
+                            }
+                            ?>
                         </select>
                     </h1>
-              </div>
-              <!-- /.col-lg-12 -->
-          </div>
-          <!-- /.row -->
-          <div class="row">
-            <?php
-                    $select = $_GET['select'];
-                    if($select != ""){
-                        $sql = "SELECT date_start,date_end FROM contest WHERE code='$select'";
-                        $result_contest = mysql_query($sql ,$conn);
-                        if(mysql_num_rows($result_contest)>0){
-                            $row_contest = mysql_fetch_array($result_contest);
-                            $date = date_format(date_create($row_contest['date_start']), 'd M Y');
-                            $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
-                            $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
-                            
-                            $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
-                            $result_room = mysql_query($sql ,$conn);
-                            
-                            $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select'";
-                            $result_student = mysql_query($sql ,$conn);
-                            $max_student = mysql_num_rows($result_student);
-                            
-                            $i = 1;
-                            while($row_room = mysql_fetch_array($result_room)) {
-                                $max_student_room = intval($row_room['amount_student']);    
-                                echo '<div class="col-lg-12">
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <?php
+                $select = $_GET['select'];
+                if ($select != "") {
+                    $sql = "SELECT date_start,date_end FROM contest WHERE code='$select'";
+                    $result_contest = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result_contest) > 0) {
+                        $row_contest = mysqli_fetch_array($result_contest);
+                        $date = date_format(date_create($row_contest['date_start']), 'd M Y');
+                        $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
+                        $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
+
+                        $sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room_contest.room_id=room.id WHERE room_contest.contest_code='$select' ORDER BY room.id";
+                        $result_room = mysqli_query($conn, $sql);
+
+                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select'";
+                        $result_student = mysqli_query($conn, $sql);
+                        $max_student = mysqli_num_rows($result_student);
+
+                        $i = 1;
+                        while ($row_room = mysqli_fetch_array($result_room)) {
+                            $max_student_room = intval($row_room['amount_student']);
+                            echo '<div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-heading"> 
-                                                At the place : '.$row_room['room_name'].' on '.$date.' '.$start_date.' - '.$end_date.'
+                                                At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date . '
                                             </div>
                                             <div class="panel-body">';
-                                echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>Order</th>
@@ -117,54 +117,54 @@
                                         </tr>
                                     </thead>
                                     <tbody>';
-                                $count = 1;
-                                while($row_student = mysql_fetch_array($result_student)) {
-                                    echo"<tr class=\"odd gradeX\">";
-                                    echo"    <td>".($i++)."</td>";
-                                    echo"    <td>".$row_student['name']."</td>";
-                                    echo"    <td>".$row_student['display']."</td>";
-                                    echo"    <td>".$row_student['changwat']."</td>";
-                                    $cer_file_name = $row_student["subject_id"]."_".$row_student["school_id"]."_".padseven($row_student["id"]).".pdf";
-                                    echo"<td>";
-                                    if(check_file_exist($dir_path,$cer_file_name)){ 
-                                        echo '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank"';
-                                        $score = $row_student['score'];
-                                        if($score >= 80){
-                                            echo "class='btn btn-warning' return false; style='margin-left:10px' >Gold medal";
-                                        } else if($score >= 70){
-                                            echo "class='btn btn-info' return false; style='margin-left:10px'>Silver medal";
-                                        }else if($score >= 60){
-                                            echo "class='btn btn-danger' return false; style='margin-left:10px'>Bronze medal";
-                                        } else {
-                                            echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
-                                        }
-                                        echo '</a>';
+                            $count = 1;
+                            while ($row_student = mysqli_fetch_array($result_student)) {
+                                echo "<tr class=\"odd gradeX\">";
+                                echo "    <td>" . ($i++) . "</td>";
+                                echo "    <td>" . $row_student['name'] . "</td>";
+                                echo "    <td>" . $row_student['display'] . "</td>";
+                                echo "    <td>" . $row_student['changwat'] . "</td>";
+                                $cer_file_name = $row_student["subject_id"] . "_" . $row_student["school_id"] . "_" . padseven($row_student["id"]) . ".pdf";
+                                echo "<td>";
+                                if (check_file_exist($dir_path, $cer_file_name)) {
+                                    echo '<a href="pccstcer/certfile/' . $cer_file_name . '" target="_blank"';
+                                    $score = $row_student['score'];
+                                    if ($score >= 80) {
+                                        echo "class='btn btn-warning' return false; style='margin-left:10px' >Gold medal";
+                                    } else if ($score >= 70) {
+                                        echo "class='btn btn-info' return false; style='margin-left:10px'>Silver medal";
+                                    } else if ($score >= 60) {
+                                        echo "class='btn btn-danger' return false; style='margin-left:10px'>Bronze medal";
+                                    } else {
+                                        echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
                                     }
-                                    echo"</td>";
-                                    echo"</tr>";
-                                    $count++;
-                                    if($count > $max_student_room){
-                                        if($max_student-$i <= 3){
-                                            $max_student_room += 3;
-                                        }else{
-                                            echo '</tbody></table></div></div></div>';
-                                            break;
-                                        }                
+                                    echo '</a>';
+                                }
+                                echo "</td>";
+                                echo "</tr>";
+                                $count++;
+                                if ($count > $max_student_room) {
+                                    if ($max_student - $i <= 3) {
+                                        $max_student_room += 3;
+                                    } else {
+                                        echo '</tbody></table></div></div></div>';
+                                        break;
                                     }
-                                }            
+                                }
                             }
                         }
                     }
-            ?>
-          </div>
-          <!-- /.row -->
+                }
+                ?>
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
     </div>
     <!-- /#wrapper -->
 
-    
+
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
@@ -173,7 +173,7 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="vendor/metisMenu/metisMenu.min.js"></script>
- 
+
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
     <script>
@@ -184,10 +184,10 @@
                 inputVal.style.backgroundColor = "#FFFF99";
             }
         }
+
         function reload() {
-            location.href = "studentregister.php?select="+$('select').val();
+            location.href = "studentregister.php?select=" + $('select').val();
         }
-    
     </script>
 
 </body>

@@ -6,11 +6,10 @@
     $code = $_POST['code'];
     
     $sql = "DELETE FROM room WHERE id='$code';";
-    if(mysql_query($sql ,$conn)){
+    if(mysqli_query($conn,$sql)){
 		header("location:add_room.php?act=success_delete");
 	}else{
 		header("location:add_room.php?act=error_delete");
 	}
 	
-    mysql_close($conn);
-?>
+    mysqli_close($conn);

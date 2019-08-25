@@ -112,17 +112,17 @@
                               <tbody>
                                   <?php
 									$sql = "SELECT value FROM config WHERE meta='schoolRole'";
-									$result = mysql_query($sql ,$conn);    
+									$result = mysqli_query($conn,$sql);    
 									if($result){
-										$row_role = mysql_fetch_array($result);
+										$row_role = mysqli_fetch_array($result);
 									}
 									echo "<input type='hidden' name='role' value='".$row_role['value']."'>";
 									$sql = "SELECT contest.code,contest.contest_name,contest.type,IF(school.country='thailand',contest.person,IF(school.country='inter',contest.person_inter,IF(school.country='pccst',contest.person_host,0))) AS person,contest.teacher_person,contest.education FROM school LEFT JOIN contest_group ON school.group_contest=contest_group.group_name INNER JOIN contest ON contest.code=contest_group.contest_code WHERE school.code='".$school_code."' ORDER BY contest.code ASC";
-									$result = mysql_query($sql ,$conn);
-									if(mysql_num_rows($result) > 0) {
-										while($row = mysql_fetch_array($result)) {
+									$result = mysqli_query($conn,$sql);
+									if(mysqli_num_rows($conn,$result) > 0) {
+										while($row = mysqli_fetch_array($result)) {
 											$sql = "SELECT name FROM register WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1 ORDER BY id ASC";
-											$result_register = mysql_query($sql ,$conn);
+											$result_register = mysqli_query($conn,$sql);
 											if($row_role['value']=="all"){
 												echo"<tr class=\"odd gradeX\">";
 												echo"    <td>".$row['code']."</td>";
@@ -132,7 +132,7 @@
 												echo"    <td class=\"center\">";
 													
 												for($i=0;$i<$row['person'];$i++) {
-													if($row_register = mysql_fetch_array($result_register)){
+													if($row_register = mysqli_fetch_array($result_register)){
 														echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
 													}else{
 														echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
@@ -143,9 +143,9 @@
 													
 													if($row['person']>0){
 														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1";
-														$result_register = mysql_query($sql ,$conn);
+														$result_register = mysqli_query($conn,$sql);
 														for($i=0;$i<$row['teacher_person'];$i++) {
-															if($row_register = mysql_fetch_array($result_register)){
+															if($row_register = mysqli_fetch_array($result_register)){
 																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\">";
 															}else{
 																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\">";
@@ -154,7 +154,7 @@
 													}
 													echo"    </td>";
 													echo"</tr>";
-											}else if(mysql_num_rows($result_register) > 0){
+											}else if(mysqli_num_rows($result_register) > 0){
 												echo"<tr class=\"odd gradeX\">"; 
 												echo"    <td>".$row['code']."</td>";
 												echo"    <td>".$row['contest_name']." (".$row['person']." คน)"."</td>";
@@ -163,7 +163,7 @@
 												echo"    <td class=\"center\">";
 												if($row_role['value']=="edit" || $row_role['value']=="view"){	
 													for($i=0;$i<$row['person'];$i++) {
-														if($row_register = mysql_fetch_array($result_register)){
+														if($row_register = mysqli_fetch_array($result_register)){
 															echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\" ";
 														}else{
 															echo"        <input type=\"text\" name=\"student['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\" ";
@@ -179,9 +179,9 @@
 														
 													if($row['person']>0){
 														$sql = "SELECT name FROM register_teacher WHERE school_id='".$school_code."' AND subject_id='".$row['code']."' AND status=1 ORDER BY id ASC";
-														$result_register = mysql_query($sql ,$conn);
+														$result_register = mysqli_query($conn,$sql);
 														for($i=0;$i<$row['teacher_person'];$i++) {
-															if($row_register = mysql_fetch_array($result_register)){
+															if($row_register = mysqli_fetch_array($result_register)){
 																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"".$row_register['name']."\" ";
 															}else{
 																echo"        <input type=\"text\" name=\"teacher['".$row['code']."'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"\" ";

@@ -1,8 +1,8 @@
 <?php
-    session_start();
-    include_once('../condb.php');
-	include_once('admin_check.php');
-    
+session_start();
+include_once('../condb.php');
+include_once('admin_check.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -45,64 +45,64 @@
 
         <!-- Navigation -->
         <?php
-			include_once("nav_admin.html");
-		?>
+        include_once("nav_admin.html");
+        ?>
         <!-- Page Content -->
         <div id="page-wrapper">
-          <div class="row">
-              <div class="col-lg-12">
-                  <h1 class="page-header">สรุปการแข่งรายโรงเรียน</h1>
-              </div>
-              <!-- /.col-lg-12 -->
-          </div>
-          <!-- /.row -->
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="panel panel-default">
-                      <div class="panel-heading">
-							รายชื่อโรงเรียนทั้งหมด
-                      </div>
-                      <!-- /.panel-heading -->
-                      <div class="panel-body">
-                          <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                              <thead>
-                                  <tr>
-                                      <th>code</th>
-                                      <th>ชื่อโรงเรียน</th>
-                                      <th></th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <?php
-                                        $stdcode = "";
-                                        $teachcode = "";
-                                        $sql = "SELECT * FROM school WHERE status = 1;";
-                                        $result = mysql_query($sql ,$conn);
-                                        if (mysql_num_rows($result) > 0) {
-                                            while($row = mysql_fetch_array($result)) {
-												$sql_s = "SELECT * FROM register WHERE school_id = '".$row['code']."' AND status = 1;";
-                                                $result_s = mysql_query($sql_s ,$conn);
-                                                $result_s_rows = mysql_num_rows($result_s);
-												echo "<tr class=\"odd gradeX\">";
-												echo "    <td>".$row['code']."</td>";
-												echo "    <td>".$row['display']." (".$result_s_rows." คน)</td>";
-												echo "    <td><a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a>";
-                                                echo "    <a href=\"reportschool.php?s=".$row['code']."\" class=\"btn btn-primary\">รายละเอียด</a></td>";
-                                                echo "</tr>";
-											}
-										}
-									?>
-                              </tbody>
-                          </table>
-                          <!-- /.table-responsive -->		
-                      </div>
-                      <!-- /.panel-body -->
-                  </div>
-                  <!-- /.panel -->
-              </div>
-              <!-- /.col-lg-12 -->			
-          </div>
-          <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">สรุปการแข่งรายโรงเรียน</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            รายชื่อโรงเรียนทั้งหมด
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>code</th>
+                                        <th>ชื่อโรงเรียน</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $stdcode = "";
+                                    $teachcode = "";
+                                    $sql = "SELECT * FROM school WHERE status = 1;";
+                                    $result = mysqli_query($conn, $sql);
+                                    if (mysqli_num_rows($conn, $result) > 0) {
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            $sql_s = "SELECT * FROM register WHERE school_id = '" . $row['code'] . "' AND status = 1;";
+                                            $result_s = mysqli_query($conn, $sql_s);
+                                            $result_s_rows = mysqli_num_rows($result_s);
+                                            echo "<tr class=\"odd gradeX\">";
+                                            echo "    <td>" . $row['code'] . "</td>";
+                                            echo "    <td>" . $row['display'] . " (" . $result_s_rows . " คน)</td>";
+                                            echo "    <td><a href=\"reportschool.php?s=" . $row['code'] . "\" class=\"btn btn-primary\">รายละเอียด</a>";
+                                            echo "    <a href=\"reportschool.php?s=" . $row['code'] . "\" class=\"btn btn-primary\">รายละเอียด</a></td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
@@ -110,13 +110,13 @@
     <!-- /#wrapper -->
 
     <script>
-    function checkFilled(inputVal) {
-        if (inputVal.value == "") {
-            inputVal.style.backgroundColor = "#FFFFFF";
-        } else {
-            inputVal.style.backgroundColor = "#FFFF99";
+        function checkFilled(inputVal) {
+            if (inputVal.value == "") {
+                inputVal.style.backgroundColor = "#FFFFFF";
+            } else {
+                inputVal.style.backgroundColor = "#FFFF99";
+            }
         }
-    }
     </script>
 
     <!-- jQuery -->

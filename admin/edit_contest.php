@@ -44,8 +44,8 @@
         <?php
 			include_once("nav_admin.html");
 			$sql = "SELECT contest.contest_name,contest.education,contest.type,contest.person,contest.person_inter,contest.person_host,contest.teacher_person,contest.platform,contest.date_start,contest.date_end FROM contest WHERE contest.code='".$_POST['contest_code']."'";
-			$result = mysql_query($sql ,$conn);
-			$row_contest = mysql_fetch_array($result);					
+			$result = mysqli_query($conn,$sql);
+			$row_contest = mysqli_fetch_array($result);					
 		?>
         
 
@@ -205,9 +205,9 @@
                               <tbody>
                                   <?php
 										$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.person_host,contest.person_inter,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
-                                        $result = mysql_query($sql ,$conn);
-										if ($result && mysql_num_rows($result) > 0) {
-                                            while($row = mysql_fetch_array($result)) {
+                                        $result = mysqli_query($conn,$sql);
+										if ($result && mysqli_num_rows($conn,$result) > 0) {
+                                            while($row = mysqli_fetch_array($result)) {
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".$row['code']."</td>";
 												echo "    <td>".$row['contest_name']."</td>";
@@ -232,9 +232,9 @@
 												
 												echo "<td>";
 												$sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room.id=room_contest.room_id WHERE room_contest.contest_code='".$row['code']."'"; 
-												$result_room = mysql_query($sql ,$conn);
+												$result_room = mysqli_query($conn,$sql);
 												if ($result_room) {
-													while($row_room = mysql_fetch_array($result_room)) {
+													while($row_room = mysqli_fetch_array($result_room)) {
 														echo $row_room['room_name']." จำนวนรับได้ ".$row_room['amount_student']." คน<br>";
 													}
 												}

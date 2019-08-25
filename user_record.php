@@ -1,10 +1,10 @@
 <?php
-    session_start();
-    include_once('condb.php');
-    include_once('user_utility.php');
-    include_once('user_check.php');
-    $school_code = $school_info["code"];
-    $schoolname = $school_info["display"];
+session_start();
+include_once('condb.php');
+include_once('user_utility.php');
+include_once('user_check.php');
+$school_code = $school_info["code"];
+$schoolname = $school_info["display"];
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +36,7 @@
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    
+
 </head>
 
 <body>
@@ -55,71 +55,70 @@
                 <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018 - <small><?php echo $schoolname; ?></small></a>
             </div>
             <!-- /.navbar-header -->
-			<?php include_once("nav.html");?>
+            <?php include_once("nav.html"); ?>
             <!-- /.navbar-static-side -->
         </nav>
 
         <!-- Page Content -->
         <div id="page-wrapper">
-          <div class="row">
-              <div class="col-lg-12">
-                  <h1 class="page-header">
-                    The Contest List 
-                     </h1>
-              </div>
-              <!-- /.col-lg-12 -->
-          </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        The Contest List
+                    </h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
             <?php
-                $sql = "SELECT * from contest";
-                $result = mysql_query($sql, $conn);
-                while($row = mysql_fetch_assoc($result)) {
-                    $sql = "SELECT * FROM register WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
-                    $register_result = mysql_query($sql, $conn);        
-                    
-                    $sql = "SELECT * FROM register_teacher WHERE school_id='".$school_code."' AND subject_id=".$row["code"];
-                    $teacher_result = mysql_query($sql, $conn);        
-                    
-                    if(mysql_num_rows($register_result)>0){
-                        if($row["date_start"]=="0000-00-00 00:00:00" || $row["date_end"]=="0000-00-00 00:00:00"){
-                            $date_str = "Date unspecified";
-                        }else {
-                            $date = date_format(date_create($row['date_start']), 'd M Y');
-                            $start_date = date_format(date_create($row['date_start']), 'H:i');
-                            $end_date = date_format(date_create($row['date_end']), 'H:i');
-                            $date_str = ", Start ".$date." at ".$start_date." to ".$end_date;
-                        }
-                        $teacher = "Trainer ";
-                        while($teacher_row = mysql_fetch_assoc($teacher_result)){
-                           $teacher .= $teacher_row['name'].", ";
-                        }
-                        $teacher = substr($teacher,0,-2);
-                        echo '<div class="row">
+            $sql = "SELECT * from contest";
+            $result = mysqli_query($conn, $sql);;
+            while ($row = mysqli_fetch_assoc($result)) {
+                $sql = "SELECT * FROM register WHERE school_id='" . $school_code . "' AND subject_id=" . $row["code"];
+                $register_result = mysqli_query($conn, $sql);;
+
+                $sql = "SELECT * FROM register_teacher WHERE school_id='" . $school_code . "' AND subject_id=" . $row["code"];
+                $teacher_result = mysqli_query($conn, $sql);;
+
+                if (mysqli_num_rows($register_result) > 0) {
+                    if ($row["date_start"] == "0000-00-00 00:00:00" || $row["date_end"] == "0000-00-00 00:00:00") {
+                        $date_str = "Date unspecified";
+                    } else {
+                        $date = date_format(date_create($row['date_start']), 'd M Y');
+                        $start_date = date_format(date_create($row['date_start']), 'H:i');
+                        $end_date = date_format(date_create($row['date_end']), 'H:i');
+                        $date_str = ", Start " . $date . " at " . $start_date . " to " . $end_date;
+                    }
+                    $teacher = "Trainer ";
+                    while ($teacher_row = mysqli_fetch_assoc($teacher_result)) {
+                        $teacher .= $teacher_row['name'] . ", ";
+                    }
+                    $teacher = substr($teacher, 0, -2);
+                    echo '<div class="row">
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        '.$row["contest_name"].'('.$row["code"].') '.$teacher.$date_str;
-                        echo check_dir_file_exist($dir_path.$row["code"]."_".$school_code."_*.pdf")?
-                        ' <a href="zip_getter.php?school='.$school_code.'&&subject='.$row["code"].'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Certificates</a>':'';
-                        echo check_dir_file_exist($dir_path."teacher_".$row["code"]."_".$school_code."_*.pdf")?
-                        ' <a href="zip_getter_teacher.php?school='.$school_code.'&&subject='.$row["code"].'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Teacher Certificates</a>':'';
-                        echo '    </div>
+                                        ' . $row["contest_name"] . '(' . $row["code"] . ') ' . $teacher . $date_str;
+                    echo check_dir_file_exist($dir_path . $row["code"] . "_" . $school_code . "_*.pdf") ?
+                        ' <a href="zip_getter.php?school=' . $school_code . '&&subject=' . $row["code"] . '" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Certificates</a>' : '';
+                    echo check_dir_file_exist($dir_path . "teacher_" . $row["code"] . "_" . $school_code . "_*.pdf") ?
+                        ' <a href="zip_getter_teacher.php?school=' . $school_code . '&&subject=' . $row["code"] . '" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Print Teacher Certificates</a>' : '';
+                    echo '    </div>
                                     <div class="panel-body">';
-                            
-                        while($register_row = mysql_fetch_assoc($register_result)){
-                            $cer_file_name = $row["code"]."_".$register_row["school_id"]."_".padseven($register_row["id"]).".pdf";
-                            echo '<div class="row">';
-                            echo '<p class="col-sm-4 col-form-label">'.$register_row['name'].'</p>';
-                            echo '<p class="col-sm-3 col-form-label">'.scoreDivider($register_row["score"]).'</label>';
-                            echo '<p class="col-sm-3 col-form-label">';
-                            echo check_file_exist($dir_path,$cer_file_name)?
-                            '<a href="pccstcer/certfile/'.$cer_file_name.'" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>': '';
-                            echo '</div>';  
-                        }
-                        echo "</div></div></div></div>";
-                    }            
-                    
+
+                    while ($register_row = mysqli_fetch_assoc($register_result)) {
+                        $cer_file_name = $row["code"] . "_" . $register_row["school_id"] . "_" . padseven($register_row["id"]) . ".pdf";
+                        echo '<div class="row">';
+                        echo '<p class="col-sm-4 col-form-label">' . $register_row['name'] . '</p>';
+                        echo '<p class="col-sm-3 col-form-label">' . scoreDivider($register_row["score"]) . '</label>';
+                        echo '<p class="col-sm-3 col-form-label">';
+                        echo check_file_exist($dir_path, $cer_file_name) ?
+                            '<a href="pccstcer/certfile/' . $cer_file_name . '" target="_blank" class="btn btn-primary" return false; style="margin-left:10px" >Certificate</a></label>' : '';
+                        echo '</div>';
+                    }
+                    echo "</div></div></div></div>";
                 }
-            ?> 
+            }
+            ?>
         </div>
         <!-- /#page-wrapper -->
 
@@ -127,13 +126,13 @@
     <!-- /#wrapper -->
 
     <script>
-    function checkFilled(inputVal) {
-        if (inputVal.value == "") {
-            inputVal.style.backgroundColor = "#FFFFFF";
-        } else {
-            inputVal.style.backgroundColor = "#FFFF99";
+        function checkFilled(inputVal) {
+            if (inputVal.value == "") {
+                inputVal.style.backgroundColor = "#FFFFFF";
+            } else {
+                inputVal.style.backgroundColor = "#FFFF99";
+            }
         }
-    }
     </script>
 
     <!-- jQuery -->

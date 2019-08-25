@@ -13,9 +13,9 @@
     exit();
   }
   $sql = "SELECT register.school_id, register.id, register.score, school.display, register.subject_id, register.name,contest.contest_name,contest.education FROM register INNER JOIN school ON register.school_id=school.code INNER JOIN contest ON register.subject_id=contest.code WHERE register.subject_id='".$subject_id."'";
-  if($student_result = mysql_query($sql, $conn)) {
+  if($student_result = mysqli_query($conn,$sql);) {
     $obj_array = [];
-    while($row = mysql_fetch_assoc($student_result)) {
+    while($row = mysqli_fetch_assoc($student_result)) {
       array_push($obj_array, $row);
     }
     genCert($obj_array);

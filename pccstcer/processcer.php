@@ -12,10 +12,10 @@
 	define('FPDF_FONTPATH','font/');
 	
 	$sql = "SELECT r.id,code,r.no,r.name AS 'pname',s.name AS 'subject',level,person,score FROM register r JOIN subject s ON r.subject_id = s.code WHERE r.status = 1;";
-    $result = mysql_query($sql ,$conn);
+    $result = mysqli_query($conn,$sql);
 	$i=1;
-    if (mysql_num_rows($result) > 0) {
-        while($row = mysql_fetch_array($result)) {
+    if (mysqli_num_rows($conn,$result) > 0) {
+        while($row = mysqli_fetch_array($result)) {
 			$id = $row['id'];
 			$no = $row['no'];
 			$person = $row['pname'];

@@ -139,9 +139,9 @@
 								<label for="school_option">ตั้งค่าการใช้งานของ school</label>
 								<?php
 									$sql = "SELECT value FROM config WHERE meta='schoolRole'";
-									$result = mysql_query($sql ,$conn);
+									$result = mysqli_query($conn,$sql);
 									if($result){
-										$row = mysql_fetch_array($result);
+										$row = mysqli_fetch_array($result);
 									}
 								?>
 								<select name="school_option" id="school_option" class="form-control">

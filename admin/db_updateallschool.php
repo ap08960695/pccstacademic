@@ -4,19 +4,19 @@
     include_once('admin_check.php');
     
 	$sql = "SELECT * FROM school WHERE status=0;";
-    $result = mysql_query($sql ,$conn);
+    $result = mysqli_query($conn,$sql);
 	$group = $_GET['group'];
-	while($row = mysql_fetch_array($result)){
+	while($row = mysqli_fetch_array($result)){
 		$user = $row['user'];
 		$code = Code(8);
 		$sql = "UPDATE school SET status=1,code='$code',group_contest='$group' WHERE user='$user';";
-		if(!mysql_query($sql ,$conn)){
+		if(!mysqli_query($conn,$sql)){
 			header("location:school.php?act=error_approved");
 			exit();
 		}	
 	}
 	header("location:school.php?act=success_approved");
-	mysql_close($conn);
+	mysqli_close($conn);
 	
 	function Code($len) { 
 		$chars = "ABCDEFGHIJKMNOPGRSTUVWXYZ";
@@ -36,5 +36,4 @@
 			$i++; 
 		}
 		return $pass;  
-	} 
-?>
+	}

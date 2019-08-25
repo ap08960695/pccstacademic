@@ -7,11 +7,10 @@
 	$user = $_POST['user'];
     
     $sql = "DELETE FROM school WHERE user='$user';";
-    if(mysql_query($sql ,$conn)){
+    if(mysqli_query($conn,$sql)){
 		header("location:index.php?act=success_delete&user=$user");
 	}else{
 		header("location:index.php?act=error_delete");
 	}
 	
-    mysql_close($conn);
-?>
+    mysqli_close($conn);

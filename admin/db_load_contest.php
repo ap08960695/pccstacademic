@@ -3,29 +3,28 @@
     include_once('../condb.php');
     
 	$sql = "SELECT * FROM subject";
-    $result = mysql_query($sql ,$conn);
+    $result = mysqli_query($conn,$sql);
 	if ($result) {
-		while($row = mysql_fetch_array($result)) {
+		while($row = mysqli_fetch_array($result)) {
 			
 			if($row['room1']!=""){
 				$sql = "SELECT id FROM room WHERE room_name='".$row['room1']."'";
-				$r = mysql_fetch_array(mysql_query($sql ,$conn));
+				$r = mysqli_fetch_array(mysqli_query($conn,$sql));
 				$sql = "INSERT INTO room_contest (contest_code,room_id) VALUES ('".$row['code']."',".$r['id'].")";
-				mysql_query($sql ,$conn);
+				mysqli_query($conn,$sql);
 			}
 			if($row['room2']!=""){
 				$sql = "SELECT id FROM room WHERE room_name='".$row['room2']."'";
-				$r = mysql_fetch_array(mysql_query($sql ,$conn));
+				$r = mysqli_fetch_array(mysqli_query($conn,$sql));
 				$sql = "INSERT INTO room_contest (contest_code,room_id) VALUES ('".$row['code']."',".$r['id'].")";
-				mysql_query($sql ,$conn);
+				mysqli_query($conn,$sql);
 			}
 			if($row['room3']!=""){
 				$sql = "SELECT id FROM room WHERE room_name='".$row['room3']."'";
-				$r = mysql_fetch_array(mysql_query($sql ,$conn));
+				$r = mysqli_fetch_array(mysqli_query($conn,$sql));
 				$sql = "INSERT INTO room_contest (contest_code,room_id) VALUES ('".$row['code']."',".$r['id'].")";
-				mysql_query($sql ,$conn);
+				mysqli_query($conn,$sql);
 			}
 		}
 	}
-    mysql_close($conn);*/
-?>
+    mysqli_close($conn);*/

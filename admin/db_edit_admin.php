@@ -14,19 +14,19 @@
 		}
 	}
 	if($check_empty==1){
-		mysql_close($conn);
+		mysqli_close($conn);
 		header("location:config.php?act=error_empty");
 		exit();
 	}
     if($pass_con != $pass){
-		mysql_close($conn);
+		mysqli_close($conn);
 		header("location:config.php?act=error_pass_same");
 		exit();
 	}
     $sql = "UPDATE config SET value='".md5($user)."' WHERE meta='userAdmin'";
-    if(mysql_query($sql ,$conn)){
+    if(mysqli_query($conn,$sql)){
 		$sql = "UPDATE config SET value='".md5($pass)."' WHERE meta='passAdmin'";
-		if(mysql_query($sql ,$conn)){
+		if(mysqli_query($conn,$sql)){
 			foreach($_POST as $key => $value){
 				unset($_SESSION[$key]);
 			}
@@ -37,5 +37,4 @@
 	}else{
 		header("location:index.php?act=error_update_user");
 	}
-    mysql_close($conn);
-?>
+    mysqli_close($conn);

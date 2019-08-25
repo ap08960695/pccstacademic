@@ -11,7 +11,7 @@
 		}
 	}
 	if($check_empty==1){
-		mysql_close($conn);
+		mysqli_close($conn);
 		header("location:config.php?act=error_empty_role");
 		exit();
 	}
@@ -24,10 +24,9 @@
 		$value = "view";
 	} 
     $sql = "UPDATE config SET value='".$value."' WHERE meta='schoolRole'";
-    if(mysql_query($sql ,$conn)){
+    if(mysqli_query($conn,$sql)){
 		header("location:config.php?act=success_update_role");
 	}else{
 		header("location:config.php?act=error_update_role");
 	}
-    mysql_close($conn);
-?>
+    mysqli_close($conn);

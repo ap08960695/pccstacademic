@@ -11,7 +11,7 @@
 		}
 	}
 	if($check_empty){
-		mysql_close($conn);
+		mysqli_close($conn);
 		header("location:edit_contest.php?act=error_empty");
 		exit();
 	}
@@ -28,15 +28,15 @@
 	}
 	
 	$sql = "UPDATE contest SET contest_name='".$_POST['contest_name']."',education='".$_POST['contest_education']."',type='".$_POST['contest_type']."',person=".$_POST['contest_person'].",person_inter=".$_POST['contest_person_inter'].",person_host=".$_POST['contest_person_host'].",teacher_person=".$_POST['contest_person_teacher'].",platform='".$_POST['contest_platform']."',date_start='".$start_date."',date_end='".$end_date."' WHERE code='".$_POST['contest_code']."'";
-	$result = mysql_query($sql ,$conn);
+	$result = mysqli_query($conn,$sql);
 	if(!$result){
-		mysql_close($conn);
+		mysqli_close($conn);
 		header("location:edit_contest.php?act=error_edit");
 		exit();
 	}else{
 		if($_POST['room']!=""){
 			$sql = "DELETE FROM room_contest WHERE contest_code=".$_POST['contest_code'];
-			$result = mysql_query($sql ,$conn);
+			$result = mysqli_query($conn,$sql);
 			if(!$result){
 				header("location:edit_contest.php?act=error_edit_room");
 				exit();
@@ -52,18 +52,18 @@
 			}
 			$string_room = substr($string_room,0,-1);
 			$sql = "INSERT INTO room_contest (contest_code,room_id) VALUES $string_room";
-			$result = mysql_query($sql ,$conn);
+			$result = mysqli_query($conn,$sql);
 			if(!$result){
 				$sql = "DELETE FROM contest WHERE code='".$_POST['contest_code']."'";
-				$result = mysql_query($sql ,$conn);
-				mysql_close($conn);
+				$result = mysqli_query($conn,$sql);
+				mysqli_close($conn);
 				header("location:edit_contest.php?act=error_edit");
 				exit();
 			}else{
 				foreach($_POST as $key => $value){
 					unset($_SESSION[$key]);
 				}
-				mysql_close($conn);
+				mysqli_close($conn);
 				header("location:add_contest.php?act=success_edit");
 				exit();
 			}
@@ -71,10 +71,9 @@
 			foreach($_POST as $key => $value){
 				unset($_SESSION[$key]);
 			}
-			mysql_close($conn);
+			mysqli_close($conn);
 			header("location:add_contest.php?act=success_edit");
 			exit();
 		}
 	}
-	mysql_close($conn);
-?>
+	mysqli_close($conn);

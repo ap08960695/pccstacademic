@@ -66,8 +66,8 @@
 							if(isset($_GET['user'])){
 								$user_school = $_GET['user']; 
 								$sql = "SELECT display,code,status FROM school WHERE user='$user_school'";
-                                $result = mysql_query($sql ,$conn);
-                                $row_school = mysql_num_rows($result);
+                                $result = mysqli_query($conn,$sql);
+                                $row_school = mysqli_num_rows($conn,$result);
 							}
 							if($_GET['act']=="success_approved"){
 									echo"<div class=\"alert alert-success alert-dismissable\">";
@@ -119,9 +119,9 @@
                                       <th>ชื่อโรงเรียน
 									  <?php
 										$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
-											$result_group = mysql_query($sql ,$conn);
-											if ($result_group && mysql_num_rows($result) > 0) {
-												while($row_group = mysql_fetch_array($result_group)) {
+											$result_group = mysqli_query($conn,$sql);
+											if ($result_group && mysqli_num_rows($conn,$result) > 0) {
+												while($row_group = mysqli_fetch_array($result_group)) {
 													echo '<button type="button" class="btn btn-warning btn-xs" style="margin-left: 10px;" onclick="window.location=\'db_updateallschool.php?group='.$row_group['group_name'].'\'">ยืนยันทั้งหมด กลุ่ม'.$row_group['group_name'].' </button>';
 												}
 											}
@@ -147,19 +147,19 @@
 												$sql = "SELECT * FROM school WHERE status=0 ORDER BY u_date DESC;";
 											}else $sql = "SELECT * FROM school ORDER BY status ASC,u_date DESC;";
 										}else $sql = "SELECT * FROM school ORDER BY status ASC,u_date DESC;";
-                                        $result = mysql_query($sql ,$conn);
-                                        if (mysql_num_rows($result) > 0) {
+                                        $result = mysqli_query($conn,$sql);
+                                        if (mysqli_num_rows($conn,$result) > 0) {
 											$i=1;
-                                            while($row = mysql_fetch_array($result)) {
+                                            while($row = mysqli_fetch_array($result)) {
 												echo "<tr class=\"odd gradeX\">";
 												echo "    <td>".($i++)."</td>";
 												echo "    <td>".$row['code']."</td>";
 												echo "    <td>";
 												$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime ASC;";
-												$result_group = mysql_query($sql ,$conn);
-												if ($result_group && mysql_num_rows($result) > 0) {
+												$result_group = mysqli_query($conn,$sql);
+												if ($result_group && mysqli_num_rows($conn,$result) > 0) {
 													echo $row['display']."<label style='margin-left: 10px;'></label>";
-													while($row_group = mysql_fetch_array($result_group)) {
+													while($row_group = mysqli_fetch_array($result_group)) {
 														if($row['status']==0){
 															echo "<button type='button' style='margin-right: 4px;' class='btn btn-warning btn-xs' onclick='window.location=\"db_update_school.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >ยืนยัน กลุ่ม".$row_group['group_name']." </button>";
 														}else if($row['group_contest']!=$row_group['group_name'])echo "<button type='button' style='margin-right: 4px;' class='btn btn-success btn-xs' onclick='window.location=\"db_change_school_group_contest.php?user=".$row['user']."&group=".$row_group['group_name']."\"' >เปลี่ยนกลุ่ม".$row_group['group_name']." </button>";

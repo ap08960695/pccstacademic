@@ -8,13 +8,13 @@
 	$group = $_GET['group'];
     $code = Code(8);
     $sql = "UPDATE school SET status=1,code='$code',group_contest='$group' WHERE user='$user';";
-    $result = mysql_query($sql ,$conn);
-	if(mysql_query($sql ,$conn)){
+    $result = mysqli_query($conn,$sql);
+	if(mysqli_query($conn,$sql)){
 		header("location:index.php?act=success_approved");
 	}else{
 		header("location:index.php?act=error_approved");
 	}
-	mysql_close($conn);
+	mysqli_close($conn);
 	
 	function Code($len) { 
 		$chars = "ABCDEFGHIJKMNOPGRSTUVWXYZ";
@@ -34,5 +34,4 @@
 			$i++; 
 		}
 		return $pass;  
-	} 
-?>
+	}

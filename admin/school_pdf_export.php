@@ -214,10 +214,10 @@ function d_form_str($d_start, $d_end) {
     $subject_id = $_GET["s"];
   }
   $sql ="SELECT * FROM room_contest INNER JOIN room ON room_contest.room_id=room.id INNER JOIN contest ON contest.code=room_contest.contest_code WHERE room_contest.contest_code='".$subject_id."'";
-  $result = mysql_query($sql, $conn);
+  $result = mysqli_query($conn,$sql);;
   $obj_array_room = [];
   if($result){
-    while($row = mysql_fetch_assoc($result)){
+    while($row = mysqli_fetch_assoc($result)){
       array_push($obj_array_room, $row);
     }
   } else {
@@ -225,9 +225,9 @@ function d_form_str($d_start, $d_end) {
   if(!$obj_array_room)echo "<script> alert('Please assign room to contest');</script>";
   $header = [];
   $sql = "  SELECT * FROM register, school WHERE register.school_id=school.code AND register.subject_id='".$subject_id."'";
-    if($student_result = mysql_query($sql, $conn)) {
+    if($student_result = mysqli_query($conn,$sql);) {
       $obj_array = [];
-      while($row = mysql_fetch_assoc($student_result)) {
+      while($row = mysqli_fetch_assoc($student_result)) {
         array_push($obj_array, $row);
       }
     } else {
@@ -235,9 +235,9 @@ function d_form_str($d_start, $d_end) {
     }
     
     $sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.school_id=school.code AND register_teacher.subject_id='".$subject_id."'";
-    if($teacher_result = mysql_query($sql, $conn)) {
+    if($teacher_result = mysqli_query($conn,$sql);) {
       $obj_array_t = [];
-      while($row = mysql_fetch_assoc($teacher_result)) {
+      while($row = mysqli_fetch_assoc($teacher_result)) {
         array_push($obj_array_t, $row);
       }
     } else {

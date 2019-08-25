@@ -45,8 +45,8 @@
         <?php
 			include_once("nav_admin.html");
 			$sql = "SELECT * FROM school WHERE code='".$_GET['code']."'";
-			$result = mysql_query($sql ,$conn);
-			$row_school = mysql_fetch_array($result);					
+			$result = mysqli_query($conn,$sql);
+			$row_school = mysqli_fetch_array($result);					
 		?>
         
 
