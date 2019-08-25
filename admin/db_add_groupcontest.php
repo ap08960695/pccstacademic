@@ -15,9 +15,9 @@ if ($check_empty) {
 	exit();
 }
 
-$sql = "SELECT * FROM contest_group WHERE group_name='" . $_POST['place_name'] . "'";
+$sql = "SELECT * FROM contest_group WHERE running_year='$running_year' AND group_name='" . $_POST['place_name'] . "'";
 $result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($conn, $result) > 0) {
+if (mysqli_num_rows($result) > 0) {
 	header("location:add_group_contest.php?act=error_add_same");
 	mysqli_close($conn);
 	exit();
@@ -28,12 +28,13 @@ $list_string = "";
 for ($i = 0; $i < count($list); $i++) {
 	$list_string .= "(";
 	$list_string .= "'" . $_POST['place_name'] . "',";
-	$list_string .= "'" . $list[$i] . "'";
+	$list_string .= "'" . $list[$i] . "',";
+	$list_string .= "'" . $running_year . "'";
 	$list_string .= "),";
 }
 $list_string = substr($list_string, 0, -1);
 
-$sql = "INSERT INTO contest_group (group_name,contest_code) VALUES " . $list_string;
+$sql = "INSERT INTO contest_group (group_name,contest_code,running_year) VALUES " . $list_string;
 $result = mysqli_query($conn, $sql);
 if (!$result) {
 	mysqli_close($conn);

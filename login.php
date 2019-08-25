@@ -1,3 +1,6 @@
+<?php
+include_once('condb.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,43 +36,70 @@
 </head>
 
 <body>
-    <div class="container">
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <?php
+                $sql = "SELECT running_year FROM contest GROUP BY running_year";
+                $result = mysqli_query($conn, $sql);
+                $sql = "SELECT value FROM config WHERE meta='runningYear'";
+                $result_config = mysqli_query($conn, $sql);
+                $row_config = mysqli_fetch_assoc($result_config);
+                echo '<a class="navbar-brand" href="login.php">' . $row_config['value'] . '</a>';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if ($row['running_year'] != $row_config['value'])
+                        echo '<a class="navbar-brand" href="login.php?running_year=' . $row['running_year'] . '">' . $row['running_year'] . '</a>';
+                }
+                ?>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
         <div class="row">
-			<center>
-				<h2><small>The Registration System </small><br>PCCST Academic festival and science fair 2018</h2>
-				<img src="logopccst.png"></img>
-			</center>
+            <center>
+                <h2><small>The Registration System </small>
+                    <br>PCCST Academic festival and science fair <?php echo $running_year; ?></h2>
+                <?php
+                if ($_GET['running_year'] != "") {
+                    echo "<br><h2 style='color: red;'>This login page is login for view old data at PCCST Academic " . $running_year . ".</h2>";
+                } else echo '<img src="logopccst.png"></img>';
+                ?>
+            </center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Please Login </h3>
                     </div>
                     <?php
-                        if(isset($_GET['err']))
-                        {
-                            if($_GET['err'] == 1)
-                            {
-                                echo"<div class=\"alert alert-danger alert-dismissable\">";
-                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"    Username or Password is incorrect. Please try again ";
-                                echo"</div>";
-                            }
-                        }else if($_GET['act']=="success_register")
-                            {
-                                echo"<div class=\"alert alert-success alert-dismissable\">";
-                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"Registration is succesful";
-                                echo"</div>";
-                        }else if($_GET['act']=="success_reset")
-                            {
-                                echo"<div class=\"alert alert-success alert-dismissable\">";
-                                echo"    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
-                                echo"Editing is successful";
-                                echo"</div>";
-                            }  
+                    if (isset($_GET['err'])) {
+                        if ($_GET['err'] == 1) {
+                            echo "<div class=\"alert alert-danger alert-dismissable\">";
+                            echo "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                            echo "    Username or Password is incorrect. Please try again ";
+                            echo "</div>";
+                        }
+                    } else if ($_GET['act'] == "success_register") {
+                        echo "<div class=\"alert alert-success alert-dismissable\">";
+                        echo "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                        echo "Registration is succesful";
+                        echo "</div>";
+                    } else if ($_GET['act'] == "success_reset") {
+                        echo "<div class=\"alert alert-success alert-dismissable\">";
+                        echo "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>";
+                        echo "Editing is successful";
+                        echo "</div>";
+                    }
                     ?>
                     <div class="panel-body">
-                        <form role="form" action="chklogin.php" method="post">
+                        <form role="form" action="chklogin.php?running_year=<?php echo $_GET['running_year']; ?>" method="post">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" id="user" name="user" type="text" autofocus>
@@ -78,13 +108,13 @@
                                     <input class="form-control" placeholder="Password" id="pass" name="pass" type="password" value="">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-								<div class="form-group">
+                                <div class="form-group">
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Login!">
                                 </div>
                                 <div class="form-group">
-									<input type="button" onclick="window.location='register.php'" class="btn btn-lg btn-warning btn-block" value="Register">
-								</div>
-                                <a href="forgetpass.php" style="color:red">Forget password?</a>
+                                    <input type="button" onclick="window.location='register.php'" class="btn btn-lg btn-warning btn-block" value="Register">
+                                </div>
+                                <a href="forgetpass.php?running_year=<?php echo $_GET['running_year']; ?>" style="color:red">Forget password?</a>
                             </fieldset>
                         </form>
                     </div>
@@ -92,7 +122,6 @@
             </div>
         </div>
     </div>
-
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 

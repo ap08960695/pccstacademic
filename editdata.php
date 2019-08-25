@@ -23,7 +23,7 @@ if (!empty($arrstudent)) {
     for ($i = 0; $i < count($arrstudent); $i++) {
         if ($arrstudent[$i] != "") {
             //$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `no`, `name`, `u_date`, `status`) VALUES ('$school_code', '$arrstdcode[$i]', 1, '$arrstudent[$i]', NOW(), 1);";
-            $sql = "UPDATE `register` SET `name` = '" . $arrstudent[$i] . "' WHERE id = '" . $arrstdcode[$i] . "';";
+            $sql = "UPDATE `register` SET `name` = '" . $arrstudent[$i] . "' WHERE running_year = '$running_year' AND id = '" . $arrstdcode[$i] . "';";
             $result = mysqli_query($conn, $sql);
         }
     }
@@ -31,7 +31,7 @@ if (!empty($arrstudent)) {
     for ($i = 0; $i < count($arrteacher); $i++) {
         if ($arrteacher[$i] != "") {
             //$sql = "INSERT INTO `register` (`school_id`, `subject_id`, `no`, `name`, `u_date`, `status`) VALUES ('$school_code', '$arrteachcode[$i]', 0, '$arrteacher[$i]', NOW(), 1);";
-            $sql = "UPDATE `register` SET `name` = '" . $arrteacher[$i] . "' WHERE id = '" . $arrteachcode[$i] . "';";
+            $sql = "UPDATE `register` SET `name` = '" . $arrteacher[$i] . "' WHERE running_year = '$running_year' AND id = '" . $arrteachcode[$i] . "';";
             $result = mysqli_query($conn, $sql);
         }
     }

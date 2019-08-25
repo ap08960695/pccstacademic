@@ -92,9 +92,9 @@ include_once('admin_check.php');
 										<div class="well" style="max-height: 300px;overflow: auto;">
 											<ul class="list-group checked-list-box">
 												<?php
-												$sql = "SELECT code,contest_name,education,type FROM contest;";
+												$sql = "SELECT code,contest_name,education,type FROM contest WHERE running_year='$running_year'";
 												$result = mysqli_query($conn, $sql);
-												if ($result && mysqli_num_rows($conn, $result) > 0) {
+												if ($result && mysqli_num_rows($result) > 0) {
 													while ($row = mysqli_fetch_array($result)) {
 														echo '<li class="list-group-item" code="' . $row['code'] . '">' . $row['code'] . ' ' . $row['contest_name'] . '  (' . $row['education'] . ') (' . $row['type'] . ')</li>';
 													}
@@ -144,15 +144,15 @@ include_once('admin_check.php');
 								</thead>
 								<tbody>
 									<?php
-									$sql = "SELECT group_name FROM contest_group GROUP BY group_name ORDER BY updatetime DESC;";
+									$sql = "SELECT group_name FROM contest_group WHERE running_year='$running_year' GROUP BY group_name ORDER BY updatetime DESC;";
 									$result = mysqli_query($conn, $sql);
-									if ($result && mysqli_num_rows($conn, $result) > 0) {
+									if ($result && mysqli_num_rows($result) > 0) {
 										while ($row = mysqli_fetch_array($result)) {
 											echo "<tr class=\"odd gradeX\">";
 											echo "    <td>" . $row['group_name'] . "</td>";
 
 											echo "    <td>";
-											$sql = "SELECT contest.contest_name,contest.code,contest.education,contest.type FROM contest_group INNER JOIN contest ON contest.code=contest_group.contest_code WHERE contest_group.group_name='" . $row['group_name'] . "' ORDER BY contest.code ASC;";
+											$sql = "SELECT contest.contest_name,contest.code,contest.education,contest.type FROM contest_group INNER JOIN contest ON contest.code=contest_group.contest_code WHERE contest.running_year='$running_year' AND contest_group.running_year='$running_year' AND contest_group.group_name='" . $row['group_name'] . "' ORDER BY contest.code ASC;";
 											$result_contest = mysqli_query($conn, $sql);
 											while ($row_contest = mysqli_fetch_array($result_contest)) {
 												echo $row_contest['code'] . ' ' . $row_contest['contest_name'] . ' (' . $row_contest['education'] . ') (' . $row_contest['type'] . ')<br>';

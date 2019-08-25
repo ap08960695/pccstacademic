@@ -45,7 +45,7 @@ include_once('user_utility.php');
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018<small></small></a>
+                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair <?php echo $running_year; ?><small></small></a>
             </div>
         </nav>
 
@@ -56,7 +56,7 @@ include_once('user_utility.php');
                     <h1 class="page-header">
                         <select class="form-control" onchange="reload()">
                             <?php
-                            $sql = "SELECT contest_name,code,education FROM contest ORDER BY code ASC";
+                            $sql = "SELECT contest_name,code,education FROM contest WHERE running_year = '$running_year' ORDER BY code ASC";
                             $result = mysqli_query($conn, $sql);
                             if ($_GET['select'] == "") {
                                 echo "<option disabled selected>Choose the contest</option>";
@@ -82,7 +82,7 @@ include_once('user_utility.php');
                 <?php
                 $select = $_GET['select'];
                 if ($select != "") {
-                    $sql = "SELECT date_start,date_end FROM contest WHERE code='$select'";
+                    $sql = "SELECT date_start,date_end FROM contest WHERE running_year = '$running_year' AND code='$select'";
                     $result_contest = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result_contest) > 0) {
                         $row_contest = mysqli_fetch_array($result_contest);
@@ -90,7 +90,7 @@ include_once('user_utility.php');
                         $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
                         $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
 
-                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' ORDER BY register.score DESC,school.display ASC";
+                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' ORDER BY register.score DESC,school.display ASC";
                         $result_student = mysqli_query($conn, $sql);
                         echo '<div class="col-lg-12">
                                         <div class="panel panel-default">

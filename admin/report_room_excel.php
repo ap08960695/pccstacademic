@@ -34,10 +34,10 @@ $result = mysqli_query($conn, $sql);
 			while ($row = mysqli_fetch_array($result)) {
 				?>
 			<?php
-				$sql = "SELECT contest_code FROM room_contest WHERE room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
+				$sql = "SELECT contest_code FROM room_contest WHERE running_year = '$running_year' AND room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
 				if ($result_room = mysqli_query($conn, $sql)) {
 					while ($row_room = mysqli_fetch_array($result_room)) {
-						$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
+						$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE running_year = '$running_year' AND code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
 						$result_contest = mysqli_query($conn, $sql);
 						if ($row_contest = mysqli_fetch_array($result_contest)) {
 							echo '<tr>

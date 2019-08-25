@@ -5,7 +5,6 @@ include_once('user_check.php');
 include_once('user_utility.php');
 $school_code = $school_info["code"];
 $schoolname = $school_info["display"];
-
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +49,7 @@ $schoolname = $school_info["display"];
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018 - <small><?php echo $schoolname; ?></small></a>
+                <a class="navbar-brand" href="index.php?running_year=" . $running_year>PCCST Academic festival and science fair <?php echo $running_year; ?> - <small><?php echo $schoolname; ?></small></a>
             </div>
             <!-- /.navbar-header -->
             <?php include_once("nav.html"); ?>
@@ -128,9 +127,9 @@ $schoolname = $school_info["display"];
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT *,(SELECT COUNT(*) FROM register WHERE school_id='" . $school_info["code"] . "' AND subject_id=contest.code) AS count FROM contest";
-                                        $result = mysqli_query($conn, $sql);;
-                                        if (mysqli_num_rows($conn, $result) > 1) {
+                                        $sql = "SELECT *,(SELECT COUNT(*) FROM register WHERE school_id='" . $school_info["code"] . "' AND subject_id=contest.code) AS count FROM contest WHERE running_year = '$running_year'";
+                                        $result = mysqli_query($conn, $sql);
+                                        if (mysqli_num_rows($result) > 1) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 if (intval($row['count']) > 0) {
                                                     echo "<tr>";
@@ -146,7 +145,7 @@ $schoolname = $school_info["display"];
 
                                                     echo "<td>" . $date . " at " . $start_date . " to " . $end_date . "</td>";
 
-                                                    $sql = "SELECT room.room_name FROM room_contest INNER JOIN room ON room.id=room_contest.room_id WHERE contest_code='" . $row["code"] . "'";
+                                                    $sql = "SELECT room_name FROM room_contest WHERE contest_code='" . $row["code"] . "'";
                                                     $result_room = mysqli_query($conn, $sql);;
                                                     echo "<td>";
                                                     if (mysqli_num_rows($result_room) == 0) {

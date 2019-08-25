@@ -1,3 +1,6 @@
+<?php
+include_once('condb.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,54 +36,78 @@
 </head>
 
 <body>
-	
-    <div class="container">
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <?php
+                $sql = "SELECT running_year FROM contest GROUP BY running_year";
+                $result = mysqli_query($conn, $sql);
+                $sql = "SELECT value FROM config WHERE meta='runningYear'";
+                $result_config = mysqli_query($conn, $sql);
+                $row_config = mysqli_fetch_assoc($result_config);
+
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if ($row['running_year'] != $row_config['value'])
+                        echo '<a class="navbar-brand" href="login.php?running_year=' . $row['running_year'] . '">' . $row['running_year'] . '</a>';
+                }
+                ?>
+            </div>
+        </nav>
+
         <div class="row">
-			<center>
-				<h2><small>The Academic Registration System  </small><br>PCCST Academic festival and science fair 2018</h2>
-				<img src="logopccst.png"></img>
-			</center>
+            <center>
+                <h2><small>The Academic Registration System </small><br>PCCST Academic festival and science fair <?php echo $running_year; ?></h2>
+                <img src="logopccst.png"></img>
+            </center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary" style="    margin-top: 15%;">
                     <div class="panel-heading">
                         <h3 class="panel-title">Edit information of registration</h3>
                     </div>
                     <?php
-						if(isset($_GET['act'])){
-							echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-							if($_GET['act']=='error_empty')
-								echo 'Please fill any fields';
-							else if($_GET['act']=='error_pass')
-								echo 'Password does not match';
-							else if($_GET['act']=='error_same')
-								echo 'Username or school name already used';
-							else if($_GET['act']=='error_code')
-								echo 'Have no code';
-							else if($_GET['act']=='error_query')
-								echo 'Cannot edit. Please contact our staff';
-							echo '</div>';
-						}
-					?>
-						<div class="panel-body">
-							<form role="form" action="db_edit_school.php" method="post">
-								Code : <input type="password" name="code" class="form-control" value=""><br>
-								Username : <input type="text" name="usern" class="form-control" value=""><br>
-								Password : <input type="password" name="passwd" class="form-control" value=""><br>
-								Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
-								<div class="form-group">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
-                                </div>
-								<div class="form-group">
-									<input type="button" onclick="window.location='login.php'" class="btn btn-lg btn-warning btn-block" value="Back">
-								</div>
-								<div class="form-group">
-									<lable style="color:red">
-									<br>***If forgot your Code. Please contact our staff
-									</lable>
-								</div>
-							</form>
-						</div>
-				</div>
+                    if (isset($_GET['act'])) {
+                        echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+                        if ($_GET['act'] == 'error_empty')
+                            echo 'Please fill any fields';
+                        else if ($_GET['act'] == 'error_pass')
+                            echo 'Password does not match';
+                        else if ($_GET['act'] == 'error_same')
+                            echo 'Username or school name already used';
+                        else if ($_GET['act'] == 'error_code')
+                            echo 'Have no code';
+                        else if ($_GET['act'] == 'error_query')
+                            echo 'Cannot edit. Please contact our staff';
+                        echo '</div>';
+                    }
+                    ?>
+                    <div class="panel-body">
+                        <form role="form" action="db_edit_school.php?running_year=<?php echo $_GET['running_year']; ?>" method="post">
+                            Code : <input type="password" name="code" class="form-control" value=""><br>
+                            Username : <input type="text" name="usern" class="form-control" value=""><br>
+                            Password : <input type="password" name="passwd" class="form-control" value=""><br>
+                            Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
+                            </div>
+                            <div class="form-group">
+                                <input type="button" onclick="window.location='login.php'" class="btn btn-lg btn-warning btn-block" value="Back">
+                            </div>
+                            <div class="form-group">
+                                <lable style="color:red">
+                                    <br>***If forgot your Code. Please contact our staff
+                                </lable>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -100,4 +127,3 @@
 </body>
 
 </html>
-

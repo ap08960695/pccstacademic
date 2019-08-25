@@ -45,7 +45,7 @@ include_once('user_utility.php');
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair 2018<small></small></a>
+                <a class="navbar-brand" href="index.php">PCCST Academic festival and science fair <?php echo $running_year; ?><small></small></a>
             </div>
         </nav>
 
@@ -67,7 +67,7 @@ include_once('user_utility.php');
                         <div class="panel-body">
                             <select class="form-control" onchange="reload()">
                                 <?php
-                                $sql = "SELECT display,id FROM school ORDER BY id";
+                                $sql = "SELECT display,id FROM school WHERE running_year = '$running_year' ORDER BY id";
                                 $result = mysqli_query($conn, $sql);
                                 if ($_GET['select'] == "") {
                                     echo "<option disabled selected>Choose school</option>";
@@ -88,7 +88,7 @@ include_once('user_utility.php');
                     </div>
                     <?php
                     if ($_GET['select'] != "") {
-                        $sql = "SELECT display,id,status,code FROM school WHERE id='" . $_GET['select'] . "'";
+                        $sql = "SELECT display,id,status,code FROM school WHERE running_year = '$running_year' AND id='" . $_GET['select'] . "'";
                         $result = mysqli_query($conn, $sql);
                         $row = mysqli_fetch_array($result);
                         echo '<div class="col-lg-12">';
@@ -111,7 +111,7 @@ include_once('user_utility.php');
                                             </thead>';
                         echo '<tbody>';
                         if ($row['code'] != "") {
-                            $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type,register.school_id,register.subject_id,register.id,register.score FROM register INNER JOIN contest ON contest.code=register.subject_id WHERE register.school_id='" . $row['code'] . "' ORDER BY register.id";
+                            $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type,register.school_id,register.subject_id,register.id,register.score FROM register INNER JOIN contest ON contest.running_year = '$running_year' AND contest.code=register.subject_id WHERE register.running_year = '$running_year' AND register.school_id='" . $row['code'] . "' ORDER BY register.id";
                             $result_std = mysqli_query($conn, $sql);
                             $i = 1;
                             if ($result_std && mysqli_num_rows($result_std) > 0) {
@@ -140,7 +140,7 @@ include_once('user_utility.php');
                                     echo "</td>";
                                     echo "    <td>" . $row_std['code'] . " " . $row_std['contest_name'] . "(" . $row_std['education'] . " " . $row_std['type'] . ")</td>";
                                     echo "    <td>";
-                                    $sql = "SELECT id,name FROM register_teacher WHERE school_id='" . $row['code'] . "' AND subject_id='" . $row_std['code'] . "'";
+                                    $sql = "SELECT id,name FROM register_teacher WHERE running_year = '$running_year' AND school_id='" . $row['code'] . "' AND subject_id='" . $row_std['code'] . "'";
                                     $result_teacher = mysqli_query($conn, $sql);
                                     if ($result_teacher && mysqli_num_rows($result_teacher) > 0) {
                                         while ($row_teacher = mysqli_fetch_array($result_teacher)) {

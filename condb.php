@@ -20,4 +20,13 @@ $result = mysqli_query($conn, $cs2);
 $cs3 = "SET character_set_connection = utf8";
 $result = mysqli_query($conn, $cs3);
 
+$sql = "SELECT value FROM config WHERE meta='runningYear'";
+$result = mysqli_query($conn, $sql);
+$running_year = date('Y');
+while ($row = mysqli_fetch_array($result)) {
+    $running_year = $row['value'];
+}
+if ($_GET['running_year'] != "")
+    $running_year = $_GET['running_year'];
+
 date_default_timezone_set('Asia/Bangkok');

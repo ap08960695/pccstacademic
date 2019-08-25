@@ -33,65 +33,65 @@
 </head>
 
 <body>
-	
+
     <div class="container">
         <div class="row">
-			<center>
-				<h2><small>The Academic Registration System </small><br>PCCST Academic festival and science fair 2018 </h2>
-				<img src="logopccst.png"></img>
-			</center>
+            <center>
+                <h2><small>The Academic Registration System </small><br>PCCST Academic festival and science fair <?php echo $running_year; ?> </h2>
+                <img src="logopccst.png"></img>
+            </center>
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-primary" style="    margin-top: 15%;">
                     <div class="panel-heading">
                         <h3 class="panel-title">Regist to contest</h3>
                     </div>
                     <?php
-						if(isset($_GET['act'])){
-							echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-							if($_GET['act']=='error_empty')
-								echo 'กรุณาข้อมูลให้ครบถ้วน';
-							else if($_GET['act']=='error_pass')
-								echo 'กรุณากรอกรหัสผ่านให้ตรงกัน';
-							else if($_GET['act']=='error_same')
-								echo 'ชื่อผู้ใช้งานหรือชื่อโรงเรียนถูกใช้แล้ว';
-							else if($_GET['act']=='error_query')
-								echo 'ไม่สามารถสมัครได้ กรุณาติดต่อเจ้าหน้าที';
-							echo '</div>';
-						}
-					?>
-						<div class="panel-body">
-							<form role="form" action="db_add_school.php" method="post">
-								Username : <input type="text" name="usern" class="form-control" value=""><br>
-								Password : <input type="password" name="passwd" class="form-control" value=""><br>
-								Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
-								E-mail : <input type="text" name="mail" class="form-control" value=""><br>
-						
-								School name : <input type="text" name="name" class="form-control" value=""><br>
-								District : <input type="text" name="amper" class="form-control" value=""><br>
-								Province : <input type="text" name="provide" class="form-control" value=""><br>
-								Zipcode : <input type="text" name="zip" class="form-control" value=""><br>
-								Phone : <input type="text" name="phone" class="form-control" value=""><br>
-								Country : <select name="country" class="form-control">
-                                                <option value="" disabled selected>Country Select</option>
-                                                <option value="thailand">Thailand</option>
-                                                <option value="inter">International</option>
-                                                <option value="pccst">PCCST</option>
-                                            </select><br>
-								<div class="form-group">
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
-                                </div>
-								<div class="form-group">
-									<input type="button" onclick="window.location='login.php'" class="btn btn-lg btn-warning btn-block" value="Back">
-								</div>
-								<div class="form-group">
-									<lable style="color:red">
-									***Please fill every field.
-									<br>***After submit , System will approve and open to update data
-									</lable>
-								</div>
-							</form>
-						</div>
-				</div>
+                    if (isset($_GET['act'])) {
+                        echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
+                        if ($_GET['act'] == 'error_empty')
+                            echo 'กรุณาข้อมูลให้ครบถ้วน';
+                        else if ($_GET['act'] == 'error_pass')
+                            echo 'กรุณากรอกรหัสผ่านให้ตรงกัน';
+                        else if ($_GET['act'] == 'error_same')
+                            echo 'ชื่อผู้ใช้งานหรือชื่อโรงเรียนถูกใช้แล้ว';
+                        else if ($_GET['act'] == 'error_query')
+                            echo 'ไม่สามารถสมัครได้ กรุณาติดต่อเจ้าหน้าที';
+                        echo '</div>';
+                    }
+                    ?>
+                    <div class="panel-body">
+                        <form role="form" action="db_add_school.php" method="post">
+                            Username : <input type="text" name="usern" class="form-control" value=""><br>
+                            Password : <input type="password" name="passwd" class="form-control" value=""><br>
+                            Comfirm password : <input type="password" name="cpasswd" class="form-control" value=""><br>
+                            E-mail : <input type="text" name="mail" class="form-control" value=""><br>
+
+                            School name : <input type="text" name="name" class="form-control" value=""><br>
+                            District : <input type="text" name="amper" class="form-control" value=""><br>
+                            Province : <input type="text" name="provide" class="form-control" value=""><br>
+                            Zipcode : <input type="text" name="zip" class="form-control" value=""><br>
+                            Phone : <input type="text" name="phone" class="form-control" value=""><br>
+                            Country : <select name="country" class="form-control">
+                                <option value="" disabled selected>Country Select</option>
+                                <option value="thailand">Thailand</option>
+                                <option value="inter">International</option>
+                                <option value="pccst">PCCST</option>
+                            </select><br>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
+                            </div>
+                            <div class="form-group">
+                                <input type="button" onclick="window.location='login.php'" class="btn btn-lg btn-warning btn-block" value="Back">
+                            </div>
+                            <div class="form-group">
+                                <lable style="color:red">
+                                    ***Please fill every field.
+                                    <br>***After submit , System will approve and open to update data
+                                </lable>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -111,4 +111,3 @@
 </body>
 
 </html>
-

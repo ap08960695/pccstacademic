@@ -5,12 +5,12 @@ function initial_data_school()
   include(__DIR__ . "/pccstcer/fpdf.php");
   session_start();
   include_once('condb.php');
-  $sql = "SELECT code FROM  school";
+  $sql = "SELECT code FROM  school AND running_year = '$running_year'";
   $result = mysqli_query($conn, $sql);;
-  if (mysqli_num_rows($conn, $result) > 0) {
+  if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
 
-      $sql = "SELECT * FROM register WHERE school_id =" . $row["code"];
+      $sql = "SELECT * FROM register WHERE running_year = '$running_year' AND school_id =" . $row["code"];
       // echo $sql."<br>";
       $result_score = mysqli_query($conn, $sql);;
       // if(mysqli_num_rows($result_score)>0){

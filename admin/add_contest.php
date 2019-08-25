@@ -201,9 +201,9 @@ include_once('admin_check.php');
 								</thead>
 								<tbody>
 									<?php
-									$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.person_host,contest.person_inter,contest.platform,contest.date_start,contest.date_end FROM contest ORDER BY contest.updatetime DESC;";
+									$sql = "SELECT contest.code,contest.contest_name,contest.education,contest.type,contest.teacher_person,contest.person,contest.person_host,contest.person_inter,contest.platform,contest.date_start,contest.date_end FROM contest WHERE running_year='$running_year' ORDER BY contest.updatetime DESC;";
 									$result = mysqli_query($conn, $sql);
-									if ($result && mysqli_num_rows($conn, $result) > 0) {
+									if ($result && mysqli_num_rows($result) > 0) {
 										while ($row = mysqli_fetch_array($result)) {
 											echo "<tr class=\"odd gradeX\">";
 											echo "    <td>" . $row['code'] . "</td>";
@@ -228,7 +228,7 @@ include_once('admin_check.php');
 											echo "</td>";
 
 											echo "<td>";
-											$sql = "SELECT room.room_name,room.amount_student FROM room_contest INNER JOIN room ON room.id=room_contest.room_id WHERE room_contest.contest_code='" . $row['code'] . "'";
+											$sql = "SELECT room_name,amount_student FROM room_contest WHERE running_year='$running_year' AND room_contest.contest_code='" . $row['code'] . "'";
 											$result_room = mysqli_query($conn, $sql);
 											if ($result_room) {
 												while ($row_room = mysqli_fetch_array($result_room)) {
