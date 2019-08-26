@@ -17,7 +17,7 @@ if ($_POST['username'] != "") {
 			mysqli_close($conn);
 			header('Location: setting.php?act=error_same');
 			exit();
-		} else $sql .= "user='" . md5($_POST['username']) . "',";
+		} else $sql .= "user='" . $_POST['username'] . "',";
 	} else {
 		mysqli_close($conn);
 		header('Location: setting.php?act=update_error');
@@ -25,7 +25,7 @@ if ($_POST['username'] != "") {
 	}
 }
 if ($_POST['password'] != "") {
-	$sql .= "pass='" . md5($_POST['password']) . "',";
+	$sql .= "pass='" . $_POST['password'] . "',";
 }
 $sql_ch = "select * from school where (display='" . $_POST['display'] . "') AND code<>'" . $_POST['code'] . "' AND running_year = '$running_year'";
 $result = mysqli_query($conn, $sql_ch);
@@ -44,7 +44,7 @@ $sql .= "display='" . $_POST['display'] . "',email='" . $_POST['email'] . "',amp
 $sql .= " WHERE code='" . $_POST['code'] . "' AND running_year = '$running_year'";
 if (mysqli_query($conn, $sql)) {
 	if ($_POST['username'] != "")
-		$_SESSION['user'] = md5($_POST['username']);
+		$_SESSION['user'] = $_POST['username'];
 	$_SESSION['display'] = $_POST['display'];
 	header('Location: setting.php?act=update_success');
 } else {

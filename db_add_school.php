@@ -17,12 +17,12 @@ if ($passwd != $cpasswd) {
 } else if ($usern == "" || $passwd == "" || $cpasswd == "" || $name == "" || $amper == "" || $provide == "" || $zip == "" || $country == "" || $phone == "") {
 	header('Location: register.php?act=error_empty');
 } else {
-	$sql = "select * from school where user='" . md5($usern) . "' or display='$name' AND running_year = '$running_year'";
+	$sql = "select * from school where user='" . $usern . "' or display='$name' AND running_year = '$running_year'";
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
 		header('Location: register.php?act=error_same');
 	} else {
-		$sql = "INSERT INTO `school` (`user`, `pass`, `display`,`email`,`amper`,`changwat`, `addrcode`, `status`,`country`,`phone`,running_year) VALUES ('" . md5($usern) . "', '" . md5($passwd) . "', '$name','$email','$amper','$provide','$zip', 0,'$country','$phone','$running_year');";
+		$sql = "INSERT INTO `school` (`user`, `pass`, `display`,`email`,`amper`,`changwat`, `addrcode`, `status`,`country`,`phone`,running_year) VALUES ('" . $usern . "', '" . $passwd . "', '$name','$email','$amper','$provide','$zip', 0,'$country','$phone','$running_year');";
 		if ($result = mysqli_query($conn, $sql)) {
 			mysqli_close($conn);
 			header("location:login.php?act=success_register");
