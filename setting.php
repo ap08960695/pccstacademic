@@ -2,8 +2,6 @@
 session_start();
 include_once('condb.php');
 include_once('user_check.php');
-$school_code = $school_info["code"];
-$schoolname = $school_info["display"];
 ?>
 
 <!DOCTYPE html>
@@ -97,9 +95,10 @@ $schoolname = $school_info["display"];
                                 echo "</div>";
                             }
                             ?>
+
                             <form role="form" action="db_setting.php?running_year=<?php echo $running_year; ?>" method="post" onsubmit="return confirm('Do you want to update profile?');">
                                 <div class="row">
-                                    <input type="hidden" name="code" value="<?php echo $row['code'] ?>">
+                                    <input type="hidden" name="code" value="<?php echo $school_info['code'] ?>">
                                     <div class="col-md-12 col-lg-12">
                                         Username <input type="text" name="username" class="form-control" value=""><br>
                                     </div>
@@ -114,28 +113,28 @@ $schoolname = $school_info["display"];
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 col-lg-12">
-                                        School Name <input type="text" name="display" class="form-control" value="<?php echo $row['display'] ?>"><br>
+                                        School Name <input type="text" name="display" class="form-control" value="<?php echo $school_info['display'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 col-lg-12">
-                                        E-mail <input type="text" name="email" class="form-control" value="<?php echo $row['email'] ?>"><br>
+                                        E-mail <input type="text" name="email" class="form-control" value="<?php echo $school_info['email'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-lg-6">
-                                        District <input type="text" name="district" class="form-control" value="<?php echo $row['amper'] ?>"><br>
+                                        District <input type="text" name="district" class="form-control" value="<?php echo $school_info['amper'] ?>"><br>
                                     </div>
                                     <div class="col-md-6 col-lg-6">
-                                        Province <input type="text" name="province" class="form-control" value="<?php echo $row['changwat'] ?>"><br>
+                                        Province <input type="text" name="province" class="form-control" value="<?php echo $school_info['changwat'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-lg-6">
-                                        Zipcode <input type="text" name="zip" class="form-control" value="<?php echo $row['addrcode'] ?>"><br>
+                                        Zipcode <input type="text" name="zip" class="form-control" value="<?php echo $school_info['addrcode'] ?>"><br>
                                     </div>
                                     <div class="col-md-6 col-lg-6">
-                                        Phone <input type="text" name="phone" class="form-control" value="<?php echo $row['phone'] ?>"><br>
+                                        Phone <input type="text" name="phone" class="form-control" value="<?php echo $school_info['phone'] ?>"><br>
                                     </div>
                                 </div>
                                 <br>
