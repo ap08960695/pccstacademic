@@ -86,17 +86,26 @@ include_once('user_utility.php');
                     $result_contest = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result_contest) > 0) {
                         $row_contest = mysqli_fetch_array($result_contest);
+
                         $date = date_format(date_create($row_contest['date_start']), 'd M Y');
                         $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
                         $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
 
                         $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' ORDER BY register.score DESC,school.display ASC";
                         $result_student = mysqli_query($conn, $sql);
+
+                        $sql = "SELECT room_contest.room_name,room_contest.amount_student FROM room_contest WHERE room_contest.contest_code='$select' AND room_contest.running_year = '$running_year'";
+                        $result_room = mysqli_query($conn, $sql);
+                        $row_room = mysqli_fetch_array($result_room);
+
                         echo '<div class="col-lg-12">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"> 
-                                                At the place : ' . $date . ' ' . $start_date . ' - ' . $end_date . '
-                                            </div>
+                                            <div class="panel-heading"> ';
+                        if ($row_contest['date_start'] == "0000-00-00 00:00:00" || $row_contest['date_end'] == "0000-00-00 00:00:00" || $row_room['room_name'] == "")
+                            echo "At the place : unspecified";
+                        else
+                            echo 'At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date;
+                        echo '               </div>
                                             <div class="panel-body">';
                         echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -136,7 +145,9 @@ include_once('user_utility.php');
                                     echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
                                 }
                                 echo '</a>';
-                            } else {
+                            } else if ($row_student['score'] == "-1") {
+                                echo 'Waiting';
+                            } else if ($row_student['score'] == "-2") {
                                 echo 'Absent';
                             }
 

@@ -102,9 +102,11 @@ include_once('user_utility.php');
                             $max_student_room = intval($row_room['amount_student']);
                             echo '<div class="col-lg-12">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"> 
-                                                At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date . '
-                                            </div>
+                                            <div class="panel-heading">';
+                            if ($row_contest['date_start'] == "0000-00-00 00:00:00" || $row_contest['date_end'] == "0000-00-00 00:00:00")
+                                echo "At the place : unspecified";
+                            else echo 'At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date;
+                            echo            '</div>
                                             <div class="panel-body">';
                             echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>

@@ -139,13 +139,15 @@ $schoolname = $school_info["display"];
                                                     echo "<td>" . $row["platform"] . "</td>";
 
                                                     echo "<td>" . $row['count'] . "</td>";
-                                                    $date = date_format(date_create($row['date_start']), 'd/m/Y');
-                                                    $start_date = date_format(date_create($row['date_start']), 'H:i');
-                                                    $end_date = date_format(date_create($row['date_end']), 'H:i');
-
-                                                    echo "<td>" . $date . " at " . $start_date . " to " . $end_date . "</td>";
-
-                                                    $sql = "SELECT room_name FROM room_contest WHERE contest_code='" . $row["code"] . "'";
+                                                    if ($row['date_start'] == "0000-00-00 00:00:00" || $row['date_end'] == "0000-00-00 00:00:00")
+                                                        echo "<td>Date unspecified</td>";
+                                                    else {
+                                                        $date = date_format(date_create($row['date_start']), 'd/m/Y');
+                                                        $start_date = date_format(date_create($row['date_start']), 'H:i');
+                                                        $end_date = date_format(date_create($row['date_end']), 'H:i');
+                                                        echo "<td>" . $date . " at " . $start_date . " to " . $end_date . "</td>";
+                                                    }
+                                                    $sql = "SELECT room_name FROM room_contest WHERE running_year = '" . $running_year . "' AND contest_code='" . $row["code"] . "'";
                                                     $result_room = mysqli_query($conn, $sql);;
                                                     echo "<td>";
                                                     if (mysqli_num_rows($result_room) == 0) {
