@@ -5,7 +5,7 @@ function initial_data_school()
   include(__DIR__ . "/pccstcer/fpdf.php");
   session_start();
   include_once('condb.php');
-  $sql = "SELECT code FROM  school AND running_year = '$running_year'";
+  $sql = "SELECT code FROM  school WHERE running_year = '$running_year'";
   $result = mysqli_query($conn, $sql);;
   if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {

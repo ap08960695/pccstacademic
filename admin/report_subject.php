@@ -129,7 +129,7 @@ include_once('admin_check.php');
                                     <?php
                                     $stdcode = "";
                                     $teachcode = "";
-                                    $sql = "SELECT * FROM contest AND running_year = '$running_year'";
+                                    $sql = "SELECT * FROM contest WHERE running_year = '$running_year'";
                                     $result = mysqli_query($conn, $sql);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_array($result)) {

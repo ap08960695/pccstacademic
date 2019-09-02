@@ -17,11 +17,11 @@ $len_name = 0;
 foreach ($arrstudent as $key => $value) {
 	foreach ($value as $sub_value) {
 		if (preg_replace('/[ -]/', '', $sub_value) != "") {
-			$sql_string .= "('$school_code', $key,'$sub_value',-1,'$running_year'),";
+			$sql_string .= "('$school_code', $key,'$sub_value',-2,'$running_year'),";
 			$list_name[$sub_value] = 1;
 			$len_name++;
 		} else if ($_POST['role'] == "edit") {
-			$sql_string .= "('$school_code', $key,'$sub_value','$running_year'),";
+			$sql_string .= "('$school_code', $key,'$sub_value',-2,'$running_year'),";
 		}
 	}
 }
