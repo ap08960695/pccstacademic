@@ -81,7 +81,7 @@ $schoolname = $school_info["display"];
 
                 if (mysqli_num_rows($register_result) > 0) {
                     if ($row["date_start"] == "0000-00-00 00:00:00" || $row["date_end"] == "0000-00-00 00:00:00") {
-                        $date_str = "Date unspecified";
+                        $date_str = ", Date unspecified";
                     } else {
                         $date = date_format(date_create($row['date_start']), 'd M Y');
                         $start_date = date_format(date_create($row['date_start']), 'H:i');
