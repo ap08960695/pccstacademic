@@ -24,9 +24,9 @@
 		exit();
 	}
     $sql = "UPDATE config SET value='".md5($user)."' WHERE meta='userAdmin'";
-    if(mysqli_query($conn,$sql)){
+    if(mysqli_query_log($conn,$sql)){
 		$sql = "UPDATE config SET value='".md5($pass)."' WHERE meta='passAdmin'";
-		if(mysqli_query($conn,$sql)){
+		if(mysqli_query_log($conn,$sql)){
 			foreach($_POST as $key => $value){
 				unset($_SESSION[$key]);
 			}

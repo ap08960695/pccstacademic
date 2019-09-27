@@ -139,7 +139,7 @@ include_once('admin_check.php');
 									<label for="school_option">ตั้งค่าการใช้งานของ school</label>
 									<?php
 									$sql = "SELECT value FROM config WHERE meta='schoolRole'";
-									$result = mysqli_query($conn, $sql);
+									$result = mysqli_query_log($conn, $sql);
 									if ($result) {
 										$row = mysqli_fetch_array($result);
 									}
@@ -190,7 +190,7 @@ include_once('admin_check.php');
 									<label for="running_option">ตั้งค่าปีที่กำลังดำเนินงาน</label>
 									<?php
 									$sql = "SELECT value FROM config WHERE meta='runningYear'";
-									$result = mysqli_query($conn, $sql);
+									$result = mysqli_query_log($conn, $sql);
 									if ($result) {
 										$row = mysqli_fetch_array($result);
 									}

@@ -45,7 +45,7 @@ include_once('admin_check.php');
 		<?php
 		include_once("nav_admin.html");
 		$sql = "SELECT * FROM school WHERE running_year = '$running_year' AND code='" . $_GET['code'] . "'";
-		$result = mysqli_query($conn, $sql);
+		$result = mysqli_query_log($conn, $sql);
 		$row_school = mysqli_fetch_array($result);
 		?>
 

@@ -77,11 +77,11 @@ include_once('admin_check.php');
                                     $stdcode = "";
                                     $teachcode = "";
                                     $sql = "SELECT * FROM school WHERE running_year = '$running_year' AND status = 1;";
-                                    $result = mysqli_query($conn, $sql);
+                                    $result = mysqli_query_log($conn, $sql);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_array($result)) {
                                             $sql_s = "SELECT * FROM register WHERE running_year = '$running_year' AND school_id = '" . $row['code'] . "' AND status = 1;";
-                                            $result_s = mysqli_query($conn, $sql_s);
+                                            $result_s = mysqli_query_log($conn, $sql_s);
                                             $result_s_rows = mysqli_num_rows($result_s);
                                             echo "<tr class=\"odd gradeX\">";
                                             echo "    <td>" . $row['code'] . "</td>";

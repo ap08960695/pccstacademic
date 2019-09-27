@@ -4,7 +4,7 @@
     include_once('admin_check.php');
 
 	$sql = "SELECT id,room_name,amount_student FROM room";
-    $result = mysqli_query($conn,$sql);
+    $result = mysqli_query_log($conn,$sql);
 	if($result){
 		$room = array();
 		while($row = mysqli_fetch_array($result)){

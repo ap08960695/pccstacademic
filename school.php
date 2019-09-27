@@ -68,7 +68,7 @@ include_once('user_utility.php');
                             <select class="form-control" onchange="reload()">
                                 <?php
                                 $sql = "SELECT display,id FROM school WHERE running_year = '$running_year' ORDER BY id";
-                                $result = mysqli_query($conn, $sql);
+                                $result = mysqli_query_log($conn, $sql);
                                 if ($_GET['select'] == "") {
                                     echo "<option disabled selected>Choose school</option>";
                                     while ($row = mysqli_fetch_array($result)) {
@@ -89,7 +89,7 @@ include_once('user_utility.php');
                     <?php
                     if ($_GET['select'] != "") {
                         $sql = "SELECT display,id,status,code FROM school WHERE running_year = '$running_year' AND id='" . $_GET['select'] . "'";
-                        $result = mysqli_query($conn, $sql);
+                        $result = mysqli_query_log($conn, $sql);
                         $row = mysqli_fetch_array($result);
                         echo '<div class="col-lg-12">';
                         echo '<div class="panel panel-default">';
@@ -112,7 +112,7 @@ include_once('user_utility.php');
                         echo '<tbody>';
                         if ($row['code'] != "") {
                             $sql = "SELECT register.name,contest.contest_name,contest.code,contest.education,contest.type,register.school_id,register.subject_id,register.id,register.score FROM register INNER JOIN contest ON contest.running_year = '$running_year' AND contest.code=register.subject_id WHERE register.running_year = '$running_year' AND register.school_id='" . $row['code'] . "' ORDER BY register.id";
-                            $result_std = mysqli_query($conn, $sql);
+                            $result_std = mysqli_query_log($conn, $sql);
                             $i = 1;
                             if ($result_std && mysqli_num_rows($result_std) > 0) {
                                 while ($row_std = mysqli_fetch_array($result_std)) {
@@ -141,7 +141,7 @@ include_once('user_utility.php');
                                     echo "    <td>" . $row_std['code'] . " " . $row_std['contest_name'] . "(" . $row_std['education'] . " " . $row_std['type'] . ")</td>";
                                     echo "    <td>";
                                     $sql = "SELECT id,name FROM register_teacher WHERE running_year = '$running_year' AND school_id='" . $row['code'] . "' AND subject_id='" . $row_std['code'] . "'";
-                                    $result_teacher = mysqli_query($conn, $sql);
+                                    $result_teacher = mysqli_query_log($conn, $sql);
                                     if ($result_teacher && mysqli_num_rows($result_teacher) > 0) {
                                         while ($row_teacher = mysqli_fetch_array($result_teacher)) {
                                             echo $row_teacher['name'];

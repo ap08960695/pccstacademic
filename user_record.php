@@ -71,13 +71,13 @@ $schoolname = $school_info["display"];
             </div>
             <?php
             $sql = "SELECT * from contest WHERE running_year = '$running_year'";
-            $result = mysqli_query($conn, $sql);;
+            $result = mysqli_query_log($conn, $sql);;
             while ($row = mysqli_fetch_assoc($result)) {
                 $sql = "SELECT * FROM register WHERE running_year = '$running_year' AND school_id='" . $school_code . "' AND subject_id=" . $row["code"];
-                $register_result = mysqli_query($conn, $sql);;
+                $register_result = mysqli_query_log($conn, $sql);;
 
                 $sql = "SELECT * FROM register_teacher WHERE running_year = '$running_year' AND school_id='" . $school_code . "' AND subject_id=" . $row["code"];
-                $teacher_result = mysqli_query($conn, $sql);;
+                $teacher_result = mysqli_query_log($conn, $sql);;
 
                 if (mysqli_num_rows($register_result) > 0) {
                     if ($row["date_start"] == "0000-00-00 00:00:00" || $row["date_end"] == "0000-00-00 00:00:00") {

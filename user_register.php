@@ -112,22 +112,22 @@ $schoolname = $school_info["display"];
 									<tbody>
 										<?php
 										$sql = "SELECT value FROM config WHERE meta='schoolRole'";
-										$result = mysqli_query($conn, $sql);
+										$result = mysqli_query_log($conn, $sql);
 										if ($result) {
 											$row_role = mysqli_fetch_array($result);
 										}
 										$sql = "SELECT value FROM config WHERE meta='runningYear'";
-										$result = mysqli_query($conn, $sql);
+										$result = mysqli_query_log($conn, $sql);
 										if ($result) {
 											$row_running = mysqli_fetch_array($result);
 										}
 										echo "<input type='hidden' name='role' value='" . $row_role['value'] . "'>";
 										$sql = "SELECT contest.code,contest.contest_name,contest.type,IF(school.country='thailand',contest.person,IF(school.country='inter',contest.person_inter,IF(school.country='pccst',contest.person_host,0))) AS person,contest.teacher_person,contest.education FROM school LEFT JOIN contest_group ON contest_group.running_year = '$running_year' AND school.group_contest=contest_group.group_name INNER JOIN contest ON contest.running_year = '$running_year' AND contest.code=contest_group.contest_code WHERE school.running_year = '$running_year' AND school.code='" . $school_code . "' ORDER BY contest.code ASC";
-										$result = mysqli_query($conn, $sql);
+										$result = mysqli_query_log($conn, $sql);
 										if (mysqli_num_rows($result) > 0) {
 											while ($row = mysqli_fetch_array($result)) {
 												$sql = "SELECT name FROM register WHERE running_year = '$running_year' AND school_id='" . $school_code . "' AND subject_id='" . $row['code'] . "' AND status=1 ORDER BY id ASC";
-												$result_register = mysqli_query($conn, $sql);
+												$result_register = mysqli_query_log($conn, $sql);
 												if ($row_role['value'] == "all" && $row_running['value'] == $running_year) {
 													echo "<tr class=\"odd gradeX\">";
 													echo "    <td>" . $row['code'] . "</td>";
@@ -148,7 +148,7 @@ $schoolname = $school_info["display"];
 
 													if ($row['person'] > 0) {
 														$sql = "SELECT name FROM register_teacher WHERE running_year = '$running_year' AND school_id='" . $school_code . "' AND subject_id='" . $row['code'] . "' AND status=1";
-														$result_register = mysqli_query($conn, $sql);
+														$result_register = mysqli_query_log($conn, $sql);
 														for ($i = 0; $i < $row['teacher_person']; $i++) {
 															if ($row_register = mysqli_fetch_array($result_register)) {
 																echo "        <input type=\"text\" name=\"teacher['" . $row['code'] . "'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"" . $row_register['name'] . "\">";
@@ -186,7 +186,7 @@ $schoolname = $school_info["display"];
 
 														if ($row['person'] > 0) {
 															$sql = "SELECT name FROM register_teacher WHERE running_year = '$running_year' AND school_id='" . $school_code . "' AND subject_id='" . $row['code'] . "' AND status=1 ORDER BY id ASC";
-															$result_register = mysqli_query($conn, $sql);
+															$result_register = mysqli_query_log($conn, $sql);
 															for ($i = 0; $i < $row['teacher_person']; $i++) {
 																if ($row_register = mysqli_fetch_array($result_register)) {
 																	echo "        <input type=\"text\" name=\"teacher['" . $row['code'] . "'][]\" class=\"form-control\" onkeyup=\"checkFilled(this)\" value=\"" . $row_register['name'] . "\" ";

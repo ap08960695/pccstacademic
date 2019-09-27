@@ -14,7 +14,7 @@
 	define('FPDF_FONTPATH', 'font/');
 
 	$sql = "SELECT r.id,code,r.no,r.name AS 'pname',s.name AS 'subject',level,person,score FROM register r JOIN subject s ON s.running_year = '$running_year' AND r.subject_id = s.code WHERE r.running_year = '$running_year' AND r.status = 1;";
-	$result = mysqli_query($conn, $sql);
+	$result = mysqli_query_log($conn, $sql);
 	$i = 1;
 	if (mysqli_num_rows($result) > 0) {
 		while ($row = mysqli_fetch_array($result)) {

@@ -15,7 +15,7 @@ if ($check_empty) {
 }
 
 $sql = "SELECT * FROM contest WHERE running_year='$running_year' AND code='" . $_POST['contest_code'] . "'";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
 	header("location:add_contest.php?act=error_add_same");
 	mysqli_close($conn);
@@ -32,7 +32,7 @@ if ($_POST['date_end'] == "") {
 	$end_date = date_format(date_create_from_format("d/m/Y H:i", $_POST['date_end']), 'Y-m-d H:i:s');
 }
 $sql = "INSERT INTO contest (code,contest_name,education,type,person,person_inter,person_host,teacher_person,platform,date_start,date_end,running_year) VALUES ('" . $_POST['contest_code'] . "','" . $_POST['contest_name'] . "','" . $_POST['contest_education'] . "','" . $_POST['contest_type'] . "'," . $_POST['contest_person'] . "," . $_POST['contest_person_inter'] . "," . $_POST['contest_person_host'] . "," . $_POST['contest_person_teacher'] . ",'" . $_POST['contest_platform'] . "','" . $start_date . "','" . $end_date . "','" . $running_year . "')";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 if (!$result) {
 	mysqli_close($conn);
 	header("location:add_contest.php?act=error_add");
@@ -43,7 +43,7 @@ if (!$result) {
 		$string_room = "";
 		for ($i = 0; $i < count($room); $i++) {
 			$sql = "SELECT * FROM room WHERE id=" . $room[$i];
-			$result = mysqli_query($conn, $sql);
+			$result = mysqli_query_log($conn, $sql);
 			$row = mysqli_fetch_array($result);
 
 			$string_room .= "(";
@@ -55,10 +55,10 @@ if (!$result) {
 		}
 		$string_room = substr($string_room, 0, -1);
 		$sql = "INSERT INTO room_contest (contest_code,room_name,amount_student,running_year) VALUES $string_room";
-		$result = mysqli_query($conn, $sql);
+		$result = mysqli_query_log($conn, $sql);
 		if (!$result) {
 			$sql = "DELETE FROM contest WHERE running_year='$running_year' AND code='" . $_POST['contest_code'] . "'";
-			$result = mysqli_query($conn, $sql);
+			$result = mysqli_query_log($conn, $sql);
 			mysqli_close($conn);
 			header("location:add_contest.php?act=error_add");
 			exit();

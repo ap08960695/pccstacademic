@@ -7,7 +7,7 @@ require($upOne . '/pccstcer/fpdf.php');
 define('FPDF_FONTPATH', 'font/');
 ini_set('max_execution_time', 300);
 $sql = "SELECT register.school_id, register.id, register.score, school.display, register.subject_id, register.name,contest.contest_name,contest.education FROM register INNER JOIN school ON register.school_id=school.code AND register.running_year = '$running_year' INNER JOIN contest ON register.subject_id=contest.code AND contest.running_year = '$running_year' WHERE school.running_year = '$running_year'";
-if ($student_result = mysqli_query($conn, $sql)) {
+if ($student_result = mysqli_query_log($conn, $sql)) {
   $obj_array = [];
   while ($row = mysqli_fetch_assoc($student_result)) {
     array_push($obj_array, $row);

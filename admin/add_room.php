@@ -126,7 +126,7 @@ include_once('admin_check.php');
 								<tbody>
 									<?php
 									$sql = "SELECT id,room_name,amount_student FROM room ORDER BY updatetime DESC;";
-									$result = mysqli_query($conn, $sql);
+									$result = mysqli_query_log($conn, $sql);
 									if ($result && mysqli_num_rows($result) > 0) {
 										while ($row = mysqli_fetch_array($result)) {
 											echo "<tr class=\"odd gradeX\">";
@@ -134,11 +134,11 @@ include_once('admin_check.php');
 											echo "    <td>" . $row['amount_student'] . "</td>";
 											echo "<td>";
 											$sql = "SELECT contest_code FROM room_contest WHERE running_year='$running_year' AND room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
-											if ($result_room = mysqli_query($conn, $sql)) {
+											if ($result_room = mysqli_query_log($conn, $sql)) {
 												while ($row_room = mysqli_fetch_array($result_room)) {
 
 													$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE running_year='$running_year' AND code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
-													$result_contest = mysqli_query($conn, $sql);
+													$result_contest = mysqli_query_log($conn, $sql);
 													while ($row_contest = mysqli_fetch_array($result_contest)) {
 														echo $row_contest['code'] . " " . $row_contest['contest_name'] . "(" . $row_contest['education'] . ")<br>";
 													}

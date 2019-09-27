@@ -30,3 +30,15 @@ if ($_GET['running_year'] != "")
     $running_year = $_GET['running_year'];
 
 date_default_timezone_set('Asia/Bangkok');
+
+function mysqli_query_log($conn, $sql)
+{
+    $result_tmp=mysqli_query($conn, $sql);
+    $status = 0;
+    if($result_tmp)
+        $status = 1;
+    $sql = str_replace('"',"'",$sql);
+    $sql_log = 'INSERT INTO logging (sql_query_command,status) VALUES ("'.$sql.'",'.$status.')';
+    mysqli_query($conn,$sql_log);
+    return $result_tmp;
+}

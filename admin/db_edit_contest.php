@@ -28,7 +28,7 @@ if ($_POST['date_end'] == "") {
 }
 
 $sql = "UPDATE contest SET contest_name='" . $_POST['contest_name'] . "',education='" . $_POST['contest_education'] . "',type='" . $_POST['contest_type'] . "',person=" . $_POST['contest_person'] . ",person_inter=" . $_POST['contest_person_inter'] . ",person_host=" . $_POST['contest_person_host'] . ",teacher_person=" . $_POST['contest_person_teacher'] . ",platform='" . $_POST['contest_platform'] . "',date_start='" . $start_date . "',date_end='" . $end_date . "' WHERE running_year = '$running_year' AND code='" . $_POST['contest_code'] . "'";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 if (!$result) {
 	mysqli_close($conn);
 	header("location:edit_contest.php?act=error_edit");
@@ -36,7 +36,7 @@ if (!$result) {
 } else {
 	if ($_POST['room'] != "") {
 		$sql = "DELETE FROM room_contest WHERE running_year = '$running_year' AND contest_code=" . $_POST['contest_code'];
-		$result = mysqli_query($conn, $sql);
+		$result = mysqli_query_log($conn, $sql);
 		if (!$result) {
 			header("location:edit_contest.php?act=error_edit_room");
 			exit();
@@ -46,7 +46,7 @@ if (!$result) {
 		$string_room = "";
 		for ($i = 0; $i < count($room); $i++) {
 			$sql = "SELECT * FROM room WHERE id=" . $room[$i];
-			$result = mysqli_query($conn, $sql);
+			$result = mysqli_query_log($conn, $sql);
 			$row = mysqli_fetch_array($result);
 
 			$string_room .= "(";
@@ -58,10 +58,10 @@ if (!$result) {
 		}
 		$string_room = substr($string_room, 0, -1);
 		$sql = "INSERT INTO room_contest (contest_code,room_name,amount_student,running_year) VALUES $string_room";
-		$result = mysqli_query($conn, $sql);
+		$result = mysqli_query_log($conn, $sql);
 		if (!$result) {
 			$sql = "DELETE FROM contest WHERE running_year = '$running_year' AND code='" . $_POST['contest_code'] . "'";
-			$result = mysqli_query($conn, $sql);
+			$result = mysqli_query_log($conn, $sql);
 			mysqli_close($conn);
 			header("location:edit_contest.php?act=error_edit");
 			exit();

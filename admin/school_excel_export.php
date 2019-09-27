@@ -11,7 +11,7 @@ require_once __DIR__ . '/vendor/autoload.php';
      $subject_id = $_GET["s"];
     }
     $sql = "  SELECT * FROM register, school WHERE register.running_year = '$running_year' AND school.running_year = '$running_year' AND register.school_id=school.code AND register.subject_id='".$subject_id."'";
-    if($student_result = mysqli_query($conn,$sql)) {
+    if($student_result = mysqli_query_log($conn,$sql)) {
       $obj_array = [];
       while($row = mysqli_fetch_assoc($student_result)) {
         // var_dump($row);
@@ -23,7 +23,7 @@ require_once __DIR__ . '/vendor/autoload.php';
     
     $sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.running_year = '$running_year' AND school.running_year = '$running_year' AND register_teacher.school_id=school.code AND register_teacher.subject_id='".$subject_id."'";
     // echo $sql;
-    if($teacher_result = mysqli_query($conn,$sql)) {
+    if($teacher_result = mysqli_query_log($conn,$sql)) {
       $obj_array_t = [];
       while($row = mysqli_fetch_assoc($teacher_result)) {
         array_push($obj_array_t, $row);

@@ -118,7 +118,7 @@ include_once('admin_check.php');
 										<th>ชื่อโรงเรียน
 											<?php
 											$sql = "SELECT group_name FROM contest_group WHERE running_year='$running_year' GROUP BY group_name ORDER BY updatetime ASC;";
-											$result_group = mysqli_query($conn, $sql);
+											$result_group = mysqli_query_log($conn, $sql);
 											if ($result_group && mysqli_num_rows($result) > 0) {
 												while ($row_group = mysqli_fetch_array($result_group)) {
 													echo '<button type="button" class="btn btn-warning btn-xs" style="margin-left: 10px;" onclick="window.location=\'db_updateallschool.php?group=' . $row_group['group_name'] . '\'">ยืนยันทั้งหมด กลุ่ม' . $row_group['group_name'] . ' </button>';
@@ -147,7 +147,7 @@ include_once('admin_check.php');
 											$sql = "SELECT * FROM school WHERE running_year = '$running_year' AND status=0 ORDER BY u_date DESC;";
 										} else $sql = "SELECT * FROM school WHERE running_year = '$running_year' ORDER BY status ASC,u_date DESC;";
 									} else $sql = "SELECT * FROM school WHERE running_year = '$running_year' ORDER BY status ASC,u_date DESC;";
-									$result = mysqli_query($conn, $sql);
+									$result = mysqli_query_log($conn, $sql);
 									if (mysqli_num_rows($result) > 0) {
 										$i = 1;
 										while ($row = mysqli_fetch_array($result)) {
@@ -159,7 +159,7 @@ include_once('admin_check.php');
 											}
 											echo "    <td>";
 											$sql = "SELECT group_name FROM contest_group WHERE running_year = '$running_year' GROUP BY group_name ORDER BY updatetime ASC;";
-											$result_group = mysqli_query($conn, $sql);
+											$result_group = mysqli_query_log($conn, $sql);
 											if ($result_group && mysqli_num_rows($result) > 0) {
 												echo $row['display'] . "<label style='margin-left: 10px;'></label>";
 												while ($row_group = mysqli_fetch_array($result_group)) {

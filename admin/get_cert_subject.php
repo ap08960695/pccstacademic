@@ -13,7 +13,7 @@ if (isset($_GET["s"])) {
   exit();
 }
 $sql = "SELECT register.school_id, register.id, register.score, school.display, register.subject_id, register.name,contest.contest_name,contest.education FROM register INNER JOIN school ON school.running_year = '$running_year' AND register.school_id=school.code INNER JOIN contest ON contest.running_year = '$running_year' AND register.subject_id=contest.code WHERE register.running_year = '$running_year' AND register.subject_id='" . $subject_id . "'";
-if ($student_result = mysqli_query($conn, $sql)) {
+if ($student_result = mysqli_query_log($conn, $sql)) {
   $obj_array = [];
   while ($row = mysqli_fetch_assoc($student_result)) {
     array_push($obj_array, $row);

@@ -49,9 +49,9 @@ include_once('condb.php');
                 </button>
                 <?php
                 $sql = "SELECT running_year FROM contest GROUP BY running_year";
-                $result = mysqli_query($conn, $sql);
+                $result = mysqli_query_log($conn, $sql);
                 $sql = "SELECT value FROM config WHERE meta='runningYear'";
-                $result_config = mysqli_query($conn, $sql);
+                $result_config = mysqli_query_log($conn, $sql);
                 $row_config = mysqli_fetch_assoc($result_config);
 
                 while ($row = mysqli_fetch_assoc($result)) {

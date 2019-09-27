@@ -11,7 +11,7 @@ if ($_POST['password'] != $_POST['repassword']) {
 $sql = "UPDATE school SET ";
 if ($_POST['username'] != "") {
 	$sql_ch = "select * from school where (user='" . $_POST['username'] . "') AND running_year = '$running_year' AND code<>'" . $_POST['code'] . "'";
-	$result = mysqli_query($conn, $sql_ch);
+	$result = mysqli_query_log($conn, $sql_ch);
 	if ($result) {
 		if (mysqli_num_rows($result) > 0) {
 			mysqli_close($conn);
@@ -28,7 +28,7 @@ if ($_POST['password'] != "") {
 	$sql .= "pass='" . $_POST['password'] . "',";
 }
 $sql_ch = "select * from school where (display='" . $_POST['display'] . "') AND code<>'" . $_POST['code'] . "' AND running_year = '$running_year'";
-$result = mysqli_query($conn, $sql_ch);
+$result = mysqli_query_log($conn, $sql_ch);
 if ($result) {
 	if (mysqli_num_rows($result) > 0) {
 		mysqli_close($conn);
@@ -42,7 +42,7 @@ if ($result) {
 }
 $sql .= "display='" . $_POST['display'] . "',email='" . $_POST['email'] . "',amper='" . $_POST['district'] . "',changwat='" . $_POST['province'] . "',addrcode='" . $_POST['zip'] . "',phone='" . $_POST['phone'] . "'";
 $sql .= " WHERE code='" . $_POST['code'] . "' AND running_year = '$running_year'";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query_log($conn, $sql)) {
 	if ($_POST['username'] != "")
 		$_SESSION['user'] = $_POST['username'];
 	$_SESSION['display'] = $_POST['display'];

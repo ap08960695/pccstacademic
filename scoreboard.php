@@ -57,7 +57,7 @@ include_once('user_utility.php');
                         <select class="form-control" onchange="reload()">
                             <?php
                             $sql = "SELECT contest_name,code,education FROM contest WHERE running_year = '$running_year' ORDER BY code ASC";
-                            $result = mysqli_query($conn, $sql);
+                            $result = mysqli_query_log($conn, $sql);
                             if ($_GET['select'] == "") {
                                 echo "<option disabled selected>Choose the contest</option>";
                                 while ($row = mysqli_fetch_array($result)) {
@@ -83,7 +83,7 @@ include_once('user_utility.php');
                 $select = $_GET['select'];
                 if ($select != "") {
                     $sql = "SELECT date_start,date_end FROM contest WHERE running_year = '$running_year' AND code='$select'";
-                    $result_contest = mysqli_query($conn, $sql);
+                    $result_contest = mysqli_query_log($conn, $sql);
                     if (mysqli_num_rows($result_contest) > 0) {
                         $row_contest = mysqli_fetch_array($result_contest);
 
@@ -92,10 +92,11 @@ include_once('user_utility.php');
                         $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
 
                         $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' ORDER BY register.score DESC,school.display ASC";
-                        $result_student = mysqli_query($conn, $sql);
+                        $result_student = mysqli_query_log($conn, $sql);
+                        $max_student = mysqli_num_rows($result_student);
 
                         $sql = "SELECT room_contest.room_name,room_contest.amount_student FROM room_contest WHERE room_contest.contest_code='$select' AND room_contest.running_year = '$running_year'";
-                        $result_room = mysqli_query($conn, $sql);
+                        $result_room = mysqli_query_log($conn, $sql);
                         $row_room = mysqli_fetch_array($result_room);
 
                         echo '<div class="col-lg-12">
@@ -105,6 +106,7 @@ include_once('user_utility.php');
                             echo "At the place : unspecified";
                         else
                             echo 'At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date;
+                        echo ', total ' . $max_student;
                         echo '               </div>
                                             <div class="panel-body">';
                         echo '<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -146,9 +148,9 @@ include_once('user_utility.php');
                                 }
                                 echo '</a>';
                             } else if ($row_student['score'] == "-1") {
-                                echo 'Waiting';
-                            } else if ($row_student['score'] == "-2") {
                                 echo 'Absent';
+                            } else if ($row_student['score'] == "-2") {
+                                echo 'Waiting';
                             }
 
                             echo "</td>";

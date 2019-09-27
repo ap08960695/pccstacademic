@@ -7,7 +7,7 @@ $code = $_POST['code'];
 $user = $_POST['user'];
 
 $sql = "DELETE FROM school WHERE running_year = '$running_year' AND user='$user';";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query_log($conn, $sql)) {
     header("location:index.php?act=success_delete&user=$user");
 } else {
     header("location:index.php?act=error_delete");

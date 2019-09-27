@@ -8,7 +8,7 @@ header("Content-Type: application/x-msexcel; name=\"$strExcelFileName\"");
 header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
 header("Pragma:no-cache");
 
-$sql = mysqli_query($conn, "SELECT code,display,email,phone,amper,changwat,addrcode,status FROM school AND running_year = '$running_year' ORDER BY u_date DESC;");
+$sql = mysqli_query_log($conn, "SELECT code,display,email,phone,amper,changwat,addrcode,status FROM school AND running_year = '$running_year' ORDER BY u_date DESC;");
 $num = mysqli_num_rows($sql);
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">

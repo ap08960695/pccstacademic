@@ -24,7 +24,7 @@
 		$value = "view";
 	} 
     $sql = "UPDATE config SET value='".$value."' WHERE meta='schoolRole'";
-    if(mysqli_query($conn,$sql)){
+    if(mysqli_query_log($conn,$sql)){
 		header("location:config.php?act=success_update_role");
 	}else{
 		header("location:config.php?act=error_update_role");

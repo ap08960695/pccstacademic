@@ -15,7 +15,7 @@
 	}
 	
 	$sql = "INSERT INTO room (room_name,amount_student) VALUES ('".$_POST['place_name']."',".$_POST['place_limit'].")";
-	$result = mysqli_query($conn,$sql);
+	$result = mysqli_query_log($conn,$sql);
 	if(!$result){
 		mysqli_close($conn);
 		header("location:add_room.php?act=error_add");

@@ -7,11 +7,11 @@ require($upOne . '/pccstcer/fpdf.php');
 define('FPDF_FONTPATH', 'font/');
 ini_set('max_execution_time', 300);
 $sql = "SELECT register_teacher.school_id, register_teacher.id, school.display, register_teacher.subject_id, register_teacher.name,contest.contest_name,contest.education FROM register_teacher INNER JOIN school ON register_teacher.school_id=school.code AND school.running_year = '$running_year' INNER JOIN contest ON register_teacher.subject_id=contest.code AND contest.running_year = '$running_year' WHERE register_teacher.running_year = '$running_year'";
-if ($student_result = mysqli_query($conn, $sql)) {
+if ($student_result = mysqli_query_log($conn, $sql)) {
   $obj_array = [];
   while ($row = mysqli_fetch_assoc($student_result)) {
     $sql = "SELECT MAX(register.score) AS score FROM register WHERE register.running_year = '$running_year' AND register.subject_id='" . $row['subject_id'] . "' AND register.school_id='" . $row['school_id'] . "'";
-    if ($score_result = mysqli_query($conn, $sql)) {
+    if ($score_result = mysqli_query_log($conn, $sql)) {
       $row_score = mysqli_fetch_assoc($score_result);
       $row['score'] = $row_score['score'];
     }

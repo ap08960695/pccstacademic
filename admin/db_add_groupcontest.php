@@ -16,7 +16,7 @@ if ($check_empty) {
 }
 
 $sql = "SELECT * FROM contest_group WHERE running_year='$running_year' AND group_name='" . $_POST['place_name'] . "'";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
 	header("location:add_group_contest.php?act=error_add_same");
 	mysqli_close($conn);
@@ -35,7 +35,7 @@ for ($i = 0; $i < count($list); $i++) {
 $list_string = substr($list_string, 0, -1);
 
 $sql = "INSERT INTO contest_group (group_name,contest_code,running_year) VALUES " . $list_string;
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 if (!$result) {
 	mysqli_close($conn);
 	header("location:add_group_contest.php?act=error_add");

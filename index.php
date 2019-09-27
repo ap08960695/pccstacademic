@@ -128,7 +128,7 @@ $schoolname = $school_info["display"];
                                     <tbody>
                                         <?php
                                         $sql = "SELECT *,(SELECT COUNT(*) FROM register WHERE school_id='" . $school_info["code"] . "' AND subject_id=contest.code) AS count FROM contest WHERE running_year = '$running_year'";
-                                        $result = mysqli_query($conn, $sql);
+                                        $result = mysqli_query_log($conn, $sql);
                                         if (mysqli_num_rows($result) > 1) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 if (intval($row['count']) > 0) {
@@ -148,7 +148,7 @@ $schoolname = $school_info["display"];
                                                         echo "<td>" . $date . " at " . $start_date . " to " . $end_date . "</td>";
                                                     }
                                                     $sql = "SELECT room_name FROM room_contest WHERE running_year = '" . $running_year . "' AND contest_code='" . $row["code"] . "'";
-                                                    $result_room = mysqli_query($conn, $sql);;
+                                                    $result_room = mysqli_query_log($conn, $sql);;
                                                     echo "<td>";
                                                     if (mysqli_num_rows($result_room) == 0) {
                                                         echo "Location unspecified";

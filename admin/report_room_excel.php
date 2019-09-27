@@ -9,7 +9,7 @@ header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
 header("Pragma:no-cache");
 
 $sql = "SELECT id,room_name,amount_student FROM room ORDER BY room_name DESC";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query_log($conn, $sql);
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
 
@@ -35,10 +35,10 @@ $result = mysqli_query($conn, $sql);
 				?>
 			<?php
 				$sql = "SELECT contest_code FROM room_contest WHERE running_year = '$running_year' AND room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
-				if ($result_room = mysqli_query($conn, $sql)) {
+				if ($result_room = mysqli_query_log($conn, $sql)) {
 					while ($row_room = mysqli_fetch_array($result_room)) {
 						$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE running_year = '$running_year' AND code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
-						$result_contest = mysqli_query($conn, $sql);
+						$result_contest = mysqli_query_log($conn, $sql);
 						if ($row_contest = mysqli_fetch_array($result_contest)) {
 							echo '<tr>
 				<td height="25" align="left" valign="middle" >' . $row['room_name'] . '</td>
