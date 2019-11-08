@@ -123,7 +123,7 @@ include_once('user_utility.php');
                         $old_score = -1;
                         $order_flag = false;
                         while ($row_student = mysqli_fetch_array($result_student)) {
-                            if($row_student['score'])
+                            if($row_student['score'] == "-2" && $order=0)
                                 $order_flag = true;  
                             echo "<tr class=\"odd gradeX\">";
                             if($order_flag){
