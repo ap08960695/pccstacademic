@@ -91,7 +91,7 @@ include_once('user_utility.php');
                         $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
                         $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
 
-                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' ORDER BY register.score DESC,school.display ASC";
+                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' AND register.status=1 ORDER BY register.score DESC,school.display ASC";
                         $result_student = mysqli_query_log($conn, $sql);
                         $max_student = mysqli_num_rows($result_student);
 
