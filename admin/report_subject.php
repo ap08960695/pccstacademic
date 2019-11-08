@@ -137,7 +137,7 @@ include_once('admin_check.php');
                                             echo "    <td>" . $row['code'] . "</td>";
                                             $sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code AND s.running_year = '$running_year' WHERE subject_id = '" . $row['code'] . "' AND s.status = 1 AND r.status = 1 AND r.running_year = '$running_year';";
                                             $result_s = mysqli_query_log($conn, $sql_s);
-                                            echo "    <td>" . $row['name'] . " (" . mysqli_num_rows($result_s) . " คน)<br>";
+                                            echo "    <td>" . $row['contest_name'] . " (" . mysqli_num_rows($result_s) . " คน)<br>";
                                             echo "<form method=\"post\" action=\"db_school_excel_import.php?s=" . $row['code'] . "\"  enctype=\"multipart/form-data\" onsubmit=\"return confirm('คุณต้องการอัพเดทข้อมูล ใช่หรือไม่?');\">";
                                             echo '<div class="form-group">
                                                     <div class="input-group input-file" name="myFile">

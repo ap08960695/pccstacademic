@@ -10,7 +10,7 @@ require_once __DIR__ . '/vendor/autoload.php';
     if(isset($_GET["s"])){
      $subject_id = $_GET["s"];
     }
-    $sql = "  SELECT * FROM register, school WHERE register.running_year = '$running_year' AND school.running_year = '$running_year' AND register.school_id=school.code AND register.subject_id='".$subject_id."'";
+    $sql = "SELECT * FROM register r JOIN school s ON r.school_id = s.code AND s.running_year = '$running_year' WHERE subject_id = '" . $subject_id . "' AND s.status = 1 AND r.status = 1 AND r.running_year = '$running_year' ORDER BY r.score DESC,s.display ASC";  
     if($student_result = mysqli_query_log($conn,$sql)) {
       $obj_array = [];
       while($row = mysqli_fetch_assoc($student_result)) {
