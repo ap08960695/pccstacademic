@@ -8,7 +8,7 @@ header("Content-Type: application/x-msexcel; name=\"$strExcelFileName\"");
 header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
 header("Pragma:no-cache");
 
-$sql = mysqli_query_log($conn, "SELECT code,display,email,phone,amper,changwat,addrcode,status FROM school WHERE running_year = '$running_year' ORDER BY u_date DESC;");
+$sql = mysqli_query_log($conn, "SELECT code,user AS username,pass AS password,display,email,phone,amper,changwat,addrcode,status FROM school WHERE running_year = '$running_year' ORDER BY u_date DESC;");
 $num = mysqli_num_rows($sql);
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
@@ -25,6 +25,8 @@ $num = mysqli_num_rows($sql);
 		<table x:str border=1 cellpadding=0 cellspacing=1 width=100% style="border-collapse:collapse">
 			<tr>
 				<td width="94" height="30" align="center" valign="middle"><strong>รหัส</strong></td>
+				<td width="94" height="30" align="center" valign="middle"><strong>รหัสเข้าใช้</strong></td>
+				<td width="94" height="30" align="center" valign="middle"><strong>รหัสผ่าน</strong></td>
 				<td width="200" align="center" valign="middle"><strong>ชื่อโรงเรียน</strong></td>
 				<td width="181" align="center" valign="middle"><strong>E-mail</strong></td>
 				<td width="181" align="center" valign="middle"><strong>เบอร์ติดต่อ</strong></td>
@@ -39,6 +41,8 @@ $num = mysqli_num_rows($sql);
 					?>
 			<tr>
 				<td height="25" align="left" valign="middle"><?php echo $row['code']; ?></td>
+				<td align="left" valign="middle"><?php echo $row['username']; ?></td>
+				<td align="left" valign="middle"><?php echo $row['password']; ?></td>
 				<td align="left" valign="middle"><?php echo $row['display']; ?></td>
 				<td align="left" valign="middle"><?php echo $row['email']; ?></td>
 				<td align="left" valign="middle"><?php echo $row['phone']; ?></td>
