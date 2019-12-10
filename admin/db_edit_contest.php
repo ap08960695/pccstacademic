@@ -5,7 +5,6 @@ include_once('admin_check.php');
 
 $check_empty = 0;
 foreach ($_POST as $key => $value) {
-	$_SESSION[$key] = $_POST[$key];
 	if ($key != "room" && $key != "date_start" && $key != "date_end" && $_POST[$key] == "") {
 		$check_empty = 1;
 	}

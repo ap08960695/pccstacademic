@@ -18,9 +18,11 @@ if ($student_result = mysqli_query_log($conn, $sql)) {
     array_push($obj_array, $row);
   }
   genCertTeacher($obj_array);
+  mysqli_close($conn);
   header("location:report_subject.php?act=success_cer");
   exit();
 } else {
+  mysqli_close($conn);
   header("location:report_subject.php?act=error_get_data");
   exit();
 }

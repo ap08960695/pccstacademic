@@ -25,8 +25,6 @@ include_once('admin_check.php');
 	<!-- MetisMenu CSS -->
 	<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-	<!-- tagsinput CSS -->
-	<link href="../vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
 
 	<!-- typeahead CSS -->
 	<link href="../vendor/typeahead/typeahead.css" rel="stylesheet">
@@ -163,9 +161,6 @@ include_once('admin_check.php');
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 	<script src="../vendor/typeahead/handlebars.js"></script>
 
-	<!-- tagsinput Plugin JavaScript -->
-	<script src="../vendor/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
-
 	<!-- Metis Menu Plugin JavaScript -->
 	<script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
@@ -177,35 +172,6 @@ include_once('admin_check.php');
 				locale: 'th',
 				format: 'DD/MM/YYYY HH:mm'
 			});
-
-			var room = new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('room_name'),
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				prefetch: 'db_getroom.php'
-			});
-			room.clearPrefetchCache();
-			room.initialize();
-
-			$('#tagsinput').tagsinput({
-				itemValue: 'room_id',
-				itemText: 'room_name',
-				typeaheadjs: {
-					name: 'cities',
-					displayKey: 'room_name',
-					source: room.ttAdapter(),
-					templates: {
-						empty: [
-							'<div class="row">',
-							'<div class="col-lg-12" style="padding: 5px 20px;text-align: center;">',
-							'ไม่มีสถานทีแข่งขันในระบบ',
-							'</div>',
-							'</div>'
-						].join('\n'),
-						suggestion: Handlebars.compile('<div><strong>{{room_name}}</strong><div class="limit-student">ขนาด  {{limit_student}} คน</div></div>')
-					}
-				}
-			});
-			$(".bootstrap-tagsinput").addClass('form-control');
 		});
 	</script>
 

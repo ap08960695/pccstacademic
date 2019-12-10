@@ -44,6 +44,8 @@ include_once('admin_check.php');
                         สรุปรายชื่อต่อรายการแข่ง
                         <a href="get_cert_all.php" onclick="return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');" class="btn btn-success">ประมวนผลเกียรติบัตร!!</a>
                         <a href="get_cert_all_teacher.php" onclick="return confirm('คุณต้องการสร้างใบเกียรติบัตร ใช่หรือไม่?');" class="btn btn-success">ประมวนผลเกียรติบัตรครู!!</a>
+                        <a href="sumary_contest.php" class="btn btn-primary">สรุปผลการสมัคร</a>
+
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -138,6 +140,7 @@ include_once('admin_check.php');
                                             $sql_s = "SELECT * FROM register r JOIN school s ON r.school_id = s.code AND s.running_year = '$running_year' WHERE subject_id = '" . $row['code'] . "' AND s.status = 1 AND r.status = 1 AND r.running_year = '$running_year';";
                                             $result_s = mysqli_query_log($conn, $sql_s);
                                             echo "    <td>" . $row['contest_name'] . " (" . mysqli_num_rows($result_s) . " คน)<br>";
+                                            echo "<a href=\"edit_score.php?s=" . $row['code'] . "\" class=\"btn btn-warning pull-right\">Edit</a>";
                                             echo "<form method=\"post\" action=\"db_school_excel_import.php?s=" . $row['code'] . "\"  enctype=\"multipart/form-data\" onsubmit=\"return confirm('คุณต้องการอัพเดทข้อมูล ใช่หรือไม่?');\">";
                                             echo '<div class="form-group">
                                                     <div class="input-group input-file" name="myFile">

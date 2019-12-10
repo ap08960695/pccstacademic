@@ -113,7 +113,7 @@ include_once('admin_check.php');
 							<table width="100%" class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
 								<thead>
 									<tr>
-										<th></th>
+										<th><button type="button" class="btn btn-success btn-xs" style="margin-left: 10px;" onclick="window.location='index.php?order=first_register'">เรียงตามลำดับการสมัคร</button></th>
 										<th>code</th>
 										<th>ชื่อโรงเรียน
 											<?php
@@ -140,7 +140,11 @@ include_once('admin_check.php');
 								</thead>
 								<tbody>
 									<?php
-									if (isset($_GET['view'])) {
+									if (isset($_GET['order'])) {
+										if ($_GET['order'] == 'first_register') {
+											$sql = "SELECT * FROM school WHERE running_year = '$running_year' ORDER BY id ASC;";
+										}
+									} else if (isset($_GET['view'])) {
 										if ($_GET['view'] == 'success') {
 											$sql = "SELECT * FROM school WHERE running_year = '$running_year' AND status=1 ORDER BY u_date DESC;";
 										} else if ($_GET['view'] == 'danger') {

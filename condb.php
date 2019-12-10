@@ -26,9 +26,9 @@ $running_year = date('Y');
 while ($row = mysqli_fetch_array($result)) {
     $running_year = $row['value'];
 }
-if ($_GET['running_year'] != "")
+if (isset($_GET['running_year']) && $_GET['running_year'] != ""){
     $running_year = $_GET['running_year'];
-
+}
 date_default_timezone_set('Asia/Bangkok');
 
 function mysqli_query_log($conn, $sql)
@@ -38,7 +38,9 @@ function mysqli_query_log($conn, $sql)
     if($result_tmp)
         $status = 1;
     $sql = str_replace('"',"'",$sql);
-    $sql_log = 'INSERT INTO logging (sql_query_command,status) VALUES ("'.$sql.'",'.$status.')';
-    mysqli_query($conn,$sql_log);
+    if (!strpos($sql, 'SELECT ')) {
+        $sql_log = 'INSERT INTO logging (sql_query_command,status) VALUES ("'.$sql.'",'.$status.')';
+        mysqli_query($conn,$sql_log);
+    }
     return $result_tmp;
 }

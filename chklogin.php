@@ -14,7 +14,6 @@ $sql = "SELECT user,code,display FROM school WHERE user = '" . $_POST['user'] . 
 $result = mysqli_query_log($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     if ($row = mysqli_fetch_array($result)) {
-        print_r($row);
         $_SESSION['user'] = $row['user'];
         $_SESSION['code'] = $row['code'];
         $_SESSION['display'] = $row['display'];

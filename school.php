@@ -71,15 +71,19 @@ include_once('user_utility.php');
                                 $result = mysqli_query_log($conn, $sql);
                                 if ($_GET['select'] == "") {
                                     echo "<option disabled selected>Choose school</option>";
+                                    $i = 1;
                                     while ($row = mysqli_fetch_array($result)) {
-                                        echo "<option value='" . $row['id'] . "'>" . $row['display'] . "</option>";
+                                        echo "<option value='" . $row['id'] . "'>" . $i . ". " . $row['display'] . "</option>";
+                                        $i++;
                                     }
                                 } else {
                                     echo "<option disabled>Choose school</option>";
+                                    $i = 1;
                                     while ($row = mysqli_fetch_array($result)) {
                                         if ($row['id'] == $_GET['select'])
-                                            echo "<option value='" . $row['id'] . "' selected>" . $row['display'] . "</option>";
-                                        else echo "<option value='" . $row['id'] . "'>" . $row['display'] . "</option>";
+                                            echo "<option value='" . $row['id'] . "' selected>"  . $i . ". " . $row['display'] . "</option>";
+                                        else echo "<option value='" . $row['id'] . "'>"  . $i . ". " . $row['display'] . "</option>";
+                                        $i++;
                                     }
                                 }
                                 ?>
@@ -181,7 +185,7 @@ include_once('user_utility.php');
             }
 
             function reload() {
-                location.href = "school.php?select=" + $('select').val();
+              location.href = "school.php?select=" + $('select').val()+"&running_year=<?php echo $running_year?>";
             }
         </script>
 

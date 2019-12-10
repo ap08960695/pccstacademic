@@ -188,7 +188,7 @@ include_once('user_utility.php');
         }
 
         function reload() {
-            location.href = "studentregister.php?select=" + $('select').val();
+            location.href = "studentregister.php?select=" + $('select').val()+"&running_year=<?php echo $running_year?>";
         }
     </script>
 

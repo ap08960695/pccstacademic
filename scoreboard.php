@@ -198,7 +198,7 @@ include_once('user_utility.php');
         }
 
         function reload() {
-            location.href = "scoreboard.php?select=" + $('select').val();
+            location.href = "scoreboard.php?select=" + $('select').val()+"&running_year=<?php echo $running_year?>";
         }
     </script>
 
