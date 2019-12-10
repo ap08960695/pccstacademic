@@ -91,7 +91,7 @@ include_once('user_utility.php');
                         $start_date = date_format(date_create($row_contest['date_start']), 'H:i');
                         $end_date = date_format(date_create($row_contest['date_end']), 'H:i');
 
-                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id WHERE register.subject_id='$select' AND register.running_year = '$running_year' AND register.status=1 ORDER BY register.score DESC,school.display ASC";
+                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id AND register.running_year = '$running_year' WHERE register.subject_id='$select' AND register.running_year = '$running_year' ORDER BY register.score DESC,school.display ASC";
                         $result_student = mysqli_query_log($conn, $sql);
                         $max_student = mysqli_num_rows($result_student);
 
@@ -123,12 +123,12 @@ include_once('user_utility.php');
                         $old_score = -1;
                         $order_flag = false;
                         while ($row_student = mysqli_fetch_array($result_student)) {
-                            if($row_student['score'] == "-2" && $order=0)
-                                $order_flag = true;  
+                            if ($row_student['score'] == "-2" && $order = 0)
+                                $order_flag = true;
                             echo "<tr class=\"odd gradeX\">";
-                            if($order_flag){
+                            if ($order_flag) {
                                 $order++;
-                            }else if ($old_score != $row_student['score']) {
+                            } else if ($old_score != $row_student['score']) {
                                 if ($count != $order) {
                                     $order = $count + 1;
                                 } else $order++;
@@ -198,7 +198,7 @@ include_once('user_utility.php');
         }
 
         function reload() {
-            location.href = "scoreboard.php?select=" + $('select').val()+"&running_year=<?php echo $running_year?>";
+            location.href = "scoreboard.php?select=" + $('select').val() + "&running_year=<?php echo $running_year ?>";
         }
     </script>
 
