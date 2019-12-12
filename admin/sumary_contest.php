@@ -6,7 +6,7 @@ include_once('admin_check.php');
 require_once __DIR__ . '/vendor/autoload.php';
 
 $objPHPExcel = new PHPExcel();
-$sql = "SELECT code,contest_name,education,type,(SELECT count(*) FROM register WHERE register.running_year='$running_year' AND register.subject_id = contest.code) AS sumary FROM contest WHERE running_year='$running_year' ORDER BY code ASC ";
+$sql = "SELECT code,contest_name,education,type,(SELECT count(*) FROM register register INNER JOIN school school ON register.school_id=school.code AND register.running_year='$running_year' WHERE register.running_year='$running_year' AND register.subject_id = contest.code) AS sumary FROM contest WHERE running_year='$running_year' ORDER BY code ASC ";
 $obj_array = [];
 if ($contest_result = mysqli_query_log($conn, $sql)) {
     while ($row = mysqli_fetch_assoc($contest_result)) {
