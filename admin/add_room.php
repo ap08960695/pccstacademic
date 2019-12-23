@@ -125,7 +125,7 @@ include_once('admin_check.php');
 								</thead>
 								<tbody>
 									<?php
-									$sql = "SELECT id,room_name,amount_student FROM room ORDER BY updatetime DESC;";
+									$sql = "SELECT room_name,amount_student FROM room ORDER BY updatetime DESC;";
 									$result = mysqli_query_log($conn, $sql);
 									if ($result && mysqli_num_rows($result) > 0) {
 										while ($row = mysqli_fetch_array($result)) {
@@ -133,7 +133,7 @@ include_once('admin_check.php');
 											echo "    <td>" . $row['room_name'] . "</td>";
 											echo "    <td>" . $row['amount_student'] . "</td>";
 											echo "<td>";
-											$sql = "SELECT contest_code FROM room_contest WHERE running_year='$running_year' AND room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
+											$sql = "SELECT contest_code FROM room_contest WHERE running_year='$running_year' AND room_name='" . $row['room_name'] . "' ORDER BY updatetime DESC;";
 											if ($result_room = mysqli_query_log($conn, $sql)) {
 												while ($row_room = mysqli_fetch_array($result_room)) {
 

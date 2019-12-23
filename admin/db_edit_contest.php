@@ -50,7 +50,7 @@ if (!$result) {
 
 			$string_room .= "(";
 			$string_room .= $_POST['contest_code'] . ",";
-			$string_room .= $row['room_name'] . ",";
+			$string_room .= "'" . $row['room_name'] . "',";
 			$string_room .= $row['amount_student'] . ",";
 			$string_room .= "'" . $running_year . "'";
 			$string_room .= "),";
@@ -59,9 +59,6 @@ if (!$result) {
 		$sql = "INSERT INTO room_contest (contest_code,room_name,amount_student,running_year) VALUES $string_room";
 		$result = mysqli_query_log($conn, $sql);
 		if (!$result) {
-			$sql = "DELETE FROM contest WHERE running_year = '$running_year' AND code='" . $_POST['contest_code'] . "'";
-			$result = mysqli_query_log($conn, $sql);
-			mysqli_close($conn);
 			header("location:edit_contest.php?act=error_edit");
 			exit();
 		} else {

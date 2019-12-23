@@ -48,7 +48,7 @@ if (!$result) {
 
 			$string_room .= "(";
 			$string_room .= $_POST['contest_code'] . ",";
-			$string_room .= $row['room_name'] . ",";
+			$string_room .= "'" . $row['room_name'] . "',";
 			$string_room .= $row['amount_student'] . ",";
 			$string_room .= "'" . $running_year . "'";
 			$string_room .= "),";

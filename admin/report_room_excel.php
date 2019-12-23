@@ -8,7 +8,7 @@ header("Content-Type: application/x-msexcel; name=\"$strExcelFileName\"");
 header("Content-Disposition: inline; filename=\"$strExcelFileName\"");
 header("Pragma:no-cache");
 
-$sql = "SELECT id,room_name,amount_student FROM room ORDER BY room_name DESC";
+$sql = "SELECT room_name,amount_student FROM room ORDER BY room_name DESC";
 $result = mysqli_query_log($conn, $sql);
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
@@ -33,30 +33,30 @@ $result = mysqli_query_log($conn, $sql);
 			<?php
 			while ($row = mysqli_fetch_array($result)) {
 				?>
-			<?php
-				$sql = "SELECT contest_code FROM room_contest WHERE running_year = '$running_year' AND room_id=" . $row['id'] . " ORDER BY updatetime DESC;";
-				if ($result_room = mysqli_query_log($conn, $sql)) {
-					while ($row_room = mysqli_fetch_array($result_room)) {
-						$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE running_year = '$running_year' AND code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
-						$result_contest = mysqli_query_log($conn, $sql);
-						if ($row_contest = mysqli_fetch_array($result_contest)) {
-							echo '<tr>
+				<?php
+					$sql = "SELECT contest_code FROM room_contest WHERE running_year = '$running_year' AND room_name='" . $row['room_name'] . "' ORDER BY updatetime DESC;";
+					if ($result_room = mysqli_query_log($conn, $sql)) {
+						while ($row_room = mysqli_fetch_array($result_room)) {
+							$sql = "SELECT code,contest_name,education,date_start,date_end FROM contest WHERE running_year = '$running_year' AND code=" . $row_room['contest_code'] . " ORDER BY updatetime DESC;";
+							$result_contest = mysqli_query_log($conn, $sql);
+							if ($row_contest = mysqli_fetch_array($result_contest)) {
+								echo '<tr>
 				<td height="25" align="left" valign="middle" >' . $row['room_name'] . '</td>
 				<td align="left" valign="middle" >' . $row['amount_student'] . '</td>';
-							echo '<td align="left" valign="middle">' . $row_contest['code'] . ' ' . $row_contest['contest_name'] . '(' . $row_contest['education'] . ')</td>';
-							$date = date_format(date_create($row_contest['date_start']), 'd/m/y');
-							$start_date = date_format(date_create($row_contest['date_start']), 'H:i');
-							$end_date = date_format(date_create($row_contest['date_end']), 'H:i');
-							echo '<td align="center" valign="middle">' . $start_date . '</td>';
-							echo '<td align="center" valign="middle">' . $end_date . '</td>';
-							echo '</tr>';
+								echo '<td align="left" valign="middle">' . $row_contest['code'] . ' ' . $row_contest['contest_name'] . '(' . $row_contest['education'] . ')</td>';
+								$date = date_format(date_create($row_contest['date_start']), 'd/m/y');
+								$start_date = date_format(date_create($row_contest['date_start']), 'H:i');
+								$end_date = date_format(date_create($row_contest['date_end']), 'H:i');
+								echo '<td align="center" valign="middle">' . $start_date . '</td>';
+								echo '<td align="center" valign="middle">' . $end_date . '</td>';
+								echo '</tr>';
+							}
 						}
-					}
-				} else echo '<tr>
+					} else echo '<tr>
 	<td height="25" align="left" valign="middle" >' . $row['room_name'] . '</td>
 	<td align="left" valign="middle" >' . $row['amount_student'] . '</td></tr>';
 
-				?>
+					?>
 			<?php
 			}
 			?>
