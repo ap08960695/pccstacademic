@@ -7,7 +7,7 @@ require($upOne . '/pccstcer/fpdf.php');
 define('FPDF_FONTPATH', 'font/');
 require_once __DIR__ . '/vendor/autoload.php';
 ini_set('memory_limit', '1024M');
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 3600);
 //  $uploaddir = __DIR__."/files/";
 if ($_FILES['myFile']['name'] == "") {
   header("location:cert_maker.php?act=empty_file");

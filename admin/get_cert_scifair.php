@@ -7,7 +7,7 @@ require($upOne . '/pccstcer/fpdf.php');
 define('FPDF_FONTPATH', 'font/');
 require_once __DIR__ . '/vendor/autoload.php';
 ini_set('memory_limit', '1024M');
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 3600);
 if ($_GET['type'] == 'student') {
     $sql = "SELECT * FROM register_scifair WHERE running_year = '$running_year' AND type='student' ORDER BY school_name DESC";
     $result = mysqli_query_log($conn, $sql);
@@ -43,11 +43,11 @@ function genCertTeacher($data_array, $dir_temp)
         $charset = "cp874//IGNORE";
         $pdf->Image('cert_scifair_teacher.png', 0, 0, 299, 205);
         $pdf->SetFont('TH Charm of AU', '', 26);
-        $pdf->setXY(15, 80);
+        $pdf->setXY(15, 90);
         $str = "as a project work advisor in " . $data_array[$i]["subject"];
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["name"]), 0, 1, "C");
         $pdf->SetFont('TH Charm of AU', '', 21);
-        $pdf->setXY(15, 91);
+        $pdf->setXY(15, 101);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
         $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
         $filename_temp = $filename;
@@ -75,10 +75,10 @@ function genCert($data_array, $dir_temp)
         $pdf->Image('cert_scifair_student.png', 0, 0, 299, 205);
         $str = "has been awarded a " . $data_array[$i]["reward"] . " medal certificate in " . $data_array[$i]["subject"];
         $pdf->SetFont('TH Charm of AU', '', 26);
-        $pdf->setXY(15, 80);
+        $pdf->setXY(15, 90);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["name"]), 0, 1, "C");
         $pdf->SetFont('TH Charm of AU', '', 21);
-        $pdf->setXY(15, 91);
+        $pdf->setXY(15, 101);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
         $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
         $filename_temp = $filename;

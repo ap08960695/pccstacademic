@@ -5,14 +5,14 @@ include_once('admin_check.php');
 $upOne = realpath(__DIR__ . '/..');
 require($upOne . '/pccstcer/fpdf.php');
 define('FPDF_FONTPATH', 'font/');
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 3600);
 if (isset($_GET["s"])) {
   $subject_id = $_GET["s"];
 } else {
   header("location:report_subject.php?act=empty_contest");
   exit();
 }
-$sql = "SELECT register.school_id, register.id, register.score, school.display, register.subject_id, register.name,contest.contest_name,contest.education FROM register INNER JOIN school ON school.running_year = '$running_year' AND register.school_id=school.code INNER JOIN contest ON contest.running_year = '$running_year' AND register.subject_id=contest.code WHERE register.running_year = '$running_year' AND register.subject_id='" . $subject_id . "'";
+$sql = "SELECT register.school_id, register.id, register.score, school.display, register.subject_id, register.name,contest.contest_name,contest.education FROM register INNER JOIN school ON school.running_year = '$running_year' AND register.school_id=school.code INNER JOIN contest ON contest.running_year = '$running_year' AND register.subject_id=contest.code WHERE register.score >=0 AND register.running_year = '$running_year' AND register.subject_id='" . $subject_id . "'";
 if ($student_result = mysqli_query_log($conn, $sql)) {
   $obj_array = [];
   while ($row = mysqli_fetch_assoc($student_result)) {
@@ -40,7 +40,7 @@ function genCert($data_array)
       $charset = "cp874//IGNORE";
       $pdf->Image('cert_en.png', 0, 0, 299, 205);
     }
-    if (intval($data_array[$i]["score"]) != -1) {
+    if (intval($data_array[$i]["score"]) != -1 && intval($data_array[$i]["score"]) != -2) {
       $score = intVal($data_array[$i]["score"]);
       $str = "";
       if ($score >= 80) {
@@ -76,10 +76,10 @@ function genCert($data_array)
         $str .= $data_array[$i]["contest_name"] . " " . $data_array[$i]["education"];
       }
       $pdf->SetFont('TH Charm of AU', '', 26);
-      $pdf->setXY(15, 78);
+      $pdf->setXY(15, 90);
       $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["name"]), 0, 1, "C");
       $pdf->SetFont('TH Charm of AU', '', 21);
-      $pdf->setXY(15, 89);
+      $pdf->setXY(15, 101);
       $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
       $filename = $data_array[$i]["subject_id"] . "_" . $data_array[$i]["school_id"] . "_" . str_pad($data_array[$i]["id"], 7, "0", STR_PAD_LEFT) . ".pdf";
       $pdf->Output($dir_up . "/pccstcer/certfile/" . $filename, "F");

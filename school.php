@@ -135,8 +135,10 @@ include_once('user_utility.php');
                                             echo "class='btn btn-info' return false; style='margin-left:10px'>Silver medal";
                                         } else if ($score >= 60) {
                                             echo "class='btn btn-danger' return false; style='margin-left:10px'>Bronze medal";
-                                        } else {
+                                        } else if ($score == -1) {
                                             echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
+                                        } else {
+                                            echo "class='btn btn-default' return false; style='margin-left:10px'>Absent";
                                         }
                                         echo '</a>';
                                     }
@@ -185,7 +187,7 @@ include_once('user_utility.php');
             }
 
             function reload() {
-              location.href = "school.php?select=" + $('select').val()+"&running_year=<?php echo $running_year?>";
+                location.href = "school.php?select=" + $('select').val() + "&running_year=<?php echo $running_year ?>";
             }
         </script>
 

@@ -166,10 +166,11 @@ include_once('admin_check.php');
               <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>School name</th>
-                    <th>Reward</th>
                     <th>Subject</th>
+                    <th>Reward</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,8 +184,8 @@ include_once('admin_check.php');
                       echo "    <td>" . ($i++) . "</td>";
                       echo "    <td><input class='form-control' type='text' name='register_name' value='" . $row['name'] . "'/></td>";
                       echo "    <td><input class='form-control' type='text' name='register_school' value='" . $row['school_name'] . "'/></td>";
-                      echo "    <td><input class='form-control' type='text' name='register_reward' value='" . $row['reward'] . "'/></td>";
                       echo "    <td><input class='form-control' type='text' name='register_subject' value='" . $row['subject'] . "'/></td>";
+                      echo "    <td><input class='form-control' type='text' name='register_reward' value='" . $row['reward'] . "'/></td>";
                       echo "    <td style='width: 10px;'><input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\"><input type=\"submit\" class=\"btn btn-success\" value=\"Update\"></form></td>";
                       echo "    <td style='width: 10px;'><form role=\"form\" action=\"db_del_register_scifair.php?type=student\" onsubmit=\"return confirm('คุณต้องการจะลบ " . $row['name'] . " ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
                       echo "</tr>";
@@ -247,10 +248,11 @@ include_once('admin_check.php');
               <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>School name</th>
-                    <th>Reward</th>
                     <th>Subject</th>
+                    <th>Reward</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -264,8 +266,8 @@ include_once('admin_check.php');
                       echo "    <td>" . ($i++) . "</td>";
                       echo "    <td><input class='form-control' type='text' name='register_name' value='" . $row['name'] . "'/></td>";
                       echo "    <td><input class='form-control' type='text' name='register_school' value='" . $row['school_name'] . "'/></td>";
-                      echo "    <td><input class='form-control' type='text' name='register_reward' value='" . $row['reward'] . "'/></td>";
                       echo "    <td><input class='form-control' type='text' name='register_subject' value='" . $row['subject'] . "'/></td>";
+                      echo "    <td><input class='form-control' type='text' name='register_reward' value='" . $row['reward'] . "'/></td>";
 
                       echo "    <td style='width: 10px;'><input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\"><input type=\"submit\" class=\"btn btn-success\" value=\"Update\"></form></td>";
                       echo "    <td style='width: 10px;'><form role=\"form\" action=\"db_del_register_scifair.php?type=teacher\" onsubmit=\"return confirm('คุณต้องการจะลบ " . $row['name'] . " ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" . $row['id'] . "\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
