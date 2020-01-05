@@ -42,7 +42,7 @@
 		$pdf->AddFont('TH Charm of AU', '', 'TH Charm of AU.php');
 
 		if ($code < 20000) {
-			$pdf->Image('cerpccstth.jpg', 0, 0, 299, 205);
+			$pdf->Image('cerpccstth.jpg', 0, 0, 297, 210);
 			if ($score >= 80) {
 				$str = "ได้รับรางวัลเกียรติบัตรเหรียญทอง การแข่งขัน";
 			} elseif ($score >= 70) {
@@ -64,7 +64,7 @@
 				$pdf->Cell(0, 0, iconv('UTF-8', 'TIS-620', 'ครูผู้ฝึกซ้อมนักเรียน' . $str . $subject . ' ' . $level), 0, 1, "C");
 			}
 		} else {
-			$pdf->Image('cerpccsten.jpg', 0, 0, 299, 205);
+			$pdf->Image('cerpccsten.jpg', 0, 0, 297, 210);
 			$pdf->SetFont('TH Charm of AU', '', 26);
 			$pdf->setXY(15, 92);
 			$pdf->Cell(0, 0, iconv('UTF-8', 'TIS-620', $person), 0, 1, "C");

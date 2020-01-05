@@ -67,7 +67,7 @@ class PDF extends FPDF
     $cw = &$this->CurrentFont['cw'];
     if ($w == 0)
       $w = $this->w - $this->rMargin - $this->x;
-    $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
+    $wmax = ($w - 1.5 * $this->cMargin) * 1000 / $this->FontSize;
     $s = str_replace("\r", '', $txt);
     $nb = strlen($s);
     if ($nb > 0 and $s[$nb - 1] == "\n")
@@ -131,50 +131,6 @@ class PDF extends FPDF
     }
   }
 
-  // Better table
-  function ImprovedTable($header, $data)
-  {
-    // Column widths
-    $w = array(15, 50, 70, 30, 35);
-    // Header
-    for ($i = 0; $i < count($header); $i++)
-      $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C');
-    $this->Ln();
-    // Data
-    // var_dump($data);
-    // echo strlen("Princess Chulabhorn Science High School Nakhon");
-
-    $x = $this->GetX();
-    $y = $this->GetY();
-    foreach ($data as $row) {
-      // echo $this->cutOffString($this->getUTF($row["display"]))."<br>";
-      // iconv( 'UTF-8','TIS-620', $row["id"]
-
-      $this->MultiCell($w[0], 6, $this->getUTF($row["id"]), 'LR');
-      $x += $w[0];
-      $this->SetXY($x, $y);
-      $this->MultiCell($w[1], 6, $this->getUTF($row["name"]), 'LR');
-      $x += $w[1];
-      $this->SetXY($x, $y);
-
-      $this->MultiCell($w[2], 6, $this->cutOffString($this->getUTF($row["display"])), 'LR');
-      $x += $w[2];
-      $this->SetXY($x, $y);
-
-      $this->MultiCell($w[3], 6, $this->getUTF($row["changwat"]), 'LR');
-      $x += $w[3];
-      $this->SetXY($x, $y);
-
-      $this->MultiCell($w[4], 6, $this->getUTF("___________________"), 'LR');
-
-
-      // $this->Cell($w[2],6,number_format($row[2]),'LR',0,'R');
-      // $this->Cell($w[3],6,number_format($row[3]),'LR',0,'R');
-      $this->Ln();
-    }
-    // Closing line
-    $this->Cell(array_sum($w), 0, '', 'T');
-  }
 
   function getUTF($data)
   {
@@ -213,7 +169,7 @@ if ($result) {
   while ($row = mysqli_fetch_assoc($result)) {
     array_push($obj_array_room, $row);
   }
-} else { }
+}
 if (!$obj_array_room) echo "<script> alert('Please assign room to contest');</script>";
 $header = [];
 $sql = "  SELECT * FROM register, school WHERE register.running_year = '$running_year' AND school.running_year = '$running_year' AND register.school_id=school.code AND register.subject_id='" . $subject_id . "'";
@@ -235,13 +191,12 @@ if ($teacher_result = mysqli_query_log($conn, $sql)) {
 } else {
   echo "err";
 }
-$header_table = array('No.', 'Name', 'School', 'Province', 'Signature');
+$header_table = array('No.', 'Name', 'School', 'Province', 'Score', 'Signature');
 
-$pdf = new PDF();
-$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
+$pdf = new PDF('P', 'mm', 'A4');
 $pdf->AddFont('Angsana', '', 'angsa.php');
 $pdf->SetFont('Angsana', '', 14);
-$pdf->SetWidths(array(10, 45, 60, 35, 40));
+$pdf->SetWidths(array(8, 48, 55, 15, 10, 62));
 $page_start = 0;
 $page_end = 0;
 $temp_arr_len = count($obj_array);
@@ -276,104 +231,13 @@ for ($i = 0; $i < count($obj_array_room); $i += 1) {
 //  var_dump($obj_array_room);
 
 // var_dump($temp_paging);
-$header_title[0] = "List of contestants in PCCST ACADEMIC FESTIVAL AND SCIENE FAIR 2018";
+$header_title[0] = "List of contestants in PCSHSST ACADEMIC FESTIVAL AND SCIENE FAIR " . $running_year;
 
 $arr_len = count($obj_array);
 // echo $arr_len;
-$page_len = 30;
-
-// for($j=0;$j<count($temp_paging);$j+=1){
-//   $start_index = $temp_paging[$j][1];
-//   $end_index = $temp_paging[$j][2];
-//   // echo $start_index."   ".$end_index."<br>";
-//   if($end_index-$start_index<=30) {
-//        $pdf->AddPage();
-//        $pdf->Cell(0,7,"",0,1,"C");
-//        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
-//        $pdf->Cell(0,5,iconv( 'UTF-8','cp874//IGNORE',"Subject: ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
-//        $date_setup = 
-//        $temp_paging[$j][8]=="0000-00-00 00:00:00" && $temp_paging[$j][9]=="0000-00-00 00:00:00"?
-//         "Not Specified":
-//         d_form_str($temp_paging[$j][8],$temp_paging[$j][9]);
-//        $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"Place: ".$temp_paging[$j][3]." Date: ".$date_setup),0,1,"C");
-//        $pdf->Cell(0,7,"",0,1,"C");
-//        $pdf->Row($header_table);
-//     for($i=$start_index;$i<$end_index;$i++){
-//       // echo $i."<br>";
-//       if($i<$arr_len)
-//        $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), "__________________"));
-//     }
-//   }else {
-//     $temp_arr_len = $end_index-$start_index; // case 1000 / 35
-//     $page_count = intVal($temp_arr_len/$page_len)+1;
-//     for($m=0;$m<$page_count;$m++){
-//         $pdf->AddPage();
-//         $pdf->Cell(0,7,"",0,1,"C");
-//         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
-//         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"รหัสวิชา ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
-//         $date_setup = 
-//         $temp_paging[$j][8]=="0000-00-00 00:00:00" && $temp_paging[$j][9]=="0000-00-00 00:00:00"?
-//           "Not Specified":
-//           d_form_str($temp_paging[$j][8],$temp_paging[$j][9]);
-//         $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"Place: ".$temp_paging[$j][3]." Date: ".$date_setup),0,1,"C");
-//         $pdf->Cell(0,7,"",0,1,"C");
-//         $pdf->Row($header_table);
-//       for($i=$start_index;$i<$start_index+30;$i++){
-//         if($i<$arr_len){
-//           $pdf->Row( array($i+1,iconv( 'UTF-8','TIS-620', $obj_array[$i]["name"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["display"]), iconv( 'UTF-8','TIS-620', $obj_array[$i]["changwat"]), "__________________"));
-//         }
-//       }
-//       $start_index+=  30; 
-//     }
-
-//   }
-// }
-
-//
-// echo $start_index."   ".$end_index."<br>";
-// function nextPage($pdf, $temp_paging, $j){
-//   global $header_table, $header_title;
-
-//      $pdf->Cell(0,7,"",0,1,"C");
-//      $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',$header_title[0]),0,1,"C");
-//      $pdf->Cell(0,5,iconv( 'UTF-8','cp874//IGNORE',"Subject: ".$temp_paging[$j][7]." ".$temp_paging[$j][4]." ".$temp_paging[$j][5]." ".$temp_paging[$j][6]),0,1,"C");
-//      $date_setup = 
-//      $temp_paging[$j][8]=="0000-00-00 00:00:00" && $temp_paging[$j][9]=="0000-00-00 00:00:00"?
-//       "Not Specified":
-//       d_form_str($temp_paging[$j][8],$temp_paging[$j][9]);
-//      $pdf->Cell(0,5,iconv( 'UTF-8','TIS-620',"Place: ".$temp_paging[$j][3]." Date: ".$date_setup),0,1,"C");
-//      $pdf->Cell(0,7,"",0,1,"C");
-// }   
-// $page_count =0 ;
-// $h=5.75;
-// $char_set = 'cp874//IGNORE';
-// $pdf->AddPage();
-// nextPage($pdf, $temp_paging, $page_count);
-// $pdf->Row($h, $header_table);
-//     for($i=0;$i<count($obj_array);$i++){
-
-//       $data = array(
-//         $i+1,
-//         iconv( 'UTF-8', $char_set, $obj_array[$i]["name"]),
-//         iconv( 'UTF-8', $char_set, $obj_array[$i]["display"]),
-//         iconv( 'UTF-8', $char_set, $obj_array[$i]["changwat"]),
-//          "__________________");
-//       $nb=0;
-//       for($j=0;$j<count($data);$j++)
-//         $nb=max($nb,$pdf->NbLines($pdf->widths[$j],$data[$j]));
-//       $h=5.75*$nb;
-//         //Issue a page break first if needed
-//       if($pdf->CheckPageBreak($h)){
-//         $page_count++;
-//         nextPage($pdf, $temp_paging, $page_count);
-//         $pdf->Row($h, $header_table);
-//       }
-//       $pdf->Row($h, $data);
-//     }
-function nextPage($pdf, $temp_paging, $j)
+function WritePage1($pdf, $j, $header_title, $temp_paging, $header_table, $start_index, $end_index, $arr_len, $char_set, $obj_array)
 {
-  global $header_table, $header_title;
-
+  $pdf->AddPage();
   $pdf->Cell(0, 7, "", 0, 1, "C");
   $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', $header_title[0]), 0, 1, "C");
   $pdf->Cell(0, 5, iconv('UTF-8', 'cp874//IGNORE', "Subject: " . $temp_paging[$j][7] . " " . $temp_paging[$j][4] . " " . $temp_paging[$j][5] . " " . $temp_paging[$j][6]), 0, 1, "C");
@@ -382,27 +246,49 @@ function nextPage($pdf, $temp_paging, $j)
     "Not Specified" : d_form_str($temp_paging[$j][8], $temp_paging[$j][9]);
   $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Place: " . $temp_paging[$j][3] . " Date: " . $date_setup), 0, 1, "C");
   $pdf->Cell(0, 7, "", 0, 1, "C");
+  $h = 5.75;
+  $pdf->Row($h, $header_table);
+  for ($i = $start_index; $i < $end_index; $i++) {
+    if ($i < $arr_len) {
+      $data = array(
+        $i + 1,
+        iconv('UTF-8', $char_set, $obj_array[$i]["name"]),
+        iconv('UTF-8', $char_set, $obj_array[$i]["display"]),
+        iconv('UTF-8', $char_set, $obj_array[$i]["changwat"]),
+        "",
+        ""
+      );
+      $nb = 0;
+      for ($k = 0; $k < count($data); $k++)
+        $nb = max($nb, $pdf->NbLines($pdf->widths[$k], $data[$k]));
+      $h = 5.75 * $nb;
+      //Issue a page break first if needed
+      if ($pdf->CheckPageBreak($h)) {
+        nextPage($pdf, $temp_paging, $j);
+        $pdf->Row($h, $header_table);
+      }
+      $pdf->Row($h, $data);
+    }
+  }
 }
-$char_set = 'cp874//IGNORE';
-$h = 5.75;
-for ($j = 0; $j < count($temp_paging); $j += 1) {
-  $start_index = $temp_paging[$j][1];
-  $end_index = $temp_paging[$j][2];
-  // echo $start_index."   ".$end_index."<br>";
-  if ($end_index - $start_index <= 33) {
+function WritePage2($pdf, $j, $header_title, $temp_paging, $header_table, $start_index, $end_index, $arr_len, $char_set, $obj_array)
+{
+  $page_len = 30;
+  $temp_arr_len = $end_index - $start_index; // case 1000 / 35
+  $page_count = intVal($temp_arr_len / $page_len) + 1;
+  for ($m = 0; $m < $page_count; $m++) {
     $pdf->AddPage();
     $pdf->Cell(0, 7, "", 0, 1, "C");
     $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', $header_title[0]), 0, 1, "C");
-    $pdf->Cell(0, 5, iconv('UTF-8', 'cp874//IGNORE', "Subject: " . $temp_paging[$j][7] . " " . $temp_paging[$j][4] . " " . $temp_paging[$j][5] . " " . $temp_paging[$j][6]), 0, 1, "C");
+    $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Subject " . $temp_paging[$j][7] . " " . $temp_paging[$j][4] . " " . $temp_paging[$j][5] . " " . $temp_paging[$j][6]), 0, 1, "C");
     $date_setup =
       $temp_paging[$j][8] == "0000-00-00 00:00:00" && $temp_paging[$j][9] == "0000-00-00 00:00:00" ?
       "Not Specified" : d_form_str($temp_paging[$j][8], $temp_paging[$j][9]);
     $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Place: " . $temp_paging[$j][3] . " Date: " . $date_setup), 0, 1, "C");
     $pdf->Cell(0, 7, "", 0, 1, "C");
+    $h = 5.75;
     $pdf->Row($h, $header_table);
-    for ($i = $start_index; $i < $end_index; $i++) {
-      // echo $i."<br>";
-
+    for ($i = $start_index; $i < $start_index + 30; $i++) {
 
       if ($i < $arr_len) {
         $data = array(
@@ -410,7 +296,8 @@ for ($j = 0; $j < count($temp_paging); $j += 1) {
           iconv('UTF-8', $char_set, $obj_array[$i]["name"]),
           iconv('UTF-8', $char_set, $obj_array[$i]["display"]),
           iconv('UTF-8', $char_set, $obj_array[$i]["changwat"]),
-          "__________________"
+          "",
+          ""
         );
         $nb = 0;
         for ($k = 0; $k < count($data); $k++)
@@ -424,44 +311,31 @@ for ($j = 0; $j < count($temp_paging); $j += 1) {
         $pdf->Row($h, $data);
       }
     }
-  } else {
-    $temp_arr_len = $end_index - $start_index; // case 1000 / 35
-    $page_count = intVal($temp_arr_len / $page_len) + 1;
-    for ($m = 0; $m < $page_count; $m++) {
-      $pdf->AddPage();
-      $pdf->Cell(0, 7, "", 0, 1, "C");
-      $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', $header_title[0]), 0, 1, "C");
-      $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Subject " . $temp_paging[$j][7] . " " . $temp_paging[$j][4] . " " . $temp_paging[$j][5] . " " . $temp_paging[$j][6]), 0, 1, "C");
-      $date_setup =
-        $temp_paging[$j][8] == "0000-00-00 00:00:00" && $temp_paging[$j][9] == "0000-00-00 00:00:00" ?
-        "Not Specified" : d_form_str($temp_paging[$j][8], $temp_paging[$j][9]);
-      $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Place: " . $temp_paging[$j][3] . " Date: " . $date_setup), 0, 1, "C");
-      $pdf->Cell(0, 7, "", 0, 1, "C");
-      $pdf->Row($h, $header_table);
-      for ($i = $start_index; $i < $start_index + 30; $i++) {
+    $start_index +=  30;
+  }
+}
+function nextPage($pdf, $temp_paging, $j)
+{
+  global $header_title;
 
-        if ($i < $arr_len) {
-          $data = array(
-            $i + 1,
-            iconv('UTF-8', $char_set, $obj_array[$i]["name"]),
-            iconv('UTF-8', $char_set, $obj_array[$i]["display"]),
-            iconv('UTF-8', $char_set, $obj_array[$i]["changwat"]),
-            "__________________"
-          );
-          $nb = 0;
-          for ($k = 0; $k < count($data); $k++)
-            $nb = max($nb, $pdf->NbLines($pdf->widths[$k], $data[$k]));
-          $h = 5.75 * $nb;
-          //Issue a page break first if needed
-          if ($pdf->CheckPageBreak($h)) {
-            nextPage($pdf, $temp_paging, $j);
-            $pdf->Row($h, $header_table);
-          }
-          $pdf->Row($h, $data);
-        }
-      }
-      $start_index +=  30;
-    }
+  $pdf->Cell(0, 7, "", 0, 1, "C");
+  $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', $header_title[0]), 0, 1, "C");
+  $pdf->Cell(0, 5, iconv('UTF-8', 'cp874//IGNORE', "Subject: " . $temp_paging[$j][7] . " " . $temp_paging[$j][4] . " " . $temp_paging[$j][5] . " " . $temp_paging[$j][6]), 0, 1, "C");
+  $date_setup =
+    $temp_paging[$j][8] == "0000-00-00 00:00:00" && $temp_paging[$j][9] == "0000-00-00 00:00:00" ?
+    "Not Specified" : d_form_str($temp_paging[$j][8], $temp_paging[$j][9]);
+  $pdf->Cell(0, 5, iconv('UTF-8', 'TIS-620', "Place: " . $temp_paging[$j][3] . " Date: " . $date_setup), 0, 1, "C");
+  $pdf->Cell(0, 7, "", 0, 1, "C");
+}
+$char_set = 'cp874//IGNORE';
+for ($j = 0; $j < count($temp_paging); $j += 1) {
+  $start_index = $temp_paging[$j][1];
+  $end_index = $temp_paging[$j][2];
+  // echo $start_index."   ".$end_index."<br>";
+  if ($end_index - $start_index <= 33) {
+    WritePage1($pdf, $j, $header_title, $temp_paging, $header_table, $start_index, $end_index, $arr_len, $char_set, $obj_array);
+  } else {
+    WritePage2($pdf, $j, $header_title, $temp_paging, $header_table, $start_index, $end_index, $arr_len, $char_set, $obj_array);
   }
 }
 

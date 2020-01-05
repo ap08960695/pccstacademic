@@ -103,9 +103,9 @@ include_once('user_utility.php');
                                         <div class="panel panel-default">
                                             <div class="panel-heading"> ';
                         if ($row_contest['date_start'] == "0000-00-00 00:00:00" || $row_contest['date_end'] == "0000-00-00 00:00:00" || $row_room['room_name'] == "")
-                            echo "At the place : unspecified";
+                            echo "On unspecified";
                         else
-                            echo 'At the place : ' . $row_room['room_name'] . ' on ' . $date . ' ' . $start_date . ' - ' . $end_date;
+                            echo 'On ' . $date . ' ' . $start_date . ' - ' . $end_date;
                         echo ', total ' . $max_student;
                         echo '               </div>
                                             <div class="panel-body">';
@@ -123,7 +123,7 @@ include_once('user_utility.php');
                         $old_score = -1;
                         $order_flag = false;
                         while ($row_student = mysqli_fetch_array($result_student)) {
-                            if ($row_student['score'] == "-2" && $order = 0)
+                            if ($row_student['score'] == "-2" && $order == 0)
                                 $order_flag = true;
                             echo "<tr class=\"odd gradeX\">";
                             if ($order_flag) {

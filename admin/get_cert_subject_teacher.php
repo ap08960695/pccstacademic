@@ -41,10 +41,10 @@ function genCertTeacher($data_array)
     $pdf->AddPage('L');
     if ($data_array[$i]["subject_id"][0] == "1") {
       $charset = "cp874//IGNORE";
-      $pdf->Image('cert_th.png', 0, 0, 299, 205);
+      $pdf->Image('cert_th.png', 0, 0, 297, 210);
     } else if ($data_array[$i]["subject_id"][0] == "2") {
       $charset = "cp874//IGNORE";
-      $pdf->Image('cert_en_teacher.png', 0, 0, 299, 205);
+      $pdf->Image('cert_en_teacher.png', 0, 0, 297, 210);
     }
     if (intval($data_array[$i]["score"]) != -1 && intval($data_array[$i]["score"]) != -2) {
       $score = intVal($data_array[$i]["score"]);

@@ -41,7 +41,7 @@ function genCertTeacher($data_array, $dir_temp)
         $pdf->AddFont('TH Charm of AU', '', 'TH Charm of AU.php');
         $pdf->AddPage('L');
         $charset = "cp874//IGNORE";
-        $pdf->Image('cert_scifair_teacher.png', 0, 0, 299, 205);
+        $pdf->Image('cert_scifair_teacher.png', 0, 0, 297, 210);
         $pdf->SetFont('TH Charm of AU', '', 26);
         $pdf->setXY(15, 90);
         $str = "as a project work advisor in " . $data_array[$i]["subject"];
@@ -72,7 +72,7 @@ function genCert($data_array, $dir_temp)
         $pdf->AddFont('TH Charm of AU', '', 'TH Charm of AU.php');
         $pdf->AddPage('L');
         $charset = "cp874//IGNORE";
-        $pdf->Image('cert_scifair_student.png', 0, 0, 299, 205);
+        $pdf->Image('cert_scifair_student.png', 0, 0, 297, 210);
         $str = "has been awarded a " . $data_array[$i]["reward"] . " medal certificate in " . $data_array[$i]["subject"];
         $pdf->SetFont('TH Charm of AU', '', 26);
         $pdf->setXY(15, 90);
