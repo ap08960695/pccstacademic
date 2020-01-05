@@ -93,7 +93,7 @@ include_once('user_utility.php');
                         $sql = "SELECT room_contest.room_name,room_contest.amount_student FROM room_contest WHERE room_contest.contest_code='$select' AND room_contest.running_year = '$running_year'";
                         $result_room = mysqli_query_log($conn, $sql);
 
-                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id AND school.running_year = '$running_year' WHERE register.running_year = '$running_year' AND register.subject_id='$select'";
+                        $sql = "SELECT register.name,school.display,school.changwat,register.subject_id,register.school_id,register.id,register.score FROM register INNER JOIN school ON school.code=register.school_id AND school.running_year = '$running_year' WHERE register.running_year = '$running_year' AND register.subject_id='$select' ORDER BY school.id ASC";
                         $result_student = mysqli_query_log($conn, $sql);
                         $max_student = mysqli_num_rows($result_student);
 

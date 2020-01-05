@@ -172,7 +172,7 @@ if ($result) {
 }
 if (!$obj_array_room) echo "<script> alert('Please assign room to contest');</script>";
 $header = [];
-$sql = "  SELECT * FROM register, school WHERE register.running_year = '$running_year' AND school.running_year = '$running_year' AND register.school_id=school.code AND register.subject_id='" . $subject_id . "'";
+$sql = "  SELECT * FROM register, school WHERE register.running_year = '$running_year' AND school.running_year = '$running_year' AND register.school_id=school.code AND register.subject_id='" . $subject_id . "' ORDER BY school.id ASC";
 if ($student_result = mysqli_query_log($conn, $sql)) {
   $obj_array = [];
   while ($row = mysqli_fetch_assoc($student_result)) {
@@ -182,7 +182,7 @@ if ($student_result = mysqli_query_log($conn, $sql)) {
   echo "err";
 }
 
-$sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.running_year = '$running_year' AND school.running_year = '$running_year' AND  register_teacher.school_id=school.code AND register_teacher.subject_id='" . $subject_id . "'";
+$sql = "  SELECT * FROM register_teacher, school WHERE register_teacher.running_year = '$running_year' AND school.running_year = '$running_year' AND  register_teacher.school_id=school.code AND register_teacher.subject_id='" . $subject_id . "' ORDER BY school.id ASC";
 if ($teacher_result = mysqli_query_log($conn, $sql)) {
   $obj_array_t = [];
   while ($row = mysqli_fetch_assoc($teacher_result)) {

@@ -34,7 +34,7 @@ for ($i = 0; $i < count($obj_array); $i++) {
         ->setCellValue('A2', "Index")
         ->setCellValue('B2', "Name")
         ->setCellValue('C2', "School");
-    $sql = "SELECT school.display,register.name FROM register INNER JOIN school ON register.school_id=school.code AND register.running_year='$running_year' WHERE register.running_year='$running_year' AND register.subject_id = '" . $obj_array[$i]['code'] . "' ORDER BY register.score DESC, school.display ASC";
+    $sql = "SELECT school.display,register.name FROM register INNER JOIN school ON register.school_id=school.code AND register.running_year='$running_year' WHERE register.running_year='$running_year' AND register.subject_id = '" . $obj_array[$i]['code'] . "' ORDER BY school.id ASC";
     if ($student_result = mysqli_query_log($conn, $sql)) {
         $j = 3;
         while ($row = mysqli_fetch_assoc($student_result)) {
