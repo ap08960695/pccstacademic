@@ -54,7 +54,7 @@
 			}
 
 			$pdf->SetFont('TH Charm of AU', '', 26);
-			$pdf->setXY(15, 90);
+			$pdf->setXY(15, 93);
 			$pdf->Cell(0, 0, iconv('UTF-8', 'TIS-620', $person), 0, 1, "C");
 			$pdf->SetFont('TH Charm of AU', '', 18);
 			$pdf->setXY(15, 98);
