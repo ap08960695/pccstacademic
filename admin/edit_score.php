@@ -152,20 +152,23 @@ include_once('admin_check.php');
 									$sql = "SELECT * FROM register r JOIN school s ON r.school_id = s.code AND s.running_year = '$running_year' WHERE subject_id = '" . $subject_id . "' AND s.status = 1 AND r.status = 1 AND r.running_year = '$running_year' ORDER BY r.score DESC,s.display ASC";
 									$result = mysqli_query_log($conn, $sql);
 									if ($result && mysqli_num_rows($result) > 0) {
+										echo "<form role=\"form\" action=\"db_edit_register_contest.php\" onsubmit=\"return confirm('คุณต้องการจะปรับปรุง ใช่หรือไม่?');\" method=\"post\">";
 										while ($row = mysqli_fetch_array($result)) {
-											echo "<tr class=\"odd gradeX\"><form role=\"form\" action=\"db_edit_register_contest.php\" onsubmit=\"return confirm('คุณต้องการจะปรับปรุง " . $row['name'] . " ใช่หรือไม่?');\" method=\"post\">";
+											echo "<tr class=\"odd gradeX\">";
 
 											echo "    <td style='width: 100px;'>" . $row['school_id'] . "</td>";
-											echo "    <td><input class='form-control' type='text' name='register_name' value='" . $row['name'] . "'/></td>";
+											echo "    <td><input class='form-control' type='text' name='register_name[" . $row[0] . "]' value='" . $row['name'] . "'/></td>";
 											echo "    <td>" . $row['display'] . "</td>";
 											if ($row['score'] == -1 || $row['score'] == -2) {
 												$row['score'] = "";
 											}
-											echo "    <td style='width: 200px;'><input class='form-control' type='text' name='register_score' value='" . $row['score'] . "'/></td>";
-											echo "    <td style='width: 10px;'><input type=\"hidden\" name=\"register_contest\" value=\"" . $subject_id . "\"><input type=\"hidden\" name=\"id\" value=\"" . $row[0] . "\"><input type=\"submit\" class=\"btn btn-success\" value=\"Update\"></form></td>";
-											echo "    <td style='width: 10px;'><form role=\"form\" action=\"db_del_register_contest.php\" onsubmit=\"return confirm('คุณต้องการจะลบ " . $row['name'] . " ใช่หรือไม่?');\" method=\"post\"><input type=\"hidden\" name=\"register_contest\" value=\"" . $subject_id . "\"><input type=\"hidden\" name=\"id\" value=\"" . $row[0] . "\"><input type=\"submit\" class=\"btn btn-danger\" value=\"X\"></form></td>";
+											echo "    <td style='width: 200px;'><input class='form-control' type='text' name='register_score[" . $row[0] . "]' value='" . $row['score'] . "'/></td>";
+											echo "    <td style='width: 10px;'>";
+											echo "<a href=\"db_del_register_contest.php?register_contest=" . $subject_id . "&id=" . $row[0] . "\" onclick=\"return confirm('คุณต้องการจะลบ " . $row['name'] . " ใช่หรือไม่?');\" class=\"btn btn-danger\" >X</a>";
+											echo "</td>";
 											echo "</tr>";
 										}
+										echo "    <tr><td colspan='5' style='text-align: center;'><input type=\"hidden\" name=\"register_contest\" value=\"" . $subject_id . "\"><input type=\"submit\" class=\"btn btn-success\" style='width:200px' value=\"Update\"></form></td></tr>";
 									}
 									?>
 								</tbody>
