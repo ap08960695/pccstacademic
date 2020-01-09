@@ -28,7 +28,12 @@ function genCert($data_array, $dir_temp)
     $pdf->AddPage('L');
     $charset = "cp874//IGNORE";
     $pdf->Image('cert_scifair_student.png', 0, 0, 297, 210);
-    $str = "has been awarded a " . $data_array[$i]["B"] . " medal certificate in " . $data_array[$i]["C"];
+    
+    if($data_array[$i]["B"]=="")
+      $str = "has attended " . $data_array[$i]["C"];
+    else 
+      $str = "has been awarded a " . $data_array[$i]["B"] . " medal certificate in " . $data_array[$i]["C"];
+    
     $pdf->SetFont('TH Charm of AU', '', 26);
     $pdf->setXY(15, 93);
     $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["A"]), 0, 1, "C");
