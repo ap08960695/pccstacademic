@@ -29,16 +29,21 @@ function genCert($data_array, $dir_temp)
     $charset = "cp874//IGNORE";
     $pdf->Image('cert_scifair_student.png', 0, 0, 297, 210);
     
-    if($data_array[$i]["B"]=="")
-      $str = "has attended " . $data_array[$i]["C"];
-    else 
-      $str = "has been awarded a " . $data_array[$i]["B"] . " medal certificate in " . $data_array[$i]["C"];
-    
+    if ($data_array[$i]["C"] == "gold") {
+      $str = "has been awarded a gold medal certificate in ". $data_array[$i]["D"];
+    }else if ($data_array[$i]["C"] == "silver") {
+      $str = "has been awarded a silver medal certificate in ". $data_array[$i]["D"];
+    }else if ($data_array[$i]["C"] == "bronze") {
+      $str = "has been awarded a bronze medal certificate in ". $data_array[$i]["D"];
+    }else{
+      $str = "has attended ". $data_array[$i]["D"];
+    }
+
     $pdf->SetFont('TH Charm of AU', '', 26);
     $pdf->setXY(15, 93);
-    $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["A"]), 0, 1, "C");
+    $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["B"]), 0, 1, "C");
     $pdf->SetFont('TH Charm of AU', '', 21);
-    $pdf->setXY(15, 91);
+    $pdf->setXY(15, 104);
     $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
     $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
     $filename_temp = $filename;

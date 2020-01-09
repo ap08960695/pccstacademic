@@ -31,11 +31,20 @@ function genCert($data_array, $dir_temp)
     $charset = "cp874//IGNORE";
     $pdf->Image('cert_scifair_teacher.png', 0, 0, 297, 210);
     $pdf->SetFont('TH Charm of AU', '', 26);
-    $pdf->setXY(15, 80);
-    $str = "as a project work advisor in " . $data_array[$i]["B"];
-    $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["A"]), 0, 1, "C");
+    $pdf->setXY(15, 93);
+
+    if ($data_array[$i]["C"] == "gold") {
+      $str = "for training a student receiving a gold medal award in ". $data_array[$i]["D"];
+    }else if ($data_array[$i]["C"] == "silver") {
+      $str = "for training a student receiving a silver medal award in ". $data_array[$i]["D"];
+    } else if ($data_array[$i]["C"] == "bronze") {
+      $str = "for training a student receiving a bronze medal award in ". $data_array[$i]["D"];
+    } else {
+      $str = "for training a student ". $data_array[$i]["D"];
+    }
+    $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["B"]), 0, 1, "C");
     $pdf->SetFont('TH Charm of AU', '', 21);
-    $pdf->setXY(15, 91);
+    $pdf->setXY(15, 104);
     $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
     $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
     $filename_temp = $filename;
