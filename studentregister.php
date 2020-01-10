@@ -137,7 +137,7 @@ include_once('user_utility.php');
                                         echo "class='btn btn-info' return false; style='margin-left:10px'>Silver medal";
                                     } else if ($score >= 60) {
                                         echo "class='btn btn-danger' return false; style='margin-left:10px'>Bronze medal";
-                                    } else if ($score == -1) {
+                                    } else if ($score == -1 || $score >= 0) {
                                         echo "class='btn btn-default' return false; style='margin-left:10px'>Attended";
                                     } else {
                                         echo "class='btn btn-default' return false; style='margin-left:10px'>Absent";
