@@ -28,10 +28,10 @@ function genCert($data_array, $dir_temp)
     $pdf->AddPage('L');
     $pdf->Image('cert_th.png', 0, 0, 297, 210);
     $pdf->SetFont('TH Charm of AU', '', 26);
-    $pdf->setXY(15, 93);
+    $pdf->setXY(15, 94);
     $pdf->Cell(0, 0, iconv('UTF-8', "cp874//IGNORE", $data_array[$i]["A"]), 0, 1, "C");
     $pdf->SetFont('TH Charm of AU', '', 21);
-    $pdf->setXY(15, 104);
+    $pdf->setXY(15, 105);
     $pdf->Cell(0, 0, iconv('UTF-8', "cp874//IGNORE", 'เป็นคณะกรรมการดำเนินการจัดการแข่งขัน'), 0, 1, "C");
     $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
     $filename_temp = $filename;

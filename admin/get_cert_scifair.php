@@ -43,21 +43,21 @@ function genCertTeacher($data_array, $dir_temp)
         $charset = "cp874//IGNORE";
         $pdf->Image('cert_scifair_teacher.png', 0, 0, 297, 210);
         $pdf->SetFont('TH Charm of AU', '', 26);
-        $pdf->setXY(15, 93);
-        
+        $pdf->setXY(15, 94);
+
         if ($data_array[$i]["C"] == "gold") {
-            $str = "for training a student receiving a gold medal award in ". $data_array[$i]["D"];
-          }else if ($data_array[$i]["C"] == "silver") {
-            $str = "for training a student receiving a silver medal award in ". $data_array[$i]["D"];
-          } else if ($data_array[$i]["C"] == "bronze") {
-            $str = "for training a student receiving a bronze medal award in ". $data_array[$i]["D"];
-          } else {
+            $str = "for training a student receiving a gold medal award in " . $data_array[$i]["D"];
+        } else if ($data_array[$i]["C"] == "silver") {
+            $str = "for training a student receiving a silver medal award in " . $data_array[$i]["D"];
+        } else if ($data_array[$i]["C"] == "bronze") {
+            $str = "for training a student receiving a bronze medal award in " . $data_array[$i]["D"];
+        } else {
             $str = "for training a student ";
-          }
+        }
 
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["name"]), 0, 1, "C");
         $pdf->SetFont('TH Charm of AU', '', 21);
-        $pdf->setXY(15, 104);
+        $pdf->setXY(15, 105);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
         $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
         $filename_temp = $filename;
@@ -84,19 +84,19 @@ function genCert($data_array, $dir_temp)
         $charset = "cp874//IGNORE";
         $pdf->Image('cert_scifair_student.png', 0, 0, 297, 210);
         if ($data_array[$i]["B"] == "gold") {
-            $str = "has been awarded a gold medal certificate in ". $data_array[$i]["C"];
-        }else if ($data_array[$i]["B"] == "silver") {
-            $str = "has been awarded a silver medal certificate in ". $data_array[$i]["C"];
-        }else if ($data_array[$i]["B"] == "bronze") {
-            $str = "has been awarded a bronze medal certificate in ". $data_array[$i]["C"];
-        }else{
-            $str = "has attended". $data_array[$i]["C"];
+            $str = "has been awarded a gold medal certificate in " . $data_array[$i]["C"];
+        } else if ($data_array[$i]["B"] == "silver") {
+            $str = "has been awarded a silver medal certificate in " . $data_array[$i]["C"];
+        } else if ($data_array[$i]["B"] == "bronze") {
+            $str = "has been awarded a bronze medal certificate in " . $data_array[$i]["C"];
+        } else {
+            $str = "has attended" . $data_array[$i]["C"];
         }
         $pdf->SetFont('TH Charm of AU', '', 26);
-        $pdf->setXY(15, 93);
+        $pdf->setXY(15, 94);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $data_array[$i]["name"]), 0, 1, "C");
         $pdf->SetFont('TH Charm of AU', '', 21);
-        $pdf->setXY(15, 104);
+        $pdf->setXY(15, 105);
         $pdf->Cell(0, 0, iconv('UTF-8', $charset, $str), 0, 1, "C");
         $filename = "temp_" . date("Ymdhis") . "_" . str_pad(strval($i), 4, "0", STR_PAD_LEFT);
         $filename_temp = $filename;
